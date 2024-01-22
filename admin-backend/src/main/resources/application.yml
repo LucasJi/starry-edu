@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: edu-admin
+  cloud:
+    openfeign:
+      httpclient:
+        hc5:
+          enabled: true
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  servlet:
+    multipart:
+      max-file-size: 5MB
+storage-obj:
+  obj-type-file-types:
+    VIDEO:
+      - 'video/mp4'
+    WORD:
+      - 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      - 'application/msword'
+      - 'application/vnd.ms-word.document.macroEnabled.12'
+      - 'application/vnd.ms-word.template.macroEnabled.12'
+    TXT:
+      - 'text/plain'
+    PDF:
+      - 'application/pdf'
+    ZIP:
+      - 'application/x-zip-compressed'
+      - 'application/octet-stream'
+      - 'application/zip'
+    RAR:
+      - 'application/x-rar'
+    EXCEL:
+      - 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      - 'application/vnd.ms-excel'
+      - 'application/vnd.openxmlformats-officedocument.spreadsheetml.template'
+      - 'application/vnd.ms-excel.sheet.macroEnabled.12'
+      - 'application/vnd.ms-excel.template.macroEnabled.12'
+      - 'application/vnd.ms-excel.addin.macroEnabled.12'
+      - 'application/vnd.ms-excel.sheet.binary.macroEnabled.12'
+    PPT:
+      - 'application/vnd.ms-powerpoint'
+      - 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+      - 'application/vnd.openxmlformats-officedocument.presentationml.template'
+      - 'application/vnd.openxmlformats-officedocument.presentationml.slideshow'
+      - 'application/vnd.ms-powerpoint.addin.macroEnabled.12'
+      - 'application/vnd.ms-powerpoint.presentation.macroEnabled.12'
+      - 'application/vnd.ms-powerpoint.slideshow.macroEnabled.12'

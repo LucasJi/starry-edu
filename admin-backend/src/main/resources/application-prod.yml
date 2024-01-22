@@ -1,0 +1,16 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8000/oauth2/jwks
+  data:
+    redis:
+      host: my-redis-headless
+  redis:
+    redisson:
+      file: classpath:redisson.yml
+  datasource:
+    password: postgres
+    username: postgres
+    url: jdbc:postgresql://postgres:5432/edu

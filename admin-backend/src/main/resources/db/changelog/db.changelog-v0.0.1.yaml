@@ -1,0 +1,918 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: lucas
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_id
+                  type: bigint
+              - column:
+                  name: creation_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2
+      author: lucas
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: video
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creator_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 3
+      author: lucas
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: file_upload_record
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: md5
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 4
+      author: lucas
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: video_chunk
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: video_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: chunk_idx
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: path
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 5
+      author: lucas
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: video_id
+            baseTableName: video_chunk
+            baseTableSchemaName: public
+            constraintName: fk_video_chunk_video
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: video
+            referencedTableSchemaName: public
+            validate: true
+  - changeSet:
+      id: 6
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: video
+            columns:
+              - column:
+                  name: md5
+                  type: varchar(256)
+              - column:
+                  name: path
+                  type: varchar(256)
+  - changeSet:
+      id: 7
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: video
+            columns:
+              - column:
+                  name: uploaded
+                  type: boolean
+  - changeSet:
+      id: 8
+      author: lucas
+      changes:
+        - dropTable:
+            cascadeConstraints: true
+            schemaName: public
+            tableName: file_upload_record
+  - changeSet:
+      id: 9
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: video
+            columns:
+              - column:
+                  name: chunk_count
+                  type: int
+  - changeSet:
+      id: 10
+      author: lucas
+      changes:
+        - dropColumn:
+            tableName: video
+            columns:
+              - column:
+                  name: path
+  - changeSet:
+      id: 11
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: video
+            columns:
+              - column:
+                  name: size
+                  type: bigint
+  - changeSet:
+      id: 12
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: video
+            columns:
+              - column:
+                  name: category_id
+                  type: bigint
+  - changeSet:
+      id: 13
+      author: lucas
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: category_id
+            baseTableName: video
+            baseTableSchemaName: public
+            constraintName: fk_video_category
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: category
+            referencedTableSchemaName: public
+            validate: true
+  - changeSet:
+      id: 14
+      author: lucas
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: courseware
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: format
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: size
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creator_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 15
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: courseware
+            columns:
+              - column:
+                  name: category_id
+                  type: bigint
+  - changeSet:
+      id: 16
+      author: lucas
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: category_id
+            baseTableName: courseware
+            baseTableSchemaName: public
+            constraintName: fk_courseware_category
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: category
+            referencedTableSchemaName: public
+            validate: true
+  - changeSet:
+      id: 17
+      author: lucas
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: department
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_id
+                  type: bigint
+              - column:
+                  name: creation_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 18
+      author: lucas
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: department_user
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: department_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 19
+      author: lucas
+      changes:
+        - dropTable:
+            cascadeConstraints: true
+            schemaName: public
+            tableName: video_chunk
+  - changeSet:
+      id: 20
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: video
+            columns:
+              - column:
+                  name: upload_id
+                  type: varchar(256)
+  - changeSet:
+      id: 21
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: courseware
+            columns:
+              - column:
+                  name: uploaded
+                  type: boolean
+  - changeSet:
+      id: 22
+      author: lucas
+      changes:
+        - dropColumn:
+            tableName: courseware
+            columns:
+              - column:
+                  name: uploaded
+  - changeSet:
+      id: 23
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: courseware
+            columns:
+              - column:
+                  name: object_name
+                  type: varchar(256)
+  - changeSet:
+      id: 24
+      author: lucas
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: storage_obj
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: size
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creator_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: upload_id
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: md5
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_uploaded
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+              - column:
+                  name: creation_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 25
+      author: lucas
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: category_id
+            baseTableName: storage_obj
+            baseTableSchemaName: public
+            constraintName: fk_storage_obj_category
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: category
+            referencedTableSchemaName: public
+            validate: true
+  - changeSet:
+      id: 26
+      author: lucas
+      changes:
+        - dropTable:
+            cascadeConstraints: true
+            schemaName: public
+            tableName: video
+  - changeSet:
+      id: 27
+      author: lucas
+      changes:
+        - dropTable:
+            cascadeConstraints: true
+            schemaName: public
+            tableName: courseware
+  - changeSet:
+      id: 28
+      author: lucas
+      changes:
+        - dropNotNullConstraint:
+            columnName: category_id
+            tableName: storage_obj
+  - changeSet:
+      id: 29
+      author: lucas
+      changes:
+        - dropNotNullConstraint:
+            columnName: upload_id
+            tableName: storage_obj
+  - changeSet:
+      id: 30
+      author: lucas
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: course
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: mandatory
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: category_id
+            baseTableName: course
+            baseTableSchemaName: public
+            constraintName: fk_course_category
+            onDelete: RESTRICT
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: category
+            referencedTableSchemaName: public
+            validate: true
+        - createTable:
+            schemaName: public
+            tableName: course_department
+            columns:
+              - column:
+                  name: course_id
+                  type: bigint
+                  constraints:
+                    primaryKeyName: course_department_pk
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: department_id
+                  type: bigint
+                  constraints:
+                    primaryKeyName: course_department_pk
+                    primaryKey: true
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: course_id
+            baseTableName: course_department
+            baseTableSchemaName: public
+            constraintName: fk_course_department_course
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: course
+            referencedTableSchemaName: public
+            validate: true
+        - addForeignKeyConstraint:
+            baseColumnNames: department_id
+            baseTableName: course_department
+            baseTableSchemaName: public
+            constraintName: fk_course_department_department
+            onDelete: RESTRICT
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: department
+            referencedTableSchemaName: public
+            validate: true
+        - createTable:
+            schemaName: public
+            tableName: course_courseware
+            columns:
+              - column:
+                  name: course_id
+                  type: bigint
+                  constraints:
+                    primaryKeyName: course_courseware_pk
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: courseware_id
+                  type: bigint
+                  constraints:
+                    primaryKeyName: course_courseware_pk
+                    primaryKey: true
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: course_id
+            baseTableName: course_courseware
+            baseTableSchemaName: public
+            constraintName: fk_course_courseware_course
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: course
+            referencedTableSchemaName: public
+            validate: true
+        - addForeignKeyConstraint:
+            baseColumnNames: courseware_id
+            baseTableName: course_courseware
+            baseTableSchemaName: public
+            constraintName: fk_course_courseware_courseware
+            onDelete: RESTRICT
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: storage_obj
+            referencedTableSchemaName: public
+            validate: true
+  - changeSet:
+      id: 31
+      author: lucas
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: chapter
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: course_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: course_id
+            baseTableName: chapter
+            baseTableSchemaName: public
+            constraintName: fk_chapter_course
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: course
+            referencedTableSchemaName: public
+            validate: true
+        - createTable:
+            schemaName: public
+            tableName: chapter_video
+            columns:
+              - column:
+                  name: chapter_id
+                  type: bigint
+                  constraints:
+                    primaryKeyName: chapter_video_pk
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: video_id
+                  type: bigint
+                  constraints:
+                    primaryKeyName: chapter_video_pk
+                    primaryKey: true
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: chapter_id
+            baseTableName: chapter_video
+            baseTableSchemaName: public
+            constraintName: fk_chapter_video_chapter
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: chapter
+            referencedTableSchemaName: public
+            validate: true
+        - addForeignKeyConstraint:
+            baseColumnNames: video_id
+            baseTableName: chapter_video
+            baseTableSchemaName: public
+            constraintName: fk_chapter_video_video
+            onDelete: RESTRICT
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: storage_obj
+            referencedTableSchemaName: public
+            validate: true
+  - changeSet:
+      id: 33
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: course
+            columns:
+              - column:
+                  name: description
+                  type: varchar(256)
+  - changeSet:
+      id: 34
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: course
+            columns:
+              - column:
+                  name: assign_to_all_departments
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+  - changeSet:
+      id: 35
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: course
+            columns:
+              - column:
+                  name: has_chapters
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+  - changeSet:
+      id: 36
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: chapter_video
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 37
+      author: lucas
+      changes:
+        - dropPrimaryKey:
+            constraintName: chapter_video_pk
+            dropIndex: true
+            schemaName: public
+            tableName: chapter_video
+        - addPrimaryKey:
+            columnNames: id
+            constraintName: chapter_video_pkey
+            schemaName: public
+            tableName: chapter_video
+  - changeSet:
+      id: 38
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: chapter_video
+            columns:
+              - column:
+                  name: order
+                  type: int
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 39
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: course_department
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 40
+      author: lucas
+      changes:
+        - dropPrimaryKey:
+            constraintName: course_department_pk
+            dropIndex: true
+            schemaName: public
+            tableName: course_department
+        - addPrimaryKey:
+            columnNames: id
+            constraintName: course_department_pkey
+            schemaName: public
+            tableName: course_department
+  - changeSet:
+      id: 41
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: course_courseware
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 42
+      author: lucas
+      changes:
+        - dropPrimaryKey:
+            constraintName: course_courseware_pk
+            dropIndex: true
+            schemaName: public
+            tableName: course_courseware
+        - addPrimaryKey:
+            columnNames: id
+            constraintName: course_courseware_pkey
+            schemaName: public
+            tableName: course_courseware
+  - changeSet:
+      id: 43
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: course_courseware
+            columns:
+              - column:
+                  name: order
+                  type: int
+                  constraints:
+                    nullable: false

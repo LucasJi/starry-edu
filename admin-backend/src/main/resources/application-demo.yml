@@ -1,0 +1,29 @@
+server:
+  port: 8201
+spring:
+  redis:
+    redisson:
+      file: classpath:redisson-local.yml
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8000/oauth2/jwks
+  datasource:
+    password: postgres
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/edu
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+minio:
+  accessKey: # accessKey
+  secretKey: # secretKey
+  endpoint: # endpoint
+local:
+  feign:
+    server:
+      idp:
+        url: http://localhost:8000
