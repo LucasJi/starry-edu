@@ -1,0 +1,10 @@
+{
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "plugins": [
+    "prettier-plugin-organize-imports"
+  ],
+  "endOfLine": "auto",
+  "organizeImportsSkipDestructiveCodeActions": true,
+  "arrowParens": "avoid"
+}
