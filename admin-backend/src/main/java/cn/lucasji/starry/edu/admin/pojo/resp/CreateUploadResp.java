@@ -15,7 +15,8 @@ import lombok.Data;
 @Builder
 public class CreateUploadResp implements Serializable {
 
-  @Serial private static final long serialVersionUID = -5243497979496491400L;
+  @Serial
+  private static final long serialVersionUID = -5243497979496491400L;
 
   private Long objId;
 

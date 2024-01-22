@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date 2023/11/8 15:44
  */
 public interface DepartmentUserRepository extends JpaRepository<DepartmentUser, Long> {
+
   List<DepartmentUser> findAllByDepartmentId(Long departmentId);
 
   List<DepartmentUser> findAllByUserIdIn(List<Long> userIds);

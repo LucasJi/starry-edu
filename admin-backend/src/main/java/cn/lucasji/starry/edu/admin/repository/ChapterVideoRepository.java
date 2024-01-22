@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author lucas
  * @date 2024/1/15 22:18
  */
-public interface ChapterVideoRepository extends JpaRepository<ChapterVideo, Long> {}
+public interface ChapterVideoRepository extends JpaRepository<ChapterVideo, Long> {
+
+}

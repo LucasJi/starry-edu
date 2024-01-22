@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  * @date 2023/8/31 14:52
  */
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {}
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+
+}

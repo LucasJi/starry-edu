@@ -26,7 +26,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class DepartmentUser extends BaseEntityAudit {
 
-  @Serial private static final long serialVersionUID = 3239055807918056843L;
+  @Serial
+  private static final long serialVersionUID = 3239055807918056843L;
 
   @ManyToOne
   @JoinColumn(name = "department_id")

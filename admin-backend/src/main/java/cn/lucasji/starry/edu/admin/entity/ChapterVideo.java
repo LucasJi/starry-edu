@@ -26,7 +26,8 @@ import lombok.ToString;
 @Data
 public class ChapterVideo implements Serializable {
 
-  @Serial private static final long serialVersionUID = 3789061344098342833L;
+  @Serial
+  private static final long serialVersionUID = 3789061344098342833L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

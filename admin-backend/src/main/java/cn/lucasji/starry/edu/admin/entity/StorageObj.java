@@ -31,7 +31,8 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "storage_obj", schema = "public")
 public class StorageObj extends BaseEntityAudit {
 
-  @Serial private static final long serialVersionUID = 8114872980692654283L;
+  @Serial
+  private static final long serialVersionUID = 8114872980692654283L;
 
   @Column(name = "name")
   private String name;
@@ -59,5 +60,6 @@ public class StorageObj extends BaseEntityAudit {
   @Enumerated(EnumType.STRING)
   private StorageObjType type;
 
-  @Transient private String creatorName;
+  @Transient
+  private String creatorName;
 }

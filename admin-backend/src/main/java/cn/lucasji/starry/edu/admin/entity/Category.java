@@ -28,7 +28,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Category extends BaseEntityAudit {
 
-  @Serial private static final long serialVersionUID = 3153424192750365448L;
+  @Serial
+  private static final long serialVersionUID = 3153424192750365448L;
 
   @Column(name = "parent_id")
   private Long parentId;
@@ -36,9 +37,13 @@ public class Category extends BaseEntityAudit {
   @Column(name = "name")
   private String name;
 
-  @Transient @JsonProperty private List<Category> children = new ArrayList<>();
+  @Transient
+  @JsonProperty
+  private List<Category> children = new ArrayList<>();
 
-  @Transient @JsonProperty private long subCategoryCount;
+  @Transient
+  @JsonProperty
+  private long subCategoryCount;
 
   /**
    * @return <code>true</code> if current category doesn't have any sub categories otherwise <code>

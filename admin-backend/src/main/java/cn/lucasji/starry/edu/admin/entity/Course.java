@@ -26,7 +26,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Course extends BaseEntityAudit {
 
-  @Serial private static final long serialVersionUID = 1726734794855964657L;
+  @Serial
+  private static final long serialVersionUID = 1726734794855964657L;
 
   @Column(name = "name")
   private String name;

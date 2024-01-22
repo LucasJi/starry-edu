@@ -16,10 +16,10 @@ import org.springframework.stereotype.Repository;
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
   Page<Course> findAllByNameLikeAndCategoryInAndIdIn(
-      String name, Set<Category> categories, Set<Long> ids, Pageable pageable);
+    String name, Set<Category> categories, Set<Long> ids, Pageable pageable);
 
   Page<Course> findAllByNameLikeAndIdIn(String name, Set<Long> ids, Pageable pageable);
 
   Page<Course> findAllByNameLikeAndCategoryIn(
-      String name, Set<Category> categories, Pageable pageable);
+    String name, Set<Category> categories, Pageable pageable);
 }

@@ -20,7 +20,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class FindCoursePageResp implements Serializable {
 
-  @Serial private static final long serialVersionUID = -1738314550484395248L;
+  @Serial
+  private static final long serialVersionUID = -1738314550484395248L;
 
   private Course course;
 

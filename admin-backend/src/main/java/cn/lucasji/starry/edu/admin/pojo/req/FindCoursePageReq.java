@@ -11,7 +11,8 @@ import lombok.Data;
 @Data
 public class FindCoursePageReq implements Serializable {
 
-  @Serial private static final long serialVersionUID = -3065231995164015047L;
+  @Serial
+  private static final long serialVersionUID = -3065231995164015047L;
 
   private Long categoryId;
 

@@ -27,7 +27,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Department extends BaseEntityAudit {
 
-  @Serial private static final long serialVersionUID = -1078672229963927561L;
+  @Serial
+  private static final long serialVersionUID = -1078672229963927561L;
 
   @Column(name = "parent_id")
   private Long parentId;
@@ -35,13 +36,15 @@ public class Department extends BaseEntityAudit {
   @Column(name = "name")
   private String name;
 
-  @Transient private final List<Department> children = new ArrayList<>();
+  @Transient
+  private final List<Department> children = new ArrayList<>();
 
-  @Transient private long subDepartmentCount;
+  @Transient
+  private long subDepartmentCount;
 
   /**
    * @return <code>true</code> if current department doesn't have any sub departments otherwise
-   *     <code>
+   * <code>
    * false</code>
    */
   public boolean isDeletable() {

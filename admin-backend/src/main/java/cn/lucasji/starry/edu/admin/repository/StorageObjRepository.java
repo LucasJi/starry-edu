@@ -18,13 +18,13 @@ public interface StorageObjRepository extends JpaRepository<StorageObj, Long> {
   Optional<StorageObj> findByNameAndCategory(String name, Category category);
 
   Page<StorageObj> findAllByCategoryAndIsUploadedIsTrueAndNameLikeIgnoreCaseAndTypeIn(
-      Category category, String name, List<StorageObjType> types, Pageable pageable);
+    Category category, String name, List<StorageObjType> types, Pageable pageable);
 
   Page<StorageObj> findAllByCategoryIsNullAndIsUploadedIsTrueAndNameLikeIgnoreCaseAndTypeIn(
-      String name, List<StorageObjType> types, Pageable pageable);
+    String name, List<StorageObjType> types, Pageable pageable);
 
   Page<StorageObj> findAllByIsUploadedIsTrueAndNameLikeIgnoreCaseAndTypeIn(
-      String name, List<StorageObjType> types, Pageable pageable);
+    String name, List<StorageObjType> types, Pageable pageable);
 
   void findAllByIdIn(List<Long> ids);
 }

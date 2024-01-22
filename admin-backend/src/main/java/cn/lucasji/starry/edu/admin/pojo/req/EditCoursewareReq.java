@@ -12,7 +12,8 @@ import lombok.Data;
 @Data
 public class EditCoursewareReq implements Serializable {
 
-  @Serial private static final long serialVersionUID = 4376091122066202669L;
+  @Serial
+  private static final long serialVersionUID = 4376091122066202669L;
 
   List<Long> coursewareIds;
 

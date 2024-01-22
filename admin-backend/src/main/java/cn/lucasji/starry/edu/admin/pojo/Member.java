@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 @Builder
 public class Member {
+
   private Long departmentId;
 
   private String departmentName;

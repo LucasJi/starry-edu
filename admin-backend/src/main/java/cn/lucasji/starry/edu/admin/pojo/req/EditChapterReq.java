@@ -13,7 +13,8 @@ import lombok.Data;
 @Data
 public class EditChapterReq implements Serializable {
 
-  @Serial private static final long serialVersionUID = 4437890171852981898L;
+  @Serial
+  private static final long serialVersionUID = 4437890171852981898L;
 
   private List<Chapter> chapters;
 }
