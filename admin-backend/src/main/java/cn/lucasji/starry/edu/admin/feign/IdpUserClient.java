@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author lucas
  * @date 2023/10/31 01:06
  */
-@FeignClient(name = "idp", url = "${local.idp.url:}", path = "/user")
+@FeignClient(name = "idp", url = "${local.feign.server.idp.url:}", path = "/user")
 public interface IdpUserClient {
 
   @GetMapping(path = "/{id}")

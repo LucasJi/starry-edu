@@ -10,14 +10,13 @@ spring:
         jwt:
           jwk-set-uri: http://localhost:8000/oauth2/jwks
   datasource:
-    password: postgres
     username: postgres
+    password: postgres
     url: jdbc:postgresql://localhost:5432/edu
   jpa:
     properties:
       hibernate:
         show_sql: true
-        format_sql: true
 minio:
   accessKey: # accessKey
   secretKey: # secretKey
