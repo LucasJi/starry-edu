@@ -1,6 +1,6 @@
-import {CustomSession} from '@types';
+import { CustomSession } from '@types';
 import NextAuth from 'next-auth';
-import {JWT} from 'next-auth/jwt';
+import { JWT } from 'next-auth/jwt';
 
 /**
  * Takes a token, and returns a new token with updated
