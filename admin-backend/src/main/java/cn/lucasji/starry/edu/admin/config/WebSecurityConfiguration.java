@@ -18,13 +18,12 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @Import(CommonCorsConfiguration.class)
 public class WebSecurityConfiguration {
+
   @Bean
   public SecurityFilterChain securityFilterChain(
-      HttpSecurity http, CorsFilter corsFilter) throws Exception {
-    http.addFilter(corsFilter)
-        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-        .oauth2ResourceServer(configurer -> configurer.jwt(Customizer.withDefaults()));
-
-    return http.build();
+    HttpSecurity http, CorsFilter corsFilter) throws Exception {
+    return http.addFilter(corsFilter)
+      .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+      .oauth2ResourceServer(configurer -> configurer.jwt(Customizer.withDefaults())).build();
   }
 }

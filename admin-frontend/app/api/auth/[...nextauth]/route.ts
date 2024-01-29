@@ -73,8 +73,7 @@ const handler = NextAuth({
       },
       wellKnown:
         process.env.NEXT_PUBLIC_IDP_URL + '/.well-known/openid-configuration',
-      // wellKnown: 'http://49.234.53.94:31000/.well-known/openid-configuration',
-      authorization: { params: { scope: 'openid userinfo edu' } },
+      authorization: { params: { scope: 'openid userinfo' } },
       idToken: true,
       checks: ['pkce'],
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
