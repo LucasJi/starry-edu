@@ -6,15 +6,16 @@ import cn.lucasji.starry.edu.admin.entity.Department;
 import cn.lucasji.starry.edu.admin.entity.DepartmentUser;
 import cn.lucasji.starry.edu.admin.feign.IdpUserClient;
 import cn.lucasji.starry.edu.admin.pojo.Member;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author lucas
@@ -24,36 +25,37 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class MemberService {
+
   private final DepartmentUserService departmentUserService;
 
   private final IdpUserClient idpUserClient;
 
-  public Page<Member> findPageByDepartment(Department department, Pageable pageable) {
+  public Page<Member> findPage(Department department, Pageable pageable) {
     List<DepartmentUser> departmentUsers =
-        departmentUserService.findAllByDepartmentId(department.getId());
+      departmentUserService.findAllByDepartmentId(department.getId());
     if (Objects.isNull(department.getId())) {
       departmentUsers = departmentUserService.findAll();
     }
 
     List<Long> userIds =
-        departmentUsers.stream().map(DepartmentUser::getUserId).collect(Collectors.toList());
+      departmentUsers.stream().map(DepartmentUser::getUserId).collect(Collectors.toList());
     Page<User> userPage = idpUserClient.findPageByUserIdIn(userIds, pageable);
     log.info("user page: {}", userPage.getContent());
     List<User> users = userPage.getContent();
     List<DepartmentUser> departmentUsersByPageUsers =
-        departmentUserService.findAllByUserIdIn(
-            users.stream().map(User::getId).collect(Collectors.toList()));
+      departmentUserService.findAllByUserIdIn(
+        users.stream().map(User::getId).collect(Collectors.toList()));
     Map<Long, DepartmentUser> userIdDepartmentUserMap =
-        departmentUsersByPageUsers.stream()
-            .collect(Collectors.toMap(DepartmentUser::getUserId, e -> e));
+      departmentUsersByPageUsers.stream()
+        .collect(Collectors.toMap(DepartmentUser::getUserId, e -> e));
 
     return userPage.map(
-        user ->
-            Member.builder()
-                .departmentId(userIdDepartmentUserMap.get(user.getId()).getDepartment().getId())
-                .departmentName(userIdDepartmentUserMap.get(user.getId()).getDepartment().getName())
-                .user(user)
-                .build());
+      user ->
+        Member.builder()
+          .departmentId(userIdDepartmentUserMap.get(user.getId()).getDepartment().getId())
+          .departmentName(userIdDepartmentUserMap.get(user.getId()).getDepartment().getName())
+          .user(user)
+          .build());
   }
 
   public Result<String> addMember(Member member) {

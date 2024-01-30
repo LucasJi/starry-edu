@@ -36,7 +36,7 @@ const createClient = (baseURL: string) => {
     },
     (error: AxiosError) => {
       if (error?.response?.status === 401 || error?.response?.status === 403) {
-        window.location.href = '/';
+        // window.location.href = '/';
       }
       console.log('Api response error:', error);
     }

@@ -1,5 +1,5 @@
 'use client';
-import { DownOutlined } from '@ant-design/icons';
+import { DownOutlined, PlusOutlined } from '@ant-design/icons';
 import { departmentApis, memberApis } from '@api';
 import { LoadingOutlinedSpin } from '@component';
 import type { Department, Member, Page, Pageable } from '@types';
@@ -54,6 +54,8 @@ const Members = () => {
   const [memberModalOpen, setMemberModalOpen] = useState(false);
   const [memberModalTitle, setMemberModalTitle] = useState('添加学员');
   const [editedMember, setEditedMember] = useState<Member>();
+  const [memberNameKeyWord, setMemberNameKeyWord] = useState('');
+  const [memberEmailKeyWord, setMemberEmailKeyWord] = useState('');
 
   const onSelect: TreeProps['onSelect'] = (_, { node }) => {
     setCurrentDepartment(node);
@@ -152,9 +154,18 @@ const Members = () => {
     } else {
       department = { id: currentDepartment.id };
     }
-    memberApis.findPageByDepartment(department, pageRequest).then(resp => {
-      setMemberPage({ ...resp.data });
-    });
+    memberApis
+      .findPage(
+        {
+          departmentId: department.id!,
+          username: memberNameKeyWord,
+          email: memberEmailKeyWord,
+        },
+        pageRequest
+      )
+      .then(resp => {
+        setMemberPage({ ...resp.data });
+      });
   }, [currentDepartment, pageRequest]);
 
   return (
@@ -185,15 +196,36 @@ const Members = () => {
             <div className="text-2xl mb-10">
               学员 | {currentDepartment?.name}
             </div>
-            <Button
-              className="mb-10"
-              onClick={() => {
-                setMemberModalOpen(true);
-              }}
-              type="primary"
-            >
-              添加学员
-            </Button>
+            <div className="mb-10 flex justify-between">
+              <Space wrap>
+                <Button
+                  icon={<PlusOutlined />}
+                  type="primary"
+                  onClick={() => {
+                    setMemberModalOpen(true);
+                  }}
+                >
+                  添加学员
+                </Button>
+              </Space>
+
+              <Space>
+                <span>姓名:</span>
+                <Input placeholder="请输入姓名关键字" onChange={e => {}} />
+                <span>邮箱:</span>
+                <Input placeholder="请输入邮箱关键字" onChange={e => {}} />
+                <Button
+                  onClick={() => {
+                    refresh();
+                  }}
+                >
+                  重置
+                </Button>
+                <Button onClick={refresh} type={'primary'}>
+                  查询
+                </Button>
+              </Space>
+            </div>
             <Table
               columns={[
                 {

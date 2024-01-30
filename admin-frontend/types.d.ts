@@ -183,3 +183,9 @@ interface EditCoursewareReq {
   courseId: number;
   coursewareIds: number[];
 }
+
+interface FindMemberPageReq {
+  departmentId: number;
+  username?: string;
+  email?: string;
+}

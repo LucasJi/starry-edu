@@ -1,22 +1,21 @@
-import { Department, Member, Page, Pageable, Result } from '@types';
+import { FindMemberPageReq, Member, Page, Pageable, Result } from '@types';
 import createClient from './client.ts';
 
 const api = createClient(`${process.env.NEXT_PUBLIC_EDU_ADMIN_URL}/member`);
 
-const findPageByDepartment = (department: Department, pageable: Pageable) =>
-  api.post<Page<Member>>('/findPageByDepartment', department, {
+const findPage = (findMemberPageReq: FindMemberPageReq, pageable: Pageable) =>
+  api.post<Page<Member>>('/findPage', findMemberPageReq, {
     params: pageable,
   });
 
-const addMember = (member: Member) =>
-  api.post<Result<string>>('/addMember', member);
+const addMember = (member: Member) => api.post<Result<string>>('', member);
 
-const editMember = (member: Member) => api.post('/editMember', member);
+const editMember = (member: Member) => api.patch('', member);
 
-const deleteMember = (id: number) => api.delete(`/deleteMember/${id}`);
+const deleteMember = (id: number) => api.delete(`/${id}`);
 
 const memberApis = {
-  findPageByDepartment,
+  findPage,
   addMember,
   editMember,
   deleteMember,
