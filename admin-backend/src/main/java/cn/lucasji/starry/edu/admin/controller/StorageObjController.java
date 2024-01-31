@@ -43,7 +43,7 @@ public class StorageObjController {
 
   @PostMapping("/createUpload")
   public ResponseEntity<Result<CreateUploadResp>> createUpload(
-    @AuthenticationPrincipal Jwt jwt, @RequestBody StorageObj storageObj) {
+      @AuthenticationPrincipal Jwt jwt, @RequestBody StorageObj storageObj) {
     if (StringUtils.isEmpty(storageObj.getName()) || StringUtils.isEmpty(storageObj.getMd5())) {
       return ResponseEntity.badRequest().body(Result.error("video name or md5 is empty"));
     }
@@ -72,9 +72,9 @@ public class StorageObjController {
 
   @PostMapping("/findPageByCategoryAndNameAndTypeIn")
   public Page<StorageObj> findPageByCategoryAndNameAndTypeIn(
-    @RequestBody FindStorageObjPageReq body, Pageable pageable) {
+      @RequestBody FindStorageObjPageReq body, Pageable pageable) {
     return storageObjService.findPageByCategoryAndNameAndTypeIn(
-      body.getCategory(), body.getName(), body.getTypes(), pageable);
+        body.getCategory(), body.getName(), body.getTypes(), pageable);
   }
 
   @DeleteMapping("/deleteAllByIdsInBatch")

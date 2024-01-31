@@ -40,8 +40,7 @@ public class CourseController {
   }
 
   @PostMapping("/findPage")
-  public Page<FindCoursePageResp> findPage(
-    @RequestBody FindCoursePageReq req, Pageable pageable) {
+  public Page<FindCoursePageResp> findPage(@RequestBody FindCoursePageReq req, Pageable pageable) {
     return courseService.findPage(req, pageable);
   }
 
