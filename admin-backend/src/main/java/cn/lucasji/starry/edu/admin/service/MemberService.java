@@ -3,7 +3,7 @@ package cn.lucasji.starry.edu.admin.service;
 import cn.lucasji.starry.edu.admin.dto.Member;
 import cn.lucasji.starry.edu.admin.dto.req.AddMemberReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditMemberReq;
-import cn.lucasji.starry.edu.admin.entity.Department;
+import cn.lucasji.starry.edu.admin.dto.req.FindMemberPageReq;
 import cn.lucasji.starry.edu.admin.entity.DepartmentUser;
 import cn.lucasji.starry.idp.infrastructure.api.UserClient;
 import cn.lucasji.starry.idp.infrastructure.dto.UserDto;
@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author lucas
@@ -31,16 +32,17 @@ public class MemberService {
 
   private final UserClient idpUserClient;
 
-  public Page<Member> findPage(Department department, Pageable pageable) {
+  public Page<Member> findPage(FindMemberPageReq body, Pageable pageable) {
     List<DepartmentUser> departmentUsers =
-        departmentUserService.findAllByDepartmentId(department.getId());
-    if (Objects.isNull(department.getId())) {
+        departmentUserService.findAllByDepartmentId(body.getDepartmentId());
+    if (Objects.isNull(body.getDepartmentId())) {
       departmentUsers = departmentUserService.findAll();
     }
 
     List<Long> userIds =
         departmentUsers.stream().map(DepartmentUser::getUserId).collect(Collectors.toList());
-    Page<UserDto> userPage = idpUserClient.findPageByUserIdIn(userIds, pageable);
+    body.setIds(userIds);
+    Page<UserDto> userPage = idpUserClient.findPage(body, pageable);
     log.info("user page: {}", userPage.getContent());
     List<UserDto> users = userPage.getContent();
     List<DepartmentUser> departmentUsersByPageUsers =
@@ -59,16 +61,25 @@ public class MemberService {
                 .build());
   }
 
+  @Transactional(rollbackFor = Exception.class)
   public Result<String> addMember(AddMemberReq body) {
     log.info("添加学员:{}", body);
 
-    Result<Long> result = idpUserClient.addUser(body);
+    Result<Long> result = null;
+    try {
+      result = idpUserClient.addUser(body);
 
-    if (!result.getSuccess()) {
-      return Result.error(result.getMessage());
+      if (!result.getSuccess()) {
+        return Result.error(result.getMessage());
+      }
+
+      departmentUserService.addMember(result.getData(), body.getDepartmentId());
+    } catch (Exception e) {
+      if (Objects.nonNull(result)) {
+        idpUserClient.deleteUser(result.getData());
+      }
+      throw new RuntimeException("failed to add member", e);
     }
-
-    departmentUserService.addMember(result.getData(), body.getDepartmentId());
 
     return Result.success("成功添加学院");
   }

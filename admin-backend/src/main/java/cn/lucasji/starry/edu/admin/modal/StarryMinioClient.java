@@ -2,7 +2,7 @@ package cn.lucasji.starry.edu.admin.modal;
 
 import static cn.lucasji.starry.edu.admin.config.MinioConfiguration.EDU_BUCKET;
 
-import cn.lucas.starry.infrastructure.util.JsonUtils;
+import cn.lucasji.starry.idp.infrastructure.util.JsonUtils;
 import io.minio.CreateMultipartUploadResponse;
 import io.minio.GetObjectArgs;
 import io.minio.GetObjectResponse;
@@ -62,10 +62,7 @@ public class StarryMinioClient extends MinioAsyncClient {
 
   @SneakyThrows
   public UploadPartResponse uploadPart(
-      String objectName,
-      MultipartFile part,
-      String uploadId,
-      int partNumber) {
+      String objectName, MultipartFile part, String uploadId, int partNumber) {
     return super.uploadPartAsync(
             EDU_BUCKET,
             null,

@@ -189,3 +189,17 @@ interface FindMemberPageReq {
   username?: string;
   email?: string;
 }
+
+interface AddMemberReq {
+  departmentId: number;
+  username: string;
+  email: string;
+  password: string;
+}
+
+interface EditMemberReq {
+  id: number;
+  username: string;
+  email: string;
+  departmentId: number;
+}

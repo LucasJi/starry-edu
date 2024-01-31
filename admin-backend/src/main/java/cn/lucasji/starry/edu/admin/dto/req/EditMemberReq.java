@@ -1,6 +1,6 @@
 package cn.lucasji.starry.edu.admin.dto.req;
 
-import cn.lucasji.starry.idp.infrastructure.dto.EditUserDto;
+import cn.lucasji.starry.idp.infrastructure.dto.req.EditUserReq;
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class EditMemberReq extends EditUserDto implements Serializable {
+public class EditMemberReq extends EditUserReq implements Serializable {
 
   @Serial private static final long serialVersionUID = -2353204959686959839L;
 

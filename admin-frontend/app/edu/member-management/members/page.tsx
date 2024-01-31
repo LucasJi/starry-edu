@@ -70,7 +70,7 @@ const Members = () => {
     setMemberModalOpen(false);
   };
 
-  const isEditMemberModal = () => memberModalTitle === EDIT_MEMBER_MODAL_TITLE;
+  const isEditMemberModal = memberModalTitle === EDIT_MEMBER_MODAL_TITLE;
 
   const getPasswordFieldRules = () => {
     const rules: Rule[] = [
@@ -80,7 +80,7 @@ const Members = () => {
       },
     ];
 
-    if (!isEditMemberModal()) {
+    if (!isEditMemberModal) {
       rules.push({ required: true, message: '请输入密码' });
     }
 
@@ -89,16 +89,13 @@ const Members = () => {
 
   const handleMemberModalOk = () => {
     memberForm.validateFields().then(values => {
-      if (isEditMemberModal()) {
+      if (isEditMemberModal) {
         memberApis
           .editMember({
             departmentId: values.departmentId,
-            user: {
-              id: editedMember?.user.id,
-              username: values.username,
-              password: values.password,
-              email: values.email,
-            },
+            id: editedMember!.user.id!,
+            username: values.username!,
+            email: values.email,
           })
           .then(() => {
             memberForm.resetFields();
@@ -110,11 +107,9 @@ const Members = () => {
         memberApis
           .addMember({
             departmentId: values.departmentId,
-            user: {
-              username: values.username,
-              password: values.password,
-              email: values.email,
-            },
+            username: values.username,
+            password: values.password,
+            email: values.email,
           })
           .then(({ data }) => {
             if (data.success) {
@@ -211,11 +206,25 @@ const Members = () => {
 
               <Space>
                 <span>姓名:</span>
-                <Input placeholder="请输入姓名关键字" onChange={e => {}} />
+                <Input
+                  placeholder="请输入姓名关键字"
+                  onChange={e => {
+                    setMemberNameKeyWord(e.target.value);
+                  }}
+                  value={memberNameKeyWord}
+                />
                 <span>邮箱:</span>
-                <Input placeholder="请输入邮箱关键字" onChange={e => {}} />
+                <Input
+                  placeholder="请输入邮箱关键字"
+                  onChange={e => {
+                    setMemberEmailKeyWord(e.target.value);
+                  }}
+                  value={memberEmailKeyWord}
+                />
                 <Button
                   onClick={() => {
+                    setMemberEmailKeyWord('');
+                    setMemberNameKeyWord('');
                     refresh();
                   }}
                 >
@@ -364,13 +373,15 @@ const Members = () => {
                   <Input placeholder="请输入学员邮箱" />
                 </Form.Item>
 
-                <Form.Item<MemberFieldType>
-                  label="登录密码"
-                  name="password"
-                  rules={getPasswordFieldRules()}
-                >
-                  <Input.Password placeholder="请输入学员密码" />
-                </Form.Item>
+                {!isEditMemberModal && (
+                  <Form.Item<MemberFieldType>
+                    label="登录密码"
+                    name="password"
+                    rules={getPasswordFieldRules()}
+                  >
+                    <Input.Password placeholder="请输入学员密码" />
+                  </Form.Item>
+                )}
 
                 <Form.Item<MemberFieldType>
                   label="所属部门"

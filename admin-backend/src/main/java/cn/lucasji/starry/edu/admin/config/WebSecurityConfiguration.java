@@ -1,9 +1,7 @@
 package cn.lucasji.starry.edu.admin.config;
 
-import cn.lucas.starry.infrastructure.config.CommonCorsConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,14 +14,14 @@ import org.springframework.web.filter.CorsFilter;
  */
 @Configuration
 @EnableWebSecurity
-@Import(CommonCorsConfiguration.class)
 public class WebSecurityConfiguration {
 
   @Bean
-  public SecurityFilterChain securityFilterChain(
-    HttpSecurity http, CorsFilter corsFilter) throws Exception {
+  public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsFilter corsFilter)
+      throws Exception {
     return http.addFilter(corsFilter)
-      .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-      .oauth2ResourceServer(configurer -> configurer.jwt(Customizer.withDefaults())).build();
+        .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+        .oauth2ResourceServer(configurer -> configurer.jwt(Customizer.withDefaults()))
+        .build();
   }
 }

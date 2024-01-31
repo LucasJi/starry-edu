@@ -3,9 +3,8 @@ spring:
     name: edu-admin
   cloud:
     openfeign:
-      httpclient:
-        hc5:
-          enabled: true
+      okhttp:
+        enabled: true
   jpa:
     properties:
       hibernate:
@@ -51,3 +50,4 @@ storage-obj:
       - 'application/vnd.ms-powerpoint.addin.macroEnabled.12'
       - 'application/vnd.ms-powerpoint.presentation.macroEnabled.12'
       - 'application/vnd.ms-powerpoint.slideshow.macroEnabled.12'
+      -

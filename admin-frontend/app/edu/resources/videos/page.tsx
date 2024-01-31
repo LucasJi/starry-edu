@@ -11,6 +11,7 @@ import {
   Empty,
   Form,
   Input,
+  message,
   Modal,
   Space,
   Table,
@@ -18,7 +19,6 @@ import {
   TreeSelect,
   Upload,
   UploadFile,
-  message,
 } from 'antd';
 import { TreeProps } from 'antd/es/tree';
 import { RcFile } from 'antd/es/upload';
@@ -464,8 +464,8 @@ const Video = () => {
                 setVideoPreviewUrl('');
               }}
               width="800px"
-              bodyStyle={{
-                width: '800px',
+              styles={{
+                body: { width: '800px' },
               }}
               wrapClassName="video-modal-wrapper"
             >

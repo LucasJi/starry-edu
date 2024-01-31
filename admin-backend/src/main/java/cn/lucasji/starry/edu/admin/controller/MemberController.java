@@ -3,7 +3,7 @@ package cn.lucasji.starry.edu.admin.controller;
 import cn.lucasji.starry.edu.admin.dto.Member;
 import cn.lucasji.starry.edu.admin.dto.req.AddMemberReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditMemberReq;
-import cn.lucasji.starry.edu.admin.entity.Department;
+import cn.lucasji.starry.edu.admin.dto.req.FindMemberPageReq;
 import cn.lucasji.starry.edu.admin.service.MemberService;
 import cn.lucasji.starry.idp.infrastructure.modal.Result;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +29,8 @@ public class MemberController {
   private final MemberService memberService;
 
   @PostMapping("/findPage")
-  public Page<Member> findPage(@RequestBody Department department, Pageable pageable) {
-    return memberService.findPage(department, pageable);
+  public Page<Member> findPage(@RequestBody FindMemberPageReq body, Pageable pageable) {
+    return memberService.findPage(body, pageable);
   }
 
   @PostMapping
