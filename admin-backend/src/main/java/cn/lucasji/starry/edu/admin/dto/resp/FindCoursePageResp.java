@@ -1,4 +1,4 @@
-package cn.lucasji.starry.edu.admin.pojo.resp;
+package cn.lucasji.starry.edu.admin.dto.resp;
 
 import cn.lucasji.starry.edu.admin.entity.Course;
 import cn.lucasji.starry.edu.admin.entity.Department;

@@ -1,6 +1,6 @@
-package cn.lucasji.starry.edu.admin.pojo.resp;
+package cn.lucasji.starry.edu.admin.dto.resp;
 
-import cn.lucasji.starry.edu.admin.pojo.Part;
+import cn.lucasji.starry.edu.admin.dto.Part;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;

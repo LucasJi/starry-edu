@@ -1,4 +1,4 @@
-package cn.lucasji.starry.edu.admin.pojo;
+package cn.lucasji.starry.edu.admin.dto;
 
 import cn.lucasji.starry.idp.infrastructure.dto.UserDto;
 import lombok.Builder;

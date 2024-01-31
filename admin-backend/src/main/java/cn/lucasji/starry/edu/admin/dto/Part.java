@@ -1,4 +1,4 @@
-package cn.lucasji.starry.edu.admin.pojo;
+package cn.lucasji.starry.edu.admin.dto;
 
 import java.io.Serial;
 import java.io.Serializable;

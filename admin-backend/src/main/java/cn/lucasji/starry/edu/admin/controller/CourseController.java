@@ -1,15 +1,16 @@
 package cn.lucasji.starry.edu.admin.controller;
 
+import cn.lucasji.starry.edu.admin.dto.req.AddCourseReq;
+import cn.lucasji.starry.edu.admin.dto.req.EditChapterReq;
+import cn.lucasji.starry.edu.admin.dto.req.EditCourseReq;
+import cn.lucasji.starry.edu.admin.dto.req.EditCoursewareReq;
+import cn.lucasji.starry.edu.admin.dto.req.FindCoursePageReq;
+import cn.lucasji.starry.edu.admin.dto.resp.FindCoursePageResp;
 import cn.lucasji.starry.edu.admin.entity.Chapter;
 import cn.lucasji.starry.edu.admin.entity.StorageObj;
-import cn.lucasji.starry.edu.admin.pojo.req.AddCourseReq;
-import cn.lucasji.starry.edu.admin.pojo.req.EditChapterReq;
-import cn.lucasji.starry.edu.admin.pojo.req.EditCourseReq;
-import cn.lucasji.starry.edu.admin.pojo.req.EditCoursewareReq;
-import cn.lucasji.starry.edu.admin.pojo.req.FindCoursePageReq;
-import cn.lucasji.starry.edu.admin.pojo.resp.FindCoursePageResp;
 import cn.lucasji.starry.edu.admin.service.CourseService;
 import cn.lucasji.starry.idp.infrastructure.modal.Result;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @author lucas

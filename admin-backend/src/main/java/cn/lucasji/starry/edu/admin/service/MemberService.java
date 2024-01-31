@@ -1,10 +1,10 @@
 package cn.lucasji.starry.edu.admin.service;
 
+import cn.lucasji.starry.edu.admin.dto.Member;
+import cn.lucasji.starry.edu.admin.dto.req.AddMemberReq;
+import cn.lucasji.starry.edu.admin.dto.req.EditMemberReq;
 import cn.lucasji.starry.edu.admin.entity.Department;
 import cn.lucasji.starry.edu.admin.entity.DepartmentUser;
-import cn.lucasji.starry.edu.admin.pojo.Member;
-import cn.lucasji.starry.edu.admin.pojo.req.AddMemberReqDto;
-import cn.lucasji.starry.edu.admin.pojo.req.EditMemberReqDto;
 import cn.lucasji.starry.idp.infrastructure.api.UserClient;
 import cn.lucasji.starry.idp.infrastructure.dto.UserDto;
 import cn.lucasji.starry.idp.infrastructure.modal.Result;
@@ -59,7 +59,7 @@ public class MemberService {
                 .build());
   }
 
-  public Result<String> addMember(AddMemberReqDto body) {
+  public Result<String> addMember(AddMemberReq body) {
     log.info("添加学员:{}", body);
 
     Result<Long> result = idpUserClient.addUser(body);
@@ -73,7 +73,7 @@ public class MemberService {
     return Result.success("成功添加学院");
   }
 
-  public void editMember(EditMemberReqDto body) {
+  public void editMember(EditMemberReq body) {
     idpUserClient.updateUser(body);
     departmentUserService.updateDepartment(body.getId(), body.getDepartmentId());
   }

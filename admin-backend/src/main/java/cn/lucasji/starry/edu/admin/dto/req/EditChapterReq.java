@@ -1,4 +1,4 @@
-package cn.lucasji.starry.edu.admin.pojo.req;
+package cn.lucasji.starry.edu.admin.dto.req;
 
 import cn.lucasji.starry.edu.admin.entity.Chapter;
 import java.io.Serial;

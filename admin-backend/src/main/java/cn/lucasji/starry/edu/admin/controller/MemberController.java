@@ -1,9 +1,9 @@
 package cn.lucasji.starry.edu.admin.controller;
 
+import cn.lucasji.starry.edu.admin.dto.Member;
+import cn.lucasji.starry.edu.admin.dto.req.AddMemberReq;
+import cn.lucasji.starry.edu.admin.dto.req.EditMemberReq;
 import cn.lucasji.starry.edu.admin.entity.Department;
-import cn.lucasji.starry.edu.admin.pojo.Member;
-import cn.lucasji.starry.edu.admin.pojo.req.AddMemberReqDto;
-import cn.lucasji.starry.edu.admin.pojo.req.EditMemberReqDto;
 import cn.lucasji.starry.edu.admin.service.MemberService;
 import cn.lucasji.starry.idp.infrastructure.modal.Result;
 import lombok.RequiredArgsConstructor;
@@ -34,12 +34,12 @@ public class MemberController {
   }
 
   @PostMapping
-  public Result<String> addMember(@RequestBody AddMemberReqDto body) {
+  public Result<String> addMember(@RequestBody AddMemberReq body) {
     return memberService.addMember(body);
   }
 
   @PatchMapping
-  public void editMember(@RequestBody EditMemberReqDto body) {
+  public void editMember(@RequestBody EditMemberReq body) {
     memberService.editMember(body);
   }
 
