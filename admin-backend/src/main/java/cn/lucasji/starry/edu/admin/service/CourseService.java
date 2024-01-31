@@ -1,6 +1,5 @@
 package cn.lucasji.starry.edu.admin.service;
 
-import cn.lucas.starry.infrastructure.modal.Result;
 import cn.lucasji.starry.edu.admin.entity.Category;
 import cn.lucasji.starry.edu.admin.entity.Chapter;
 import cn.lucasji.starry.edu.admin.entity.ChapterVideo;
@@ -17,6 +16,7 @@ import cn.lucasji.starry.edu.admin.pojo.req.FindCoursePageReq;
 import cn.lucasji.starry.edu.admin.pojo.resp.FindCoursePageResp;
 import cn.lucasji.starry.edu.admin.repository.CourseDepartmentRepository;
 import cn.lucasji.starry.edu.admin.repository.CourseRepository;
+import cn.lucasji.starry.idp.infrastructure.modal.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

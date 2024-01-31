@@ -1,6 +1,5 @@
 package cn.lucasji.starry.edu.admin.controller;
 
-import cn.lucas.starry.infrastructure.modal.Result;
 import cn.lucasji.starry.edu.admin.entity.Chapter;
 import cn.lucasji.starry.edu.admin.entity.StorageObj;
 import cn.lucasji.starry.edu.admin.pojo.req.AddCourseReq;
@@ -10,7 +9,7 @@ import cn.lucasji.starry.edu.admin.pojo.req.EditCoursewareReq;
 import cn.lucasji.starry.edu.admin.pojo.req.FindCoursePageReq;
 import cn.lucasji.starry.edu.admin.pojo.resp.FindCoursePageResp;
 import cn.lucasji.starry.edu.admin.service.CourseService;
-import java.util.List;
+import cn.lucasji.starry.idp.infrastructure.modal.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author lucas
@@ -41,7 +42,7 @@ public class CourseController {
 
   @PostMapping("/findPage")
   public Page<FindCoursePageResp> findPage(
-      @RequestBody FindCoursePageReq req, Pageable pageable) {
+    @RequestBody FindCoursePageReq req, Pageable pageable) {
     return courseService.findPage(req, pageable);
   }
 

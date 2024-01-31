@@ -18,32 +18,14 @@
     <java.version>21</java.version>
     <minio.version>8.5.4</minio.version>
     <redisson.version>3.23.1</redisson.version>
-    <spring-cloud.version>2023.0.0</spring-cloud.version>
-    <starry.infrastructure>0.0.1-SNAPSHOT</starry.infrastructure>
+    <starry.idp.infrastructure>0.0.1-SNAPSHOT</starry.idp.infrastructure>
   </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-dependencies</artifactId>
-        <version>${spring-cloud.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <dependencies>
     <dependency>
-      <groupId>cn.lucas.starry</groupId>
+      <groupId>cn.lucasji.starry</groupId>
       <artifactId>infrastructure</artifactId>
-      <version>${starry.infrastructure}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-openfeign</artifactId>
+      <version>${starry.idp.infrastructure}</version>
     </dependency>
 
     <dependency>

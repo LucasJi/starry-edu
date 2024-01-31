@@ -1,6 +1,6 @@
 package cn.lucasji.starry.edu.admin.entity;
 
-import cn.lucas.starry.infrastructure.entity.BaseEntityAudit;
+import cn.lucasji.starry.idp.infrastructure.entity.BaseEntityAudit;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
@@ -12,10 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.io.Serial;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,6 +20,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.Serial;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author lucas
@@ -39,7 +40,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Chapter extends BaseEntityAudit {
 
-  @Serial private static final long serialVersionUID = 9197928578158095839L;
+  @Serial
+  private static final long serialVersionUID = 9197928578158095839L;
 
   @Column(name = "name")
   private String name;
@@ -49,11 +51,11 @@ public class Chapter extends BaseEntityAudit {
   private Integer order;
 
   @OneToMany(
-      mappedBy = "chapter",
-      fetch = FetchType.EAGER,
-      cascade = CascadeType.ALL,
-      orphanRemoval = true,
-      targetEntity = ChapterVideo.class)
+    mappedBy = "chapter",
+    fetch = FetchType.EAGER,
+    cascade = CascadeType.ALL,
+    orphanRemoval = true,
+    targetEntity = ChapterVideo.class)
   @JsonIgnoreProperties(value = {"chapter"})
   @Access(AccessType.PROPERTY)
   @Exclude

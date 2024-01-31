@@ -21,8 +21,6 @@ minio:
   accessKey: # accessKey
   secretKey: # secretKey
   endpoint: # endpoint
-local:
-  feign:
-    server:
-      idp:
-        url: http://localhost:8000
+idp:
+  url: http://localhost:8000
+

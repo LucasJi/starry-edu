@@ -1,21 +1,20 @@
 package cn.lucasji.starry.edu.admin.service;
 
-
-import cn.lucas.starry.infrastructure.entity.idp.User;
-import cn.lucas.starry.infrastructure.util.JsonUtils;
 import cn.lucasji.starry.edu.admin.config.props.StorageObjProps;
 import cn.lucasji.starry.edu.admin.entity.Category;
 import cn.lucasji.starry.edu.admin.entity.StorageObj;
-import cn.lucasji.starry.edu.admin.feign.IdpUserClient;
 import cn.lucasji.starry.edu.admin.modal.StarryMinioClient;
 import cn.lucasji.starry.edu.admin.modal.StorageObjType;
+import cn.lucasji.starry.edu.admin.pojo.Part;
 import cn.lucasji.starry.edu.admin.pojo.resp.CreateUploadResp;
 import cn.lucasji.starry.edu.admin.repository.StorageObjRepository;
+import cn.lucasji.starry.idp.infrastructure.api.UserClient;
+import cn.lucasji.starry.idp.infrastructure.dto.UserDto;
+import cn.lucasji.starry.idp.infrastructure.util.JsonUtils;
 import io.minio.GetObjectResponse;
 import io.minio.ObjectWriteResponse;
 import io.minio.StatObjectResponse;
 import io.minio.messages.ListPartsResult;
-import cn.lucasji.starry.edu.admin.pojo.Part;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +49,7 @@ public class StorageObjService {
   private final StarryMinioClient minioClient;
   private final RedissonClient redissonClient;
   private final StorageObjRepository storageObjRepository;
-  private final IdpUserClient idpUserClient;
+  private final UserClient idpUserClient;
   private final StorageObjProps storageObjProps;
 
   public CreateUploadResp createUpload(StorageObj storageObj) {
@@ -134,7 +133,7 @@ public class StorageObjService {
   private void applyCreatorNameToObjects(List<StorageObj> storageObjs) {
     List<Long> creatorIds =
       storageObjs.stream().map(StorageObj::getCreatorId).collect(Collectors.toList());
-    Map<Long, User> idUserMap = idpUserClient.getIdUserMapByUserIds(creatorIds);
+    Map<Long, UserDto> idUserMap = idpUserClient.getIdUserMapByUserIds(creatorIds);
     for (StorageObj obj : storageObjs) {
       obj.setCreatorName(idUserMap.get(obj.getCreatorId()).getUsername());
     }

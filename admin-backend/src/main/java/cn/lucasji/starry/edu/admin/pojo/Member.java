@@ -1,6 +1,6 @@
 package cn.lucasji.starry.edu.admin.pojo;
 
-import cn.lucas.starry.infrastructure.entity.idp.User;
+import cn.lucasji.starry.idp.infrastructure.dto.UserDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,5 +16,5 @@ public class Member {
 
   private String departmentName;
 
-  private User user;
+  private UserDto user;
 }

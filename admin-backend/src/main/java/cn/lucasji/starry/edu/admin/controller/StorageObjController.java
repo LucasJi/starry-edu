@@ -1,14 +1,13 @@
 package cn.lucasji.starry.edu.admin.controller;
 
-import cn.lucas.starry.infrastructure.modal.Result;
 import cn.lucas.starry.infrastructure.util.AuthUtil;
 import cn.lucasji.starry.edu.admin.entity.StorageObj;
 import cn.lucasji.starry.edu.admin.modal.StorageObjType;
 import cn.lucasji.starry.edu.admin.pojo.req.FindStorageObjPageReq;
 import cn.lucasji.starry.edu.admin.pojo.resp.CreateUploadResp;
 import cn.lucasji.starry.edu.admin.service.StorageObjService;
+import cn.lucasji.starry.idp.infrastructure.modal.Result;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
+
 /**
  * @author lucas
  * @date 2023/12/16 12:52
@@ -43,7 +44,7 @@ public class StorageObjController {
 
   @PostMapping("/createUpload")
   public ResponseEntity<Result<CreateUploadResp>> createUpload(
-      @AuthenticationPrincipal Jwt jwt, @RequestBody StorageObj storageObj) {
+    @AuthenticationPrincipal Jwt jwt, @RequestBody StorageObj storageObj) {
     if (StringUtils.isEmpty(storageObj.getName()) || StringUtils.isEmpty(storageObj.getMd5())) {
       return ResponseEntity.badRequest().body(Result.error("video name or md5 is empty"));
     }
@@ -72,9 +73,9 @@ public class StorageObjController {
 
   @PostMapping("/findPageByCategoryAndNameAndTypeIn")
   public Page<StorageObj> findPageByCategoryAndNameAndTypeIn(
-      @RequestBody FindStorageObjPageReq body, Pageable pageable) {
+    @RequestBody FindStorageObjPageReq body, Pageable pageable) {
     return storageObjService.findPageByCategoryAndNameAndTypeIn(
-        body.getCategory(), body.getName(), body.getTypes(), pageable);
+      body.getCategory(), body.getName(), body.getTypes(), pageable);
   }
 
   @DeleteMapping("/deleteAllByIdsInBatch")

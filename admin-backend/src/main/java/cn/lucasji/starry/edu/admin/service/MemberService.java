@@ -1,21 +1,22 @@
 package cn.lucasji.starry.edu.admin.service;
 
-import cn.lucas.starry.infrastructure.entity.idp.User;
-import cn.lucas.starry.infrastructure.modal.Result;
 import cn.lucasji.starry.edu.admin.entity.Department;
 import cn.lucasji.starry.edu.admin.entity.DepartmentUser;
-import cn.lucasji.starry.edu.admin.feign.IdpUserClient;
 import cn.lucasji.starry.edu.admin.pojo.Member;
+import cn.lucasji.starry.edu.admin.pojo.req.AddMemberReqDto;
+import cn.lucasji.starry.edu.admin.pojo.req.EditMemberReqDto;
+import cn.lucasji.starry.idp.infrastructure.api.UserClient;
+import cn.lucasji.starry.idp.infrastructure.dto.UserDto;
+import cn.lucasji.starry.idp.infrastructure.modal.Result;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author lucas
@@ -28,54 +29,53 @@ public class MemberService {
 
   private final DepartmentUserService departmentUserService;
 
-  private final IdpUserClient idpUserClient;
+  private final UserClient idpUserClient;
 
   public Page<Member> findPage(Department department, Pageable pageable) {
     List<DepartmentUser> departmentUsers =
-      departmentUserService.findAllByDepartmentId(department.getId());
+        departmentUserService.findAllByDepartmentId(department.getId());
     if (Objects.isNull(department.getId())) {
       departmentUsers = departmentUserService.findAll();
     }
 
     List<Long> userIds =
-      departmentUsers.stream().map(DepartmentUser::getUserId).collect(Collectors.toList());
-    Page<User> userPage = idpUserClient.findPageByUserIdIn(userIds, pageable);
+        departmentUsers.stream().map(DepartmentUser::getUserId).collect(Collectors.toList());
+    Page<UserDto> userPage = idpUserClient.findPageByUserIdIn(userIds, pageable);
     log.info("user page: {}", userPage.getContent());
-    List<User> users = userPage.getContent();
+    List<UserDto> users = userPage.getContent();
     List<DepartmentUser> departmentUsersByPageUsers =
-      departmentUserService.findAllByUserIdIn(
-        users.stream().map(User::getId).collect(Collectors.toList()));
+        departmentUserService.findAllByUserIdIn(
+            users.stream().map(UserDto::getId).collect(Collectors.toList()));
     Map<Long, DepartmentUser> userIdDepartmentUserMap =
-      departmentUsersByPageUsers.stream()
-        .collect(Collectors.toMap(DepartmentUser::getUserId, e -> e));
+        departmentUsersByPageUsers.stream()
+            .collect(Collectors.toMap(DepartmentUser::getUserId, e -> e));
 
     return userPage.map(
-      user ->
-        Member.builder()
-          .departmentId(userIdDepartmentUserMap.get(user.getId()).getDepartment().getId())
-          .departmentName(userIdDepartmentUserMap.get(user.getId()).getDepartment().getName())
-          .user(user)
-          .build());
+        user ->
+            Member.builder()
+                .departmentId(userIdDepartmentUserMap.get(user.getId()).getDepartment().getId())
+                .departmentName(userIdDepartmentUserMap.get(user.getId()).getDepartment().getName())
+                .user(user)
+                .build());
   }
 
-  public Result<String> addMember(Member member) {
-    log.info("添加学员:{}", member);
+  public Result<String> addMember(AddMemberReqDto body) {
+    log.info("添加学员:{}", body);
 
-    Result<User> result = idpUserClient.addUser(member.getUser());
+    Result<Long> result = idpUserClient.addUser(body);
 
     if (!result.getSuccess()) {
       return Result.error(result.getMessage());
     }
 
-    User savedUser = result.getData();
-    departmentUserService.addMember(savedUser.getId(), member.getDepartmentId());
+    departmentUserService.addMember(result.getData(), body.getDepartmentId());
 
     return Result.success("成功添加学院");
   }
 
-  public void editMember(Member member) {
-    idpUserClient.updateUser(member.getUser());
-    departmentUserService.updateDepartment(member.getUser().getId(), member.getDepartmentId());
+  public void editMember(EditMemberReqDto body) {
+    idpUserClient.updateUser(body);
+    departmentUserService.updateDepartment(body.getId(), body.getDepartmentId());
   }
 
   public void deleteMember(Long memberId) {

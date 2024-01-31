@@ -1,7 +1,7 @@
 package cn.lucasji.starry.edu.admin.entity;
 
-import cn.lucas.starry.infrastructure.entity.BaseEntityAudit;
 import cn.lucasji.starry.edu.admin.modal.StorageObjType;
+import cn.lucasji.starry.idp.infrastructure.entity.BaseEntityAudit;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,12 +11,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import java.io.Serial;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.io.Serial;
 
 /**
  * @author lucas
