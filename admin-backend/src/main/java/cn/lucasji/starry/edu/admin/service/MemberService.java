@@ -89,6 +89,7 @@ public class MemberService {
     departmentUserService.updateDepartment(body.getId(), body.getDepartmentId());
   }
 
+  @Transactional(rollbackFor = Exception.class)
   public void deleteMember(Long memberId) {
     idpUserClient.deleteUser(memberId);
     departmentUserService.deleteByUserId(memberId);

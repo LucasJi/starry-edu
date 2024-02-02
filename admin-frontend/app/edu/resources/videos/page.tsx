@@ -270,7 +270,13 @@ const Video = () => {
                                     storageApis
                                       .deleteAllByIdInBatch([record.id!])
                                       // refresh table
-                                      .then(() => refresh());
+                                      .then(({ data }) => {
+                                        if (data.success) {
+                                          refresh();
+                                        } else {
+                                          message.error(data.message);
+                                        }
+                                      });
                                   }}
                                 >
                                   删除

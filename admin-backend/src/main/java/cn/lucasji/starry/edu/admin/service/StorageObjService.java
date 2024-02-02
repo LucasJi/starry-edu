@@ -10,6 +10,7 @@ import cn.lucasji.starry.edu.admin.dto.resp.CreateUploadResp;
 import cn.lucasji.starry.edu.admin.repository.StorageObjRepository;
 import cn.lucasji.starry.idp.infrastructure.api.UserClient;
 import cn.lucasji.starry.idp.infrastructure.dto.UserDto;
+import cn.lucasji.starry.idp.infrastructure.modal.Result;
 import cn.lucasji.starry.idp.infrastructure.util.JsonUtils;
 import io.minio.GetObjectResponse;
 import io.minio.ObjectWriteResponse;
@@ -166,8 +167,14 @@ public class StorageObjService {
     return result;
   }
 
-  public void deleteAllByIdInBatch(List<Long> ids) {
-    storageObjRepository.deleteAllByIdInBatch(ids);
+  public Result<String> deleteAllByIdInBatch(List<Long> ids) {
+    try{
+      storageObjRepository.deleteAllByIdInBatch(ids);
+      return Result.success();
+    } catch (Exception e) {
+      log.error("failed to delete storage object with ids {}",ids,e);
+      return Result.error("删除存储对象失败，该资源可能正在被使用");
+    }
   }
 
   public void updateCategoryAndName(StorageObj storageObj) {

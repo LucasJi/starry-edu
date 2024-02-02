@@ -8,6 +8,7 @@ import {
   TeamOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, MenuProps, theme } from 'antd';
+import Image from 'next/image.js';
 import { useRouter } from 'next/navigation.js';
 import React, { Key, ReactNode, useState } from 'react';
 
@@ -85,8 +86,15 @@ const EduLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
         onCollapse={value => setCollapsed(value)}
       >
         {!collapsed && (
-          <div className="text-gray-400 text-center text-3xl">
-            Starry Edu Admin
+          <div className="flex">
+            <Image
+              className="m-auto"
+              src="/logo.png"
+              width={80}
+              height={80}
+              alt="logo"
+              priority
+            />
           </div>
         )}
         <Menu

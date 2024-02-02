@@ -48,7 +48,7 @@ const deleteAllByIdInBatch = (ids: number[]) => {
   for (const id of ids) {
     urlSearchParams.append('ids', id.toString());
   }
-  return api.delete('/deleteAllByIdsInBatch', {
+  return api.delete<Result<string>>('/deleteAllByIdsInBatch', {
     params: urlSearchParams,
   });
 };

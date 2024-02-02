@@ -78,8 +78,8 @@ public class StorageObjController {
   }
 
   @DeleteMapping("/deleteAllByIdsInBatch")
-  public void deleteAllByIdInBatch(@RequestParam("ids") Long[] ids) {
-    storageObjService.deleteAllByIdInBatch(Arrays.asList(ids));
+  public Result<String> deleteAllByIdInBatch(@RequestParam("ids") Long[] ids) {
+    return storageObjService.deleteAllByIdInBatch(Arrays.asList(ids));
   }
 
   @PatchMapping("/updateCategoryAndName")

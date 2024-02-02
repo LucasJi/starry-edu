@@ -1,15 +1,19 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -21,12 +25,30 @@
       }
     ],
     "paths": {
-      "@types": ["./types.d.ts"],
-      "@api": ["./api/index.ts"],
-      "@component": ["./component/index.ts"],
-      "@lib": ["./lib/index.ts"]
+      "@types": [
+        "./types.d.ts"
+      ],
+      "@api": [
+        "./api/index.ts"
+      ],
+      "@component": [
+        "./component/index.ts"
+      ],
+      "@lib": [
+        "./lib/index.ts"
+      ],
+      "@public": [
+        "./public/index.js"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
