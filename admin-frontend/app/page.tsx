@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       {status}
-      <Link href="/edu/home" />
+      <Link href="/edu/admin/home" />
     </>
   );
 }

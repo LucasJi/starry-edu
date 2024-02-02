@@ -57,25 +57,11 @@ const EduLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
   const router = useRouter();
 
   const onClick: MenuProps['onClick'] = e => {
-    console.log('click ', e.keyPath, [...e.keyPath].reverse().join('/'));
-    // TODO: Remove "if" block after all pages being created.
-    if (
-      e.key === 'department' ||
-      e.key === 'member' ||
-      e.key === 'administrator' ||
-      e.key === 'categories' ||
-      e.keyPath.find(path => path === 'videos') ||
-      e.keyPath.find(path => path === 'members') ||
-      e.keyPath.find(path => path === 'departments') ||
-      e.keyPath.find(path => path === 'home') ||
-      e.keyPath.find(path => path === 'coursewares') ||
-      e.keyPath.find(path => path === 'online')
-    ) {
-      router.push('/edu/' + e.keyPath.reverse().join('/'));
-    }
+    router.push('/edu/admin/' + e.keyPath.reverse().join('/'));
   };
 
   return (

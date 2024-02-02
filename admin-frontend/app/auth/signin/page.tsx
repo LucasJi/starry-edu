@@ -121,7 +121,7 @@ const Login: FC = () => {
                 width={64}
                 onClick={() => {
                   signIn('starry', {
-                    callbackUrl: '/edu/home',
+                    callbackUrl: '/edu',
                   });
                 }}
               />
