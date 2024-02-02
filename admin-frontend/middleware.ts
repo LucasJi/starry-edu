@@ -9,24 +9,29 @@ export default withAuth(
     if (token?.error) {
       console.log('token error in middleware');
     } else {
-      console.log('middleware withAuth:', req);
+      console.log('middleware withAuth:', req.url);
     }
 
     return NextResponse.next();
   },
   {
+    pages: {
+      signIn: '/auth/signin',
+    },
     callbacks: {
       authorized: ({ token }) => {
-        if (token?.error) {
-          console.log('token error:', token);
+        if (token === null) {
           return false;
         }
-        return true;
+
+        const authorized = !token.error;
+        console.log('authorized:', token, authorized);
+        return authorized;
       },
     },
   }
 );
 
 export const config = {
-  matcher: ['/edu/:path*'],
+  matcher: ['/((?!api|_next/static|_next/image|assets|favicon.ico).*)'],
 };

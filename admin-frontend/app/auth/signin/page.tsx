@@ -1,8 +1,11 @@
 'use client';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Typography } from 'antd';
+import { Button, Checkbox, Flex, Form, Input, Typography } from 'antd';
 import axios from 'axios';
+import { signIn } from 'next-auth/react';
+import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation.js';
+import StarrySvg from 'public/starry.svg';
 import { FC } from 'react';
 
 const { Title } = Typography;
@@ -17,16 +20,12 @@ const Login: FC = () => {
   const [form] = Form.useForm();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const nonceId = searchParams.get('nonceId');
 
   const handleSignIn = () => {
     // form.validateFields().then(values => {
     //   const { email, password } = values;
     // });
-
-    const nonceId = searchParams.get('nonceId');
-
-    console.log('nonceId', nonceId);
-
     axios({
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_IDP_URL}/login`,
@@ -41,11 +40,10 @@ const Login: FC = () => {
     }).then(() => {
       const target = searchParams.get('target');
       if (target) {
-        console.log(target);
         window.location.href = target;
       } else {
         console.log('search params does not contain target');
-        router.push('/edu/home');
+        // router.push('/edu/home');
       }
     });
   };
@@ -58,56 +56,77 @@ const Login: FC = () => {
           <Title level={2} underline>
             后台登入
           </Title>
-          <Form
-            form={form}
-            initialValues={{ remember: true }}
-            name="normal_login"
-            size={'large'}
-            style={{
-              maxWidth: '80%',
-            }}
-          >
-            <Form.Item<FieldType>
-              initialValue="admin@starry.edu.cn"
-              name="email"
-              rules={[
-                { required: true, message: '请输入管理员邮箱！' },
-                {
-                  pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
-                  message: '请输入正确格式的邮箱',
-                },
-              ]}
+          {nonceId ? (
+            <Form
+              form={form}
+              initialValues={{ remember: true }}
+              name="normal_login"
+              size={'large'}
+              style={{
+                maxWidth: '80%',
+              }}
             >
-              <Input placeholder="请输入管理员邮箱" prefix={<UserOutlined />} />
-            </Form.Item>
-            <Form.Item<FieldType>
-              initialValue="123123"
-              name="password"
-              rules={[{ required: true, message: '请输入密码！' }]}
-            >
-              <Input
-                placeholder="请输入密码"
-                prefix={<LockOutlined />}
-                type="password"
-              />
-            </Form.Item>
-            <Form.Item<FieldType> name="remember" valuePropName="checked">
-              <Checkbox>记住我</Checkbox>
-            </Form.Item>
-
-            <Form.Item>
-              <Button
-                htmlType="submit"
-                onClick={handleSignIn}
-                style={{
-                  width: '100%',
-                }}
-                type="primary"
+              <Form.Item<FieldType>
+                initialValue="admin@starry.edu.cn"
+                name="email"
+                rules={[
+                  { required: true, message: '请输入管理员邮箱！' },
+                  {
+                    pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+                    message: '请输入正确格式的邮箱',
+                  },
+                ]}
               >
-                登入
-              </Button>
-            </Form.Item>
-          </Form>
+                <Input
+                  placeholder="请输入管理员邮箱"
+                  prefix={<UserOutlined />}
+                />
+              </Form.Item>
+              <Form.Item<FieldType>
+                initialValue="123123"
+                name="password"
+                rules={[{ required: true, message: '请输入密码！' }]}
+              >
+                <Input
+                  placeholder="请输入密码"
+                  prefix={<LockOutlined />}
+                  type="password"
+                />
+              </Form.Item>
+              <Form.Item<FieldType> name="remember" valuePropName="checked">
+                <Checkbox>记住我</Checkbox>
+              </Form.Item>
+
+              <Form.Item>
+                <Button
+                  htmlType="submit"
+                  onClick={handleSignIn}
+                  style={{
+                    width: '100%',
+                  }}
+                  type="primary"
+                >
+                  登入
+                </Button>
+              </Form.Item>
+            </Form>
+          ) : (
+            <Flex vertical={false} align="center">
+              <span>当前仅支持使用统一账号登入:</span>
+              <Image
+                className="rounded-[50%] hover:cursor-pointer"
+                src={StarrySvg}
+                alt="starry-logo"
+                height={64}
+                width={64}
+                onClick={() => {
+                  signIn('starry', {
+                    callbackUrl: '/edu/home',
+                  });
+                }}
+              />
+            </Flex>
+          )}
         </div>
       </div>
     </div>

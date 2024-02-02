@@ -5,7 +5,7 @@ import { getSession } from 'next-auth/react';
 const createClient = (baseURL: string) => {
   const client = axios.create({
     baseURL,
-    timeout: 3000,
+    timeout: 10000,
   });
 
   let lastSession: CustomSession | null = null;
@@ -36,7 +36,7 @@ const createClient = (baseURL: string) => {
     },
     (error: AxiosError) => {
       if (error?.response?.status === 401 || error?.response?.status === 403) {
-        // window.location.href = '/';
+        window.location.href = '/auth/signin';
       }
       console.log('Api response error:', error);
     }

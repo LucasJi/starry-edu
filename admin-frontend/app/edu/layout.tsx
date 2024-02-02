@@ -8,8 +8,8 @@ import {
   TeamOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, MenuProps, theme } from 'antd';
-import Image from 'next/image.js';
-import { useRouter } from 'next/navigation.js';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { Key, ReactNode, useState } from 'react';
 
 type MenuItem = Required<MenuProps>['items'][number];
