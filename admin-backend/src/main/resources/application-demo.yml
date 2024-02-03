@@ -23,4 +23,6 @@ minio:
   endpoint: # endpoint
 idp:
   url: http://localhost:8000
-
+logging:
+  level:
+    org.springframework.security: trace

@@ -11,7 +11,9 @@ export default function Home() {
   return (
     <div>
       {status}
+      <br />
       <Link href="/edu/admin/home">Admin</Link>
+      <br />
       <Link href="/edu/member">Member</Link>
     </div>
   );
