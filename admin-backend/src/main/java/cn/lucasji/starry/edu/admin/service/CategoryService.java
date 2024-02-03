@@ -1,6 +1,10 @@
 package cn.lucasji.starry.edu.admin.service;
 
+import cn.lucasji.starry.edu.admin.dto.CategoryDto;
+import cn.lucasji.starry.edu.admin.dto.DropdownCategoryDto;
+import cn.lucasji.starry.edu.admin.dto.req.UpdateCategoryParentIdReq;
 import cn.lucasji.starry.edu.admin.entity.Category;
+import cn.lucasji.starry.edu.admin.mapper.CategoryMapper;
 import cn.lucasji.starry.edu.admin.repository.CategoryRepository;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -22,7 +26,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class CategoryService {
+
   private final CategoryRepository categoryRepository;
+
+  private final CategoryMapper categoryMapper;
 
   public void add(Category category) {
     categoryRepository.save(category);
@@ -32,19 +39,20 @@ public class CategoryService {
     return categoryRepository.findAll();
   }
 
-  public List<Category> getTree() {
+  public List<CategoryDto> getTree() {
     List<Category> all = findAll();
-    List<Category> result = new ArrayList<>();
+    List<CategoryDto> categoryDtos = categoryMapper.convertListToCategoryDtoList(all);
 
-    Deque<Category> deque = new LinkedList<>(all);
+    List<CategoryDto> result = new ArrayList<>();
+    Deque<CategoryDto> deque = new LinkedList<>(categoryDtos);
     while (!deque.isEmpty()) {
-      Category last = deque.pollLast();
+      CategoryDto last = deque.pollLast();
 
-      Category found;
+      CategoryDto found;
       if (Objects.isNull(last.getParentId())) {
         result.add(last);
       } else if (Objects.nonNull((found = dfs(result, last.getParentId())))) {
-        List<Category> children = found.getChildren();
+        List<CategoryDto> children = found.getChildren();
         children.add(last);
       } else {
         deque.addFirst(last);
@@ -54,9 +62,59 @@ public class CategoryService {
     return result;
   }
 
-  private Category dfs(List<Category> categoryDtos, Long id) {
-    Category result;
-    for (Category e : categoryDtos) {
+  public List<DropdownCategoryDto> getDropdownTree() {
+    List<Category> all = findAll();
+    List<DropdownCategoryDto> categoryDtos =
+      categoryMapper.convertListToDropdownCategoryDtoList(all);
+
+    List<DropdownCategoryDto> result = new ArrayList<>();
+    Deque<DropdownCategoryDto> deque = new LinkedList<>(categoryDtos);
+    while (!deque.isEmpty()) {
+      DropdownCategoryDto last = deque.pollLast();
+
+      DropdownCategoryDto found;
+      if (Objects.isNull(last.getParentId())) {
+        result.add(last);
+      } else if (Objects.nonNull((found = dropdownCategoryDfs(result, last.getParentId())))) {
+        List<DropdownCategoryDto> children = found.getChildren();
+
+        if (Objects.isNull(children)) {
+          found.setChildren(new ArrayList<>());
+          children = found.getChildren();
+        }
+
+        children.add(last);
+      } else {
+        deque.addFirst(last);
+      }
+    }
+
+    return result;
+  }
+
+  private DropdownCategoryDto dropdownCategoryDfs(List<DropdownCategoryDto> categoryDtos,
+    Long key) {
+    DropdownCategoryDto result;
+    for (DropdownCategoryDto e : categoryDtos) {
+      if (Objects.equals(e.getKey(), key)) {
+        return e;
+      }
+
+      if (CollectionUtils.isNotEmpty(e.getChildren())) {
+        result = dropdownCategoryDfs(e.getChildren(), key);
+
+        if (Objects.nonNull(result)) {
+          return result;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  private CategoryDto dfs(List<CategoryDto> categoryDtos, Long id) {
+    CategoryDto result;
+    for (CategoryDto e : categoryDtos) {
       if (Objects.equals(e.getId(), id)) {
         return e;
       }
@@ -73,22 +131,22 @@ public class CategoryService {
     return null;
   }
 
-  public List<Category> updateParentId(Category categoryDto) {
-    Optional<Category> optionalCategory = categoryRepository.findById(categoryDto.getId());
+  public List<CategoryDto> updateParentId(UpdateCategoryParentIdReq body) {
+    Optional<Category> optionalCategory = categoryRepository.findById(body.getId());
     if (optionalCategory.isEmpty()) {
-      log.info("can not find category with id [{}]", categoryDto.getId());
+      log.info("can not find category with id [{}]", body.getId());
       return getTree();
     }
 
     Category category = optionalCategory.get();
 
     log.info(
-        "updateAll parent id of category [id:{}] from {} to {}",
-        category.getId(),
-        category.getParentId(),
-        categoryDto.getParentId());
+      "updateAll parent id of category [id:{}] from {} to {}",
+      category.getId(),
+      category.getParentId(),
+      body.getParentId());
 
-    category.setParentId(categoryDto.getParentId());
+    category.setParentId(body.getParentId());
     Category saved = categoryRepository.saveAndFlush(category);
 
     log.info("updated category:{}", saved);
@@ -97,21 +155,23 @@ public class CategoryService {
   }
 
   public void delete(Long categoryId) {
-    Category category = deletable(categoryId);
+    Integer subCount = deletable(categoryId);
 
-    if (!category.isDeletable()) {
+    if (subCount > 0) {
+      log.warn("Category with id {} has {} sub categories, can not be deleted", categoryId,
+        subCount);
       return;
     }
 
     categoryRepository.deleteById(categoryId);
   }
 
-  public Category deletable(Long categoryId) {
+  public Integer deletable(Long categoryId) {
     long count =
-        categoryRepository.count(Example.of(Category.builder().parentId(categoryId).build()));
+      categoryRepository.count(Example.of(Category.builder().parentId(categoryId).build()));
     log.info("category {} contains {} sub-categories", categoryId, count);
 
-    return Category.builder().subCategoryCount(count).build();
+    return Math.toIntExact(count);
   }
 
   public boolean update(Category categoryDto) {
@@ -134,7 +194,7 @@ public class CategoryService {
   /**
    * Whether compared category is child of the current category.
    *
-   * @param currentId current category id
+   * @param currentId  current category id
    * @param comparedId compared category id
    * @return true if current category belongs to the compared else false
    */
@@ -143,14 +203,14 @@ public class CategoryService {
       return false;
     }
 
-    List<Category> entireTree = getTree();
-    Category currentCategory = dfs(entireTree, currentId);
+    List<CategoryDto> entireTree = getTree();
+    CategoryDto currentCategory = dfs(entireTree, currentId);
 
     if (Objects.isNull(currentCategory)) {
       return false;
     }
 
-    Category comparedCategory = dfs(currentCategory.getChildren(), comparedId);
+    CategoryDto comparedCategory = dfs(currentCategory.getChildren(), comparedId);
 
     return Objects.nonNull(comparedCategory);
   }

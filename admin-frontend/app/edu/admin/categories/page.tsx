@@ -8,18 +8,18 @@ import {
 } from '@ant-design/icons';
 import { categoryApis } from '@api';
 import { LoadingOutlinedSpin } from '@component';
-import type { Category, CategoryDeletable } from '@types';
+import type { Category } from '@types';
 import {
   Button,
   Divider,
   Empty,
   Form,
   Input,
-  message,
   Modal,
   Space,
   Tree,
   TreeSelect,
+  message,
 } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
 import { Fragment, useCallback, useEffect, useState } from 'react';
@@ -168,10 +168,10 @@ export default function Categories() {
   };
 
   const handleDeleteCategory = (categoryId: number) => {
-    const warning = (categoryDeletableDto: CategoryDeletable) => {
+    const warning = (subCategoryCount: number) => {
       Modal.warning({
         title: '操作确认',
-        content: `此分类下包含（${categoryDeletableDto.subCategoryCount}个子分类），请先解除关联再删除！`,
+        content: `此分类下包含（${subCategoryCount}个子分类），请先解除关联再删除！`,
         okText: '知道了',
       });
     };
@@ -190,16 +190,13 @@ export default function Categories() {
       });
     };
 
-    categoryApis
-      .deletable(categoryId)
-      .then(({ data: categoryDeletableDto }) => {
-        const { deletable } = categoryDeletableDto;
-        if (deletable) {
-          confirm();
-        } else {
-          warning(categoryDeletableDto);
-        }
-      });
+    categoryApis.deletable(categoryId).then(({ data: subCategoryCount }) => {
+      if (subCategoryCount <= 0) {
+        confirm();
+      } else {
+        warning(subCategoryCount);
+      }
+    });
   };
 
   return (

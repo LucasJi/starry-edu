@@ -1,20 +1,15 @@
 package cn.lucasji.starry.edu.admin.entity;
 
 import cn.lucasji.starry.idp.infrastructure.entity.BaseEntityAudit;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import java.io.Serial;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author lucas
@@ -37,20 +32,4 @@ public class Category extends BaseEntityAudit {
 
   @Column(name = "name")
   private String name;
-
-  @Transient
-  @JsonProperty
-  private List<Category> children = new ArrayList<>();
-
-  @Transient
-  @JsonProperty
-  private long subCategoryCount;
-
-  /**
-   * @return <code>true</code> if current category doesn't have any sub categories otherwise <code>
-   * false</code>
-   */
-  public boolean isDeletable() {
-    return subCategoryCount <= 0;
-  }
 }

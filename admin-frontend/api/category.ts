@@ -1,10 +1,10 @@
-import { Category, CategoryDeletable } from '@types';
+import { Category, DropdownCategory } from '@types';
 import createClient from './client.ts';
 
 const api = createClient(`${process.env.NEXT_PUBLIC_EDU_ADMIN_URL}/category`);
 
 const deletable = (categoryId: number) =>
-  api.get<CategoryDeletable>(`/${categoryId}/deletable`);
+  api.get<number>(`/deletable/${categoryId}`);
 
 const isChild = (currentId: number, comparedId: number) =>
   api.get<boolean>('/isChild', {
@@ -15,6 +15,9 @@ const isChild = (currentId: number, comparedId: number) =>
   });
 
 const tree = () => api.get<Category[]>('/tree');
+
+const dropdownCategoryTree = () =>
+  api.get<DropdownCategory[]>('/dropdownCategoryTree');
 
 const add = (body: Category) => api.post<Category[]>('', body);
 
@@ -35,6 +38,7 @@ const categoryApis = {
   updateParentId,
   update,
   deleteCategory,
+  dropdownCategoryTree,
   fetcher,
 };
 

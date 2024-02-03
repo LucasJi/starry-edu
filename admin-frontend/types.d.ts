@@ -57,6 +57,12 @@ interface Category extends BaseEntity {
   children?: Category[];
 }
 
+interface DropdownCategory {
+  key: number;
+  label: string;
+  children?: DropdownCategory[];
+}
+
 interface Department extends BaseEntity {
   parentId?: number | null;
   name?: string;
@@ -82,11 +88,6 @@ interface Chapter extends BaseEntity {
   order?: number;
   course?: Course;
   chapterVideos?: ChapterVideo[];
-}
-
-interface CategoryDeletable {
-  deletable: boolean;
-  subCategoryCount: number;
 }
 
 interface DepartmentDeletable {

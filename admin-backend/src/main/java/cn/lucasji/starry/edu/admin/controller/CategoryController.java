@@ -1,5 +1,8 @@
 package cn.lucasji.starry.edu.admin.controller;
 
+import cn.lucasji.starry.edu.admin.dto.CategoryDto;
+import cn.lucasji.starry.edu.admin.dto.DropdownCategoryDto;
+import cn.lucasji.starry.edu.admin.dto.req.UpdateCategoryParentIdReq;
 import cn.lucasji.starry.edu.admin.entity.Category;
 import cn.lucasji.starry.edu.admin.service.CategoryService;
 import java.util.List;
@@ -40,14 +43,21 @@ public class CategoryController {
   }
 
   @GetMapping("/tree")
-  public ResponseEntity<List<Category>> getTree() {
-    List<Category> tree = categoryService.getTree();
+  public ResponseEntity<List<CategoryDto>> getTree() {
+    List<CategoryDto> tree = categoryService.getTree();
+    return ResponseEntity.ok(tree);
+  }
+
+  @GetMapping("/dropdownCategoryTree")
+  public ResponseEntity<List<DropdownCategoryDto>> getDropdownTree() {
+    List<DropdownCategoryDto> tree = categoryService.getDropdownTree();
     return ResponseEntity.ok(tree);
   }
 
   @PatchMapping("/parentId")
-  public ResponseEntity<List<Category>> updateParentId(@RequestBody Category category) {
-    List<Category> categoryDtos = categoryService.updateParentId(category);
+  public ResponseEntity<List<CategoryDto>> updateParentId(@RequestBody
+  UpdateCategoryParentIdReq body) {
+    List<CategoryDto> categoryDtos = categoryService.updateParentId(body);
     return ResponseEntity.ok(categoryDtos);
   }
 
@@ -57,10 +67,10 @@ public class CategoryController {
     return ResponseEntity.ok().build();
   }
 
-  @GetMapping("/{categoryId}/deletable")
-  public ResponseEntity<Category> deletable(@PathVariable Long categoryId) {
-    Category result = categoryService.deletable(categoryId);
-    return ResponseEntity.ok(result);
+  @GetMapping("/deletable/{categoryId}")
+  public ResponseEntity<Integer> deletable(@PathVariable Long categoryId) {
+    Integer subCategoryCount = categoryService.deletable(categoryId);
+    return ResponseEntity.ok(subCategoryCount);
   }
 
   @PatchMapping
@@ -71,8 +81,8 @@ public class CategoryController {
 
   @GetMapping("/isChild")
   public ResponseEntity<Boolean> isChild(
-      @RequestParam("currentId") Long currentId,
-      @RequestParam("comparedId") Long comparedId) {
+    @RequestParam("currentId") Long currentId,
+    @RequestParam("comparedId") Long comparedId) {
     boolean result = categoryService.isChild(currentId, comparedId);
     return ResponseEntity.ok(result);
   }
