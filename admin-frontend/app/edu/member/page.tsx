@@ -1,7 +1,8 @@
 'use client';
 import { CaretDownOutlined } from '@ant-design/icons';
-import { categoryApis } from '@api';
-import { Category } from '@types';
+import { categoryApis, courseApis } from '@api';
+import { MemberCourseCardGrid } from '@component';
+import { Category, Course } from '@types';
 import { Button, Card, Popover, Tabs, Tree } from 'antd';
 import Image from 'next/image';
 import MyLessonIcon from 'public/icon-mylesoon.png';
@@ -17,11 +18,21 @@ const ALL_CATEGORY: Category = {
   name: '全部分类',
 };
 
+const getMandatoryCourses = (courses: Course[]) =>
+  courses.filter(c => c.mandatory);
+
 const Member: FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoriesLoaded, setCategoriesLoaded] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] =
     useState<Category>(ALL_CATEGORY);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [coursesLoading, setCoursesLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+  };
 
   useEffect(() => {
     setCategoriesLoaded(false);
@@ -29,18 +40,18 @@ const Member: FC = () => {
       setCategories([...resp.data]);
       setCategoriesLoaded(true);
     });
+
+    setCoursesLoading(true);
+    courseApis.findLoginMemberCourses().then(resp => {
+      setCourses([...resp.data]);
+      setCoursesLoading(false);
+    });
   }, []);
 
-  const [open, setOpen] = useState(false);
-
-  const handleOpenChange = (newOpen: boolean) => {
-    setOpen(newOpen);
-  };
-
   return (
-    <div className="w-3/5 mx-auto">
+    <div className="w-3/5 mx-auto h-full">
       <div className="flex justify-between pt-16">
-        <Card style={{ width: '45%' }}>
+        <Card className="shadow-lg w-[45%]">
           <Meta
             avatar={
               <Image
@@ -60,7 +71,7 @@ const Member: FC = () => {
             </span>
           </div>
         </Card>
-        <Card style={{ width: '45%' }}>
+        <Card className="shadow-lg w-[45%]">
           <Meta
             avatar={
               <Image
@@ -86,33 +97,41 @@ const Member: FC = () => {
         size="large"
         style={{
           marginTop: '4rem',
+          marginBottom: '4rem',
         }}
         defaultActiveKey="1"
         items={[
           {
             key: '1',
             label: '全部',
-            children: 'Content of Tab Pane 1',
+            children: (
+              <MemberCourseCardGrid
+                courses={courses}
+                loading={coursesLoading}
+              />
+            ),
           },
           {
             key: '2',
             label: '必修课',
-            children: 'Content of Tab Pane 2',
+            children: (
+              <MemberCourseCardGrid courses={getMandatoryCourses(courses)} />
+            ),
           },
           {
             key: '3',
             label: '选修课',
-            children: 'Content of Tab Pane 3',
+            children: <MemberCourseCardGrid courses={courses} />,
           },
           {
             key: '4',
             label: '已学完',
-            children: 'Content of Tab Pane 3',
+            children: <MemberCourseCardGrid courses={courses} />,
           },
           {
             key: '5',
             label: '未学完',
-            children: 'Content of Tab Pane 3',
+            children: <MemberCourseCardGrid courses={courses} />,
           },
         ]}
         onChange={(key: string) => {

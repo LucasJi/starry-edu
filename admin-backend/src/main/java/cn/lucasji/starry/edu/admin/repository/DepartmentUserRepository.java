@@ -1,8 +1,9 @@
 package cn.lucasji.starry.edu.admin.repository;
 
 import cn.lucasji.starry.edu.admin.entity.DepartmentUser;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  * @author lucas
@@ -13,6 +14,8 @@ public interface DepartmentUserRepository extends JpaRepository<DepartmentUser, 
   List<DepartmentUser> findAllByDepartmentId(Long departmentId);
 
   List<DepartmentUser> findAllByUserIdIn(List<Long> userIds);
+
+  List<DepartmentUser> findAllByUserId(Long userId);
 
   DepartmentUser findByUserId(Long userId);
 

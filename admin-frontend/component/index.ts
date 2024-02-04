@@ -4,6 +4,7 @@ export { default as CourseDrawer } from './CourseDrawer.tsx';
 export { default as CoursewareView } from './CoursewareView.tsx';
 export { default as CoursewaresDrawer } from './CoursewaresDrawer.tsx';
 export { default as LoadingOutlinedSpin } from './LoadingOutlinedSpin.tsx';
+export { default as MemberCourseCardGrid } from './MemberCourseCardGrid.tsx';
 export { default as NextAuthProvider } from './NextAuthProvider.tsx';
 export { default as OnlineCourseVideoView } from './OnlineCourseVideoView.tsx';
 export { default as SortableList } from './SortableList.tsx';

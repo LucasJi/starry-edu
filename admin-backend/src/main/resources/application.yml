@@ -1,6 +1,6 @@
 spring:
   application:
-    name: edu-admin
+    name: edu
   cloud:
     openfeign:
       okhttp:

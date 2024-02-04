@@ -1,6 +1,7 @@
 import {
   AddCourseReq,
   Chapter,
+  Course,
   EditCourseReq,
   EditCoursewareReq,
   FindCoursePageReq,
@@ -15,15 +16,15 @@ import createClient from './client.ts';
 
 const api = createClient(`${process.env.NEXT_PUBLIC_EDU_ADMIN_URL}/course`);
 
-const add = (body: AddCourseReq) => api.post('/add', body);
+const add = (body: AddCourseReq) => api.post('', body);
 
-const editCourse = (body: EditCourseReq) => api.patch('/editCourse', body);
+const editCourse = (body: EditCourseReq) => api.patch('', body);
 
 const editChapters = (body: UpdateChapterReq) =>
-  api.patch<Result<string>>('/editChapters', body);
+  api.patch<Result<string>>('/chapters', body);
 
 const editCoursewares = (body: EditCoursewareReq) =>
-  api.patch('/editCoursewares', body);
+  api.patch('/coursewares', body);
 
 const findPage = (body: FindCoursePageReq, pageable: Pageable) => {
   const params = new URLSearchParams();
@@ -38,12 +39,14 @@ const findPage = (body: FindCoursePageReq, pageable: Pageable) => {
 };
 
 const findChaptersById = (courseId: number) =>
-  api.get<Chapter[]>(`/findChaptersById/${courseId}`);
+  api.get<Chapter[]>(`/${courseId}/chapters`);
 
 const findCoursewaresById = (courseId: number) =>
-  api.get<StorageObj[]>(`/findCoursewaresById/${courseId}`);
+  api.get<StorageObj[]>(`/${courseId}/coursewares`);
 
-const deleteCourse = (courseId: number) => api.delete(`/delete/${courseId}`);
+const deleteCourse = (courseId: number) => api.delete(`/${courseId}`);
+
+const findLoginMemberCourses = () => api.get<Course[]>('/loginMember');
 
 const fetcher = (url: string) => api.get(url).then(res => res.data);
 
@@ -56,6 +59,7 @@ const courseApis = {
   findChaptersById,
   findCoursewaresById,
   deleteCourse,
+  findLoginMemberCourses,
   fetcher,
 };
 

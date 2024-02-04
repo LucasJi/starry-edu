@@ -1,5 +1,12 @@
 package cn.lucasji.starry.edu.admin.service;
 
+import cn.lucasji.starry.edu.admin.dto.CourseDto;
+import cn.lucasji.starry.edu.admin.dto.req.AddCourseReq;
+import cn.lucasji.starry.edu.admin.dto.req.EditChapterReq;
+import cn.lucasji.starry.edu.admin.dto.req.EditCourseReq;
+import cn.lucasji.starry.edu.admin.dto.req.EditCoursewareReq;
+import cn.lucasji.starry.edu.admin.dto.req.FindCoursePageReq;
+import cn.lucasji.starry.edu.admin.dto.resp.FindCoursePageResp;
 import cn.lucasji.starry.edu.admin.entity.Category;
 import cn.lucasji.starry.edu.admin.entity.Chapter;
 import cn.lucasji.starry.edu.admin.entity.ChapterVideo;
@@ -7,14 +14,9 @@ import cn.lucasji.starry.edu.admin.entity.Course;
 import cn.lucasji.starry.edu.admin.entity.CourseCourseware;
 import cn.lucasji.starry.edu.admin.entity.CourseDepartment;
 import cn.lucasji.starry.edu.admin.entity.Department;
+import cn.lucasji.starry.edu.admin.entity.DepartmentUser;
 import cn.lucasji.starry.edu.admin.entity.StorageObj;
-import cn.lucasji.starry.edu.admin.dto.req.AddCourseReq;
-import cn.lucasji.starry.edu.admin.dto.req.EditChapterReq;
-import cn.lucasji.starry.edu.admin.dto.req.EditCourseReq;
-import cn.lucasji.starry.edu.admin.dto.req.EditCoursewareReq;
-import cn.lucasji.starry.edu.admin.dto.req.FindCoursePageReq;
-import cn.lucasji.starry.edu.admin.dto.resp.FindCoursePageResp;
-import cn.lucasji.starry.edu.admin.repository.CourseDepartmentRepository;
+import cn.lucasji.starry.edu.admin.mapper.CourseMapper;
 import cn.lucasji.starry.edu.admin.repository.CourseRepository;
 import cn.lucasji.starry.idp.infrastructure.modal.Result;
 import lombok.RequiredArgsConstructor;
@@ -45,8 +47,6 @@ public class CourseService {
 
   private final CourseRepository courseRepository;
 
-  private final CourseDepartmentRepository courseDepartmentRepository;
-
   private final CourseDepartmentService courseDepartmentService;
 
   private final DepartmentService departmentService;
@@ -56,6 +56,10 @@ public class CourseService {
   private final ChapterService chapterService;
 
   private final CourseCoursewareService courseCoursewareService;
+
+  private final DepartmentUserService departmentUserService;
+
+  private final CourseMapper courseMapper;
 
   @Transactional(rollbackFor = Exception.class)
   public void add(AddCourseReq body) {
@@ -105,9 +109,9 @@ public class CourseService {
     List<CourseDepartment> courseDepartments;
     Long departmentId = req.getDepartmentId();
     if (Objects.isNull(departmentId)) {
-      courseDepartments = courseDepartmentRepository.findAll();
+      courseDepartments = courseDepartmentService.findAll();
     } else {
-      courseDepartments = courseDepartmentRepository.findAllByDepartmentId(departmentId);
+      courseDepartments = courseDepartmentService.findAllByDepartmentId(departmentId);
     }
 
     Map<Long, List<CourseDepartment>> courseIdDepartmentsMap = courseDepartments.stream()
@@ -199,5 +203,15 @@ public class CourseService {
         .storageObj(StorageObj.builder().id(coursewareIds.get(i)).build()).build()).collect(
         Collectors.toList());
     courseCoursewareService.saveAll(courseCoursewares);
+  }
+
+  public List<CourseDto> findCoursesByUserId(Long memberId) {
+    List<DepartmentUser> departmentUsers = departmentUserService.findAllByUserId(memberId);
+    List<CourseDepartment> courseDepartments = courseDepartmentService.findAllByDepartmentIdIn(
+      departmentUsers.stream().map(DepartmentUser::getDepartment).map(Department::getId).collect(
+        Collectors.toSet()));
+    List<Course> courses = courseDepartments.stream().map(CourseDepartment::getCourse)
+      .collect(Collectors.toList());
+    return courseMapper.convertToCourseDtoList(courses);
   }
 }
