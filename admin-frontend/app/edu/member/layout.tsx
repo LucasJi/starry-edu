@@ -55,6 +55,7 @@ const MemberLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
             style={{
               height: '100%',
               width: '100%',
+              minHeight: 500,
               background: colorBgContainer,
               borderRadius: '0.75rem',
             }}

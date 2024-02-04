@@ -1,7 +1,6 @@
 package cn.lucasji.starry.edu.admin.service;
 
 import cn.lucasji.starry.edu.admin.dto.CategoryDto;
-import cn.lucasji.starry.edu.admin.dto.DropdownCategoryDto;
 import cn.lucasji.starry.edu.admin.dto.req.UpdateCategoryParentIdReq;
 import cn.lucasji.starry.edu.admin.entity.Category;
 import cn.lucasji.starry.edu.admin.mapper.CategoryMapper;
@@ -62,56 +61,6 @@ public class CategoryService {
     return result;
   }
 
-  public List<DropdownCategoryDto> getDropdownTree() {
-    List<Category> all = findAll();
-    List<DropdownCategoryDto> categoryDtos =
-      categoryMapper.convertListToDropdownCategoryDtoList(all);
-
-    List<DropdownCategoryDto> result = new ArrayList<>();
-    Deque<DropdownCategoryDto> deque = new LinkedList<>(categoryDtos);
-    while (!deque.isEmpty()) {
-      DropdownCategoryDto last = deque.pollLast();
-
-      DropdownCategoryDto found;
-      if (Objects.isNull(last.getParentId())) {
-        result.add(last);
-      } else if (Objects.nonNull((found = dropdownCategoryDfs(result, last.getParentId())))) {
-        List<DropdownCategoryDto> children = found.getChildren();
-
-        if (Objects.isNull(children)) {
-          found.setChildren(new ArrayList<>());
-          children = found.getChildren();
-        }
-
-        children.add(last);
-      } else {
-        deque.addFirst(last);
-      }
-    }
-
-    return result;
-  }
-
-  private DropdownCategoryDto dropdownCategoryDfs(List<DropdownCategoryDto> categoryDtos,
-    Long key) {
-    DropdownCategoryDto result;
-    for (DropdownCategoryDto e : categoryDtos) {
-      if (Objects.equals(e.getKey(), key)) {
-        return e;
-      }
-
-      if (CollectionUtils.isNotEmpty(e.getChildren())) {
-        result = dropdownCategoryDfs(e.getChildren(), key);
-
-        if (Objects.nonNull(result)) {
-          return result;
-        }
-      }
-    }
-
-    return null;
-  }
-
   private CategoryDto dfs(List<CategoryDto> categoryDtos, Long id) {
     CategoryDto result;
     for (CategoryDto e : categoryDtos) {
@@ -141,10 +90,10 @@ public class CategoryService {
     Category category = optionalCategory.get();
 
     log.info(
-      "updateAll parent id of category [id:{}] from {} to {}",
-      category.getId(),
-      category.getParentId(),
-      body.getParentId());
+        "updateAll parent id of category [id:{}] from {} to {}",
+        category.getId(),
+        category.getParentId(),
+        body.getParentId());
 
     category.setParentId(body.getParentId());
     Category saved = categoryRepository.saveAndFlush(category);
@@ -158,8 +107,8 @@ public class CategoryService {
     Integer subCount = deletable(categoryId);
 
     if (subCount > 0) {
-      log.warn("Category with id {} has {} sub categories, can not be deleted", categoryId,
-        subCount);
+      log.warn(
+          "Category with id {} has {} sub categories, can not be deleted", categoryId, subCount);
       return;
     }
 
@@ -168,7 +117,7 @@ public class CategoryService {
 
   public Integer deletable(Long categoryId) {
     long count =
-      categoryRepository.count(Example.of(Category.builder().parentId(categoryId).build()));
+        categoryRepository.count(Example.of(Category.builder().parentId(categoryId).build()));
     log.info("category {} contains {} sub-categories", categoryId, count);
 
     return Math.toIntExact(count);
@@ -194,7 +143,7 @@ public class CategoryService {
   /**
    * Whether compared category is child of the current category.
    *
-   * @param currentId  current category id
+   * @param currentId current category id
    * @param comparedId compared category id
    * @return true if current category belongs to the compared else false
    */

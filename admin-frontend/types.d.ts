@@ -57,12 +57,6 @@ interface Category extends BaseEntity {
   children?: Category[];
 }
 
-interface DropdownCategory {
-  key: number;
-  label: string;
-  children?: DropdownCategory[];
-}
-
 interface Department extends BaseEntity {
   parentId?: number | null;
   name?: string;

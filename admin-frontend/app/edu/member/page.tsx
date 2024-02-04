@@ -1,8 +1,8 @@
 'use client';
-import { DownOutlined } from '@ant-design/icons';
+import { CaretDownOutlined } from '@ant-design/icons';
 import { categoryApis } from '@api';
-import { DropdownCategory } from '@types';
-import { Card, Dropdown, Space, Tabs, Typography } from 'antd';
+import { Category } from '@types';
+import { Button, Card, Popover, Tabs, Tree } from 'antd';
 import Image from 'next/image';
 import MyLessonIcon from 'public/icon-mylesoon.png';
 import StudyTimeIcon from 'public/icon-studytime.png';
@@ -12,21 +12,30 @@ const { Meta } = Card;
 const iconSize = 36;
 const allCourses = 10;
 const learnedCourses = 2;
-const ALL_CATEGORY: DropdownCategory = {
-  key: -1,
-  label: '全部分类',
+const ALL_CATEGORY: Category = {
+  id: -1,
+  name: '全部分类',
 };
 
 const Member: FC = () => {
-  const [categories, setCategories] = useState<DropdownCategory[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [categoriesLoaded, setCategoriesLoaded] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] =
-    useState<DropdownCategory>(ALL_CATEGORY);
+    useState<Category>(ALL_CATEGORY);
 
   useEffect(() => {
-    categoryApis.dropdownCategoryTree().then(resp => {
+    setCategoriesLoaded(false);
+    categoryApis.tree().then(resp => {
       setCategories([...resp.data]);
+      setCategoriesLoaded(true);
     });
   }, []);
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+  };
 
   return (
     <div className="w-3/5 mx-auto">
@@ -64,11 +73,17 @@ const Member: FC = () => {
             title="学习时长"
           />
           <div className="mt-10 text-gray-500 font-semibold">
-            <p>今日： 0 分钟 0 秒 累计： 0 分钟 20 秒</p>
+            <span>
+              今日： <strong className="text-black text-3xl">30</strong> 分钟{' '}
+              <strong className="text-black text-3xl">30</strong> 秒 累计：{' '}
+              <strong className="text-black text-3xl">100</strong> 分钟{' '}
+              <strong className="text-black text-3xl">20</strong> 秒
+            </span>
           </div>
         </Card>
       </div>
       <Tabs
+        size="large"
         style={{
           marginTop: '4rem',
         }}
@@ -104,24 +119,35 @@ const Member: FC = () => {
           console.log(key);
         }}
         tabBarExtraContent={
-          <Dropdown
-            trigger={['click']}
-            menu={{
-              items: [ALL_CATEGORY, ...categories],
-              selectable: true,
-              defaultSelectedKeys: ['3'],
-              onClick: ({ key, keyPath, domEvent }) => {
-                console.log(domEvent.target.innerText, key, keyPath);
-              },
-            }}
+          <Popover
+            content={
+              categoriesLoaded && (
+                <Tree
+                  blockNode
+                  defaultExpandAll
+                  defaultExpandParent
+                  fieldNames={{
+                    title: 'name',
+                    key: 'id',
+                  }}
+                  onSelect={(_, { node }) => {
+                    setSelectedCategory(node as Category);
+                  }}
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  treeData={[ALL_CATEGORY, ...categories]}
+                />
+              )
+            }
+            trigger="click"
+            open={open}
+            onOpenChange={handleOpenChange}
+            placement="bottomRight"
           >
-            <Typography.Link>
-              <Space>
-                {selectedCategory.label}
-                <DownOutlined />
-              </Space>
-            </Typography.Link>
-          </Dropdown>
+            <Button loading={!categoriesLoaded} icon={<CaretDownOutlined />}>
+              {selectedCategory.name}
+            </Button>
+          </Popover>
         }
       />
     </div>

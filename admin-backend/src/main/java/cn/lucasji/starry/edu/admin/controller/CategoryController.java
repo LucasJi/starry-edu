@@ -1,7 +1,6 @@
 package cn.lucasji.starry.edu.admin.controller;
 
 import cn.lucasji.starry.edu.admin.dto.CategoryDto;
-import cn.lucasji.starry.edu.admin.dto.DropdownCategoryDto;
 import cn.lucasji.starry.edu.admin.dto.req.UpdateCategoryParentIdReq;
 import cn.lucasji.starry.edu.admin.entity.Category;
 import cn.lucasji.starry.edu.admin.service.CategoryService;
@@ -48,15 +47,9 @@ public class CategoryController {
     return ResponseEntity.ok(tree);
   }
 
-  @GetMapping("/dropdownCategoryTree")
-  public ResponseEntity<List<DropdownCategoryDto>> getDropdownTree() {
-    List<DropdownCategoryDto> tree = categoryService.getDropdownTree();
-    return ResponseEntity.ok(tree);
-  }
-
   @PatchMapping("/parentId")
-  public ResponseEntity<List<CategoryDto>> updateParentId(@RequestBody
-  UpdateCategoryParentIdReq body) {
+  public ResponseEntity<List<CategoryDto>> updateParentId(
+      @RequestBody UpdateCategoryParentIdReq body) {
     List<CategoryDto> categoryDtos = categoryService.updateParentId(body);
     return ResponseEntity.ok(categoryDtos);
   }
@@ -81,8 +74,7 @@ public class CategoryController {
 
   @GetMapping("/isChild")
   public ResponseEntity<Boolean> isChild(
-    @RequestParam("currentId") Long currentId,
-    @RequestParam("comparedId") Long comparedId) {
+      @RequestParam("currentId") Long currentId, @RequestParam("comparedId") Long comparedId) {
     boolean result = categoryService.isChild(currentId, comparedId);
     return ResponseEntity.ok(result);
   }
