@@ -40,13 +40,17 @@ const Member: FC = () => {
       setCategories([...resp.data]);
       setCategoriesLoaded(true);
     });
-
-    setCoursesLoading(true);
-    courseApis.findLoginMemberCourses().then(resp => {
-      setCourses([...resp.data]);
-      setCoursesLoading(false);
-    });
   }, []);
+
+  useEffect(() => {
+    setCoursesLoading(true);
+    courseApis
+      .findLoginMemberCoursesByCategoryId(selectedCategory.id!)
+      .then(resp => {
+        setCourses([...resp.data]);
+        setCoursesLoading(false);
+      });
+  }, [selectedCategory]);
 
   return (
     <div className="w-3/5 mx-auto h-full">
@@ -134,9 +138,6 @@ const Member: FC = () => {
             children: <MemberCourseCardGrid courses={courses} />,
           },
         ]}
-        onChange={(key: string) => {
-          console.log(key);
-        }}
         tabBarExtraContent={
           <Popover
             content={

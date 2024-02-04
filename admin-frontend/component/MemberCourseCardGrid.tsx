@@ -3,6 +3,7 @@ import { LoadingOutlinedSpin } from '@component';
 import { Course } from '@types';
 import { Card, Col, Progress, Row, Tag } from 'antd';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import MedalIcon from 'public/icon-medal.png';
 import { FC } from 'react';
 
@@ -12,6 +13,7 @@ const MemberCourseCardGrid: FC<{ courses: Course[]; loading?: boolean }> = ({
   courses,
   loading = false,
 }) => {
+  const router = useRouter();
   if (loading) {
     return (
       <div
@@ -31,6 +33,7 @@ const MemberCourseCardGrid: FC<{ courses: Course[]; loading?: boolean }> = ({
       {courses.map((course, index) => (
         <Col key={`col-${index}`} span={8}>
           <Card
+            onClick={() => router.push(`/edu/member/course/${course.id}`)}
             hoverable
             title={course.name}
             extra={

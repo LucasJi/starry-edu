@@ -46,7 +46,8 @@ const findCoursewaresById = (courseId: number) =>
 
 const deleteCourse = (courseId: number) => api.delete(`/${courseId}`);
 
-const findLoginMemberCourses = () => api.get<Course[]>('/loginMember');
+const findLoginMemberCoursesByCategoryId = (categoryId: number) =>
+  api.get<Course[]>(`/loginMember/category/${categoryId}`);
 
 const fetcher = (url: string) => api.get(url).then(res => res.data);
 
@@ -59,7 +60,7 @@ const courseApis = {
   findChaptersById,
   findCoursewaresById,
   deleteCourse,
-  findLoginMemberCourses,
+  findLoginMemberCoursesByCategoryId,
   fetcher,
 };
 

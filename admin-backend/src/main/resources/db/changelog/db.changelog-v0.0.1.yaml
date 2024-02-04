@@ -916,3 +916,39 @@ databaseChangeLog:
                   type: int
                   constraints:
                     nullable: false
+  - changeSet:
+      id: 44
+      author: lucas
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: course_user
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: course_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: course_id
+            baseTableName: course_user
+            baseTableSchemaName: public
+            constraintName: fk_course_user_course
+            onDelete: RESTRICT
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: course
+            referencedTableSchemaName: public
+            validate: true

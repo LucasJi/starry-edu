@@ -12,6 +12,7 @@ import cn.lucasji.starry.edu.admin.entity.StorageObj;
 import cn.lucasji.starry.edu.admin.service.CourseService;
 import cn.lucasji.starry.idp.infrastructure.modal.Result;
 import cn.lucasji.starry.idp.infrastructure.util.AuthUtil;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,8 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @author lucas
@@ -81,10 +80,11 @@ public class CourseController {
     courseService.delete(id);
   }
 
-  @GetMapping("/loginMember")
-  public List<CourseDto> findLoginMemberCourses(@AuthenticationPrincipal Jwt jwt) {
+  @GetMapping("/loginMember/category/{categoryId}")
+  public List<CourseDto> findLoginMemberCourses(@AuthenticationPrincipal Jwt jwt,
+    @PathVariable Long categoryId) {
     Long memberId = AuthUtil.getUserIdFromJwt(jwt);
-    log.info("find login member {} courses", memberId);
-    return courseService.findCoursesByUserId(memberId);
+    log.info("find login member(id: {}) courses(category id: {})", memberId, categoryId);
+    return courseService.findCoursesByUserIdAndCategoryId(memberId, categoryId);
   }
 }

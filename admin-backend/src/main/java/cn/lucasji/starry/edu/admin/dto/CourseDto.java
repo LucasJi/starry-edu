@@ -1,9 +1,8 @@
 package cn.lucasji.starry.edu.admin.dto;
 
-import lombok.Data;
-
 import java.io.Serial;
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * @author jiwh
@@ -14,6 +13,7 @@ public class CourseDto implements Serializable {
 
   @Serial
   private static final long serialVersionUID = -6922663937155868954L;
+  private Long id;
 
   private String name;
 

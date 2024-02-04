@@ -25,6 +25,4 @@ public interface StorageObjRepository extends JpaRepository<StorageObj, Long> {
 
   Page<StorageObj> findAllByIsUploadedIsTrueAndNameLikeIgnoreCaseAndTypeIn(
     String name, List<StorageObjType> types, Pageable pageable);
-
-  void findAllByIdIn(List<Long> ids);
 }

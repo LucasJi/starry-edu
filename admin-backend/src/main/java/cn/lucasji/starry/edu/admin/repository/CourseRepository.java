@@ -2,6 +2,7 @@ package cn.lucasji.starry.edu.admin.repository;
 
 import cn.lucasji.starry.edu.admin.entity.Category;
 import cn.lucasji.starry.edu.admin.entity.Course;
+import java.util.List;
 import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +19,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
   Page<Course> findAllByNameLikeAndCategoryInAndIdIn(
     String name, Set<Category> categories, Set<Long> ids, Pageable pageable);
 
-  Page<Course> findAllByNameLikeAndIdIn(String name, Set<Long> ids, Pageable pageable);
-
-  Page<Course> findAllByNameLikeAndCategoryIn(
-    String name, Set<Category> categories, Pageable pageable);
+  List<Course> findAllByIdInAndCategory(List<Long> ids, Category category);
 }

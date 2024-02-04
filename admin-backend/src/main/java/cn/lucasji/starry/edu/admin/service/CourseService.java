@@ -14,18 +14,10 @@ import cn.lucasji.starry.edu.admin.entity.Course;
 import cn.lucasji.starry.edu.admin.entity.CourseCourseware;
 import cn.lucasji.starry.edu.admin.entity.CourseDepartment;
 import cn.lucasji.starry.edu.admin.entity.Department;
-import cn.lucasji.starry.edu.admin.entity.DepartmentUser;
 import cn.lucasji.starry.edu.admin.entity.StorageObj;
 import cn.lucasji.starry.edu.admin.mapper.CourseMapper;
 import cn.lucasji.starry.edu.admin.repository.CourseRepository;
 import cn.lucasji.starry.idp.infrastructure.modal.Result;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -35,6 +27,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author lucas
@@ -205,13 +203,18 @@ public class CourseService {
     courseCoursewareService.saveAll(courseCoursewares);
   }
 
-  public List<CourseDto> findCoursesByUserId(Long memberId) {
-    List<DepartmentUser> departmentUsers = departmentUserService.findAllByUserId(memberId);
-    List<CourseDepartment> courseDepartments = courseDepartmentService.findAllByDepartmentIdIn(
-      departmentUsers.stream().map(DepartmentUser::getDepartment).map(Department::getId).collect(
-        Collectors.toSet()));
-    List<Course> courses = courseDepartments.stream().map(CourseDepartment::getCourse)
-      .collect(Collectors.toList());
+  public List<CourseDto> findCoursesByUserIdAndCategoryId(Long memberId, Long categoryId) {
+    List<Long> departmentIds = departmentUserService.findDepartmentIdsByUserId(memberId);
+    List<Long> courseIds = courseDepartmentService.findCourseIdsByDepartmentIdIn(departmentIds);
+
+    List<Course> courses;
+    if (categoryId < 0) {
+      courses = courseRepository.findAllById(courseIds);
+    } else {
+      courses = courseRepository.findAllByIdInAndCategory(courseIds,
+        Category.builder().id(categoryId).build());
+    }
+
     return courseMapper.convertToCourseDtoList(courses);
   }
 }

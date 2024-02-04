@@ -5,18 +5,18 @@ import cn.lucasji.starry.edu.admin.dto.req.UpdateCategoryParentIdReq;
 import cn.lucasji.starry.edu.admin.entity.Category;
 import cn.lucasji.starry.edu.admin.mapper.CategoryMapper;
 import cn.lucasji.starry.edu.admin.repository.CategoryRepository;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author lucas
@@ -163,5 +163,10 @@ public class CategoryService {
     CategoryDto comparedCategory = dfs(currentCategory.getChildren(), comparedId);
 
     return Objects.nonNull(comparedCategory);
+  }
+
+  public Category findById(Long id) {
+    return categoryRepository.findById(id).orElseThrow(() -> new NoSuchElementException(
+      STR."No category present with id:\{id}"));
   }
 }
