@@ -4,7 +4,6 @@ import cn.lucasji.starry.edu.admin.dto.CategoryDto;
 import cn.lucasji.starry.edu.admin.dto.req.UpdateCategoryParentIdReq;
 import cn.lucasji.starry.edu.admin.entity.Category;
 import cn.lucasji.starry.edu.admin.service.CategoryService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author lucas
@@ -49,7 +50,7 @@ public class CategoryController {
 
   @PatchMapping("/parentId")
   public ResponseEntity<List<CategoryDto>> updateParentId(
-      @RequestBody UpdateCategoryParentIdReq body) {
+    @RequestBody UpdateCategoryParentIdReq body) {
     List<CategoryDto> categoryDtos = categoryService.updateParentId(body);
     return ResponseEntity.ok(categoryDtos);
   }
@@ -74,7 +75,7 @@ public class CategoryController {
 
   @GetMapping("/isChild")
   public ResponseEntity<Boolean> isChild(
-      @RequestParam("currentId") Long currentId, @RequestParam("comparedId") Long comparedId) {
+    @RequestParam("currentId") Long currentId, @RequestParam("comparedId") Long comparedId) {
     boolean result = categoryService.isChild(currentId, comparedId);
     return ResponseEntity.ok(result);
   }

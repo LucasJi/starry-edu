@@ -5,17 +5,18 @@ import cn.lucasji.starry.edu.admin.dto.req.UpdateCategoryParentIdReq;
 import cn.lucasji.starry.edu.admin.entity.Category;
 import cn.lucasji.starry.edu.admin.mapper.CategoryMapper;
 import cn.lucasji.starry.edu.admin.repository.CategoryRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.data.domain.Example;
-import org.springframework.stereotype.Service;
 
 /**
  * @author lucas
@@ -90,10 +91,10 @@ public class CategoryService {
     Category category = optionalCategory.get();
 
     log.info(
-        "updateAll parent id of category [id:{}] from {} to {}",
-        category.getId(),
-        category.getParentId(),
-        body.getParentId());
+      "updateAll parent id of category [id:{}] from {} to {}",
+      category.getId(),
+      category.getParentId(),
+      body.getParentId());
 
     category.setParentId(body.getParentId());
     Category saved = categoryRepository.saveAndFlush(category);
@@ -108,7 +109,7 @@ public class CategoryService {
 
     if (subCount > 0) {
       log.warn(
-          "Category with id {} has {} sub categories, can not be deleted", categoryId, subCount);
+        "Category with id {} has {} sub categories, can not be deleted", categoryId, subCount);
       return;
     }
 
@@ -117,7 +118,7 @@ public class CategoryService {
 
   public Integer deletable(Long categoryId) {
     long count =
-        categoryRepository.count(Example.of(Category.builder().parentId(categoryId).build()));
+      categoryRepository.count(Example.of(Category.builder().parentId(categoryId).build()));
     log.info("category {} contains {} sub-categories", categoryId, count);
 
     return Math.toIntExact(count);
@@ -143,7 +144,7 @@ public class CategoryService {
   /**
    * Whether compared category is child of the current category.
    *
-   * @param currentId current category id
+   * @param currentId  current category id
    * @param comparedId compared category id
    * @return true if current category belongs to the compared else false
    */
