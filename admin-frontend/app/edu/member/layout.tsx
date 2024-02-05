@@ -1,9 +1,12 @@
 'use client';
+import { memberApis } from '@api';
+import { LoadingOutlinedSpin } from '@component';
+import { Member } from '@types';
 import { Layout, Tag, theme } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import LogoIcon from 'public/logo.png';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 const { Header, Footer, Content } = Layout;
 
@@ -11,6 +14,11 @@ const MemberLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const [member, setMember] = useState<Member>();
+
+  useEffect(() => {
+    memberApis.logged().then(resp => setMember(resp.data));
+  }, []);
 
   return (
     /**
@@ -33,16 +41,22 @@ const MemberLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
                 alt="logo"
                 priority
               />
-              <Link className="ml-8" href="/edu/member">
+              <Link className="ml-8 text-black" href="/edu/member">
                 首页
               </Link>
-              <Link className="ml-8" href="/edu/member">
+              <Link className="ml-8 text-black" href="/edu/member">
                 最近学习
               </Link>
             </div>
             <div className="flex items-center">
-              <Tag>测试部</Tag>
-              <span>xx部门学员一号</span>
+              {member ? (
+                <>
+                  <Tag>{member?.departmentName}</Tag>
+                  <span>{member?.user?.username}</span>
+                </>
+              ) : (
+                <LoadingOutlinedSpin />
+              )}
             </div>
           </div>
         </Header>

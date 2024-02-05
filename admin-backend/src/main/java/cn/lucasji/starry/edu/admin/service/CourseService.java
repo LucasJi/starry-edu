@@ -212,8 +212,8 @@ public class CourseService {
   }
 
   public List<CourseDto> findCoursesByUserIdAndCategoryId(Long memberId, Long categoryId) {
-    List<Long> departmentIds = departmentUserService.findDepartmentIdsByUserId(memberId);
-    List<Long> courseIds = courseDepartmentService.findCourseIdsByDepartmentIdIn(departmentIds);
+    Long departmentId = departmentUserService.findDepartmentIdByUserId(memberId);
+    List<Long> courseIds = courseDepartmentService.findCourseIdsByDepartmentId(departmentId);
 
     List<Course> courses;
     if (categoryId < 0) {

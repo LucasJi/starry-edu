@@ -3,10 +3,11 @@ package cn.lucasji.starry.edu.admin.service;
 import cn.lucasji.starry.edu.admin.entity.Department;
 import cn.lucasji.starry.edu.admin.entity.DepartmentUser;
 import cn.lucasji.starry.edu.admin.repository.DepartmentUserRepository;
-import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author lucas
@@ -38,12 +39,12 @@ public class DepartmentUserService {
     return departmentUserRepository.findAllByUserIdIn(userIds);
   }
 
-  public List<DepartmentUser> findAllByUserId(Long userId) {
-    return departmentUserRepository.findAllByUserId(userId);
+  public Long findDepartmentIdByUserId(Long userId) {
+    return findEntityByUserId(userId).getDepartment().getId();
   }
 
-  public List<Long> findDepartmentIdsByUserId(Long userId) {
-    return departmentUserRepository.findDepartmentIdsByUserId(userId);
+  public DepartmentUser findEntityByUserId(Long userId) {
+    return departmentUserRepository.findByUserId(userId);
   }
 
   public void updateDepartment(Long userId, Long newDepartmentId) {

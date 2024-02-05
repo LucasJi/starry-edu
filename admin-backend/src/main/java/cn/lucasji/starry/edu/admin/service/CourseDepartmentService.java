@@ -3,11 +3,11 @@ package cn.lucasji.starry.edu.admin.service;
 import cn.lucasji.starry.edu.admin.entity.Course;
 import cn.lucasji.starry.edu.admin.entity.CourseDepartment;
 import cn.lucasji.starry.edu.admin.repository.CourseDepartmentRepository;
-import java.util.List;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author lucas
@@ -28,12 +28,8 @@ public class CourseDepartmentService {
     courseDepartmentRepository.deleteAllByCourse(course);
   }
 
-  public List<CourseDepartment> findAllByDepartmentIdIn(Set<Long> departmentIds) {
-    return courseDepartmentRepository.findAllByDepartmentIdIn(departmentIds);
-  }
-
-  public List<Long> findCourseIdsByDepartmentIdIn(List<Long> departmentIds) {
-    return courseDepartmentRepository.findCourseIdsByDepartmentIdIn(departmentIds);
+  public List<Long> findCourseIdsByDepartmentId(Long departmentId) {
+    return courseDepartmentRepository.findCourseIdsByDepartmentId(departmentId);
   }
 
   public List<CourseDepartment> findAllByDepartmentId(Long departmentId) {

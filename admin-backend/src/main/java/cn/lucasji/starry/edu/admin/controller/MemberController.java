@@ -6,10 +6,14 @@ import cn.lucasji.starry.edu.admin.dto.req.EditMemberReq;
 import cn.lucasji.starry.edu.admin.dto.req.FindMemberPageReq;
 import cn.lucasji.starry.edu.admin.service.MemberService;
 import cn.lucasji.starry.idp.infrastructure.modal.Result;
+import cn.lucasji.starry.idp.infrastructure.util.AuthUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,5 +51,11 @@ public class MemberController {
   public Result<String> deleteMember(@PathVariable Long memberId) {
     memberService.deleteMember(memberId);
     return Result.success();
+  }
+
+  @GetMapping("/logged")
+  public Member logged(@AuthenticationPrincipal Jwt jwt) {
+    Long memberId = AuthUtil.getUserIdFromJwt(jwt);
+    return memberService.findById(memberId);
   }
 }

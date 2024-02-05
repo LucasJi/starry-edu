@@ -22,11 +22,14 @@ const editMember = (body: EditMemberReq) => api.patch('', body);
 
 const deleteMember = (id: number) => api.delete(`/${id}`);
 
+const logged = () => api.get<Member>('/logged');
+
 const memberApis = {
   findPage,
   addMember,
   editMember,
   deleteMember,
+  logged,
 };
 
 export const fetcher = (url: string) => api.get(url).then(res => res.data);
