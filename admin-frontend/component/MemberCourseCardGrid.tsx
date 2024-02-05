@@ -27,7 +27,12 @@ const MemberCourseCardGrid: FC<{ courses: Course[]; loading?: boolean }> = ({
   }
 
   return (
-    <Row gutter={[48, 24]}>
+    <Row
+      gutter={[48, 24]}
+      style={{
+        marginTop: '1.6rem',
+      }}
+    >
       {courses.map((course, index) => (
         <Col key={`col-${index}`} span={8}>
           <Card
