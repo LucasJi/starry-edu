@@ -7,14 +7,14 @@ import { Chapter, Course } from '@types';
 import { Collapse, List, Progress, Tabs, Tag } from 'antd';
 import { FC, useEffect, useState } from 'react';
 
+const listItemClassNames = 'cursor-pointer px-[1.2rem] h-[8rem]';
+const itemElementWrapperClassNames =
+  'flex items-center text-2xl transition-shadow hover:shadow-md w-full h-full rounded-xl px-[2.4rem] hover:bg-orange-100 ease-in-out';
+
 const Chapters: FC<{
   chapters: Chapter[];
   course: Course | undefined;
 }> = ({ chapters, course }) => {
-  const onChange = (key: string | string[]) => {
-    console.log(key);
-  };
-
   if (course?.hasChapters) {
     return (
       <Collapse
@@ -26,14 +26,8 @@ const Chapters: FC<{
               <List
                 dataSource={chapter.chapterVideos}
                 renderItem={item => (
-                  <List.Item
-                    style={{
-                      height: '6rem',
-                      paddingLeft: '2.4rem',
-                      paddingRight: '2.4rem',
-                    }}
-                  >
-                    <div className="flex items-center text-2xl">
+                  <List.Item className={listItemClassNames}>
+                    <div className={itemElementWrapperClassNames}>
                       <PlayCircleTwoTone />
                       <span className="ml-[1rem]">{item.video!.name}</span>
                     </div>
@@ -44,7 +38,6 @@ const Chapters: FC<{
           };
         })}
         defaultActiveKey={chapters.map(c => c.id!)}
-        onChange={onChange}
       />
     );
   }
@@ -54,14 +47,8 @@ const Chapters: FC<{
       bordered
       dataSource={chapters[0].chapterVideos}
       renderItem={item => (
-        <List.Item
-          style={{
-            height: '6rem',
-            paddingLeft: '2.4rem',
-            paddingRight: '2.4rem',
-          }}
-        >
-          <div className="flex items-center text-2xl">
+        <List.Item className={listItemClassNames}>
+          <div className={itemElementWrapperClassNames}>
             <PlayCircleTwoTone />
             <span className="ml-[1rem]">{item.video!.name}</span>
           </div>

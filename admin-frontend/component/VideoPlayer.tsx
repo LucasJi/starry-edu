@@ -21,6 +21,10 @@ const VideoPlayer = ({ url }: { url: string }) => {
           style={{
             margin: 'auto',
           }}
+          onEnded={() => console.log('video ends')}
+          onProgress={props => {
+            console.log('on progress', props);
+          }}
         />
       )}
     </div>

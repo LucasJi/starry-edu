@@ -60,6 +60,7 @@ const Video = () => {
   const [videoPlayerModalOpen, setVideoPlayerModalOpen] = useState(false);
   const [videoPreviewUrl, setVideoPreviewUrl] = useState('');
   const [videoNameKeyWord, setVideoNameKeyWord] = useState('');
+  const [videosLoading, setVideosLoading] = useState(true);
 
   useEffect(() => {
     let category: Category;
@@ -68,6 +69,8 @@ const Video = () => {
     } else {
       category = { id: currentCategory.id };
     }
+
+    setVideosLoading(true);
     storageApis
       .findPageByCategoryAndNameAndTypeIn(
         { category, name: videoNameKeyWord, types: Constants.VIDEO_TYPES },
@@ -75,6 +78,7 @@ const Video = () => {
       )
       .then(resp => {
         setVideoPage({ ...resp.data });
+        setVideosLoading(false);
       });
   }, [currentCategory, pageRequest]);
 
@@ -318,6 +322,7 @@ const Video = () => {
                   });
                 },
               }}
+              loading={videosLoading}
             />
             <Modal
               onCancel={handleUploadVideosModalCancel}
