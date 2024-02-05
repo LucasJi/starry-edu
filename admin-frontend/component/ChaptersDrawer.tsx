@@ -9,7 +9,7 @@ import type {
   Course,
   EditChaptersCourse,
 } from '@types';
-import { Button, Drawer, Flex, Form, Input, Space, message } from 'antd';
+import { Button, Drawer, Flex, Form, Input, message, Space } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 
 const NO_CHAPTER = 0;
@@ -286,9 +286,9 @@ const ChaptersDrawer = ({
             const chapterVideo =
               pre[chapter.current] || new Set<ChapterVideo>();
             const chapterVideoArr = Array.from(chapterVideo);
-            added.forEach(e => {
+            added.forEach((e, index) => {
               if (chapterVideoArr.findIndex(c => c.video!.id === e.id) === -1) {
-                chapterVideoArr.push({ video: e });
+                chapterVideoArr.push({ id: index, video: e });
               }
             });
             pre[chapter.current] = new Set<ChapterVideo>(chapterVideoArr);

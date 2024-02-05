@@ -1,5 +1,6 @@
 export { default as StyledComponentsRegistry } from './AntdRegistry.tsx';
 export { default as ChaptersDrawer } from './ChaptersDrawer.tsx';
+export { default as CourseCompletedPrompt } from './CourseCompletedPrompt.tsx';
 export { default as CourseDrawer } from './CourseDrawer.tsx';
 export { default as CoursewareView } from './CoursewareView.tsx';
 export { default as CoursewaresDrawer } from './CoursewaresDrawer.tsx';

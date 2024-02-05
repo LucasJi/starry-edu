@@ -1,5 +1,6 @@
 package cn.lucasji.starry.edu.admin.service;
 
+import cn.lucasji.starry.edu.admin.dto.ChapterDto;
 import cn.lucasji.starry.edu.admin.dto.CourseDto;
 import cn.lucasji.starry.edu.admin.dto.req.AddCourseReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditChapterReq;
@@ -15,9 +16,17 @@ import cn.lucasji.starry.edu.admin.entity.CourseCourseware;
 import cn.lucasji.starry.edu.admin.entity.CourseDepartment;
 import cn.lucasji.starry.edu.admin.entity.Department;
 import cn.lucasji.starry.edu.admin.entity.StorageObj;
+import cn.lucasji.starry.edu.admin.mapper.ChapterMapper;
 import cn.lucasji.starry.edu.admin.mapper.CourseMapper;
 import cn.lucasji.starry.edu.admin.repository.CourseRepository;
 import cn.lucasji.starry.idp.infrastructure.modal.Result;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -27,12 +36,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author lucas
@@ -58,6 +61,8 @@ public class CourseService {
   private final DepartmentUserService departmentUserService;
 
   private final CourseMapper courseMapper;
+
+  private final ChapterMapper chapterMapper;
 
   @Transactional(rollbackFor = Exception.class)
   public void add(AddCourseReq body) {
@@ -159,7 +164,7 @@ public class CourseService {
     return Result.success("edit course successfully!");
   }
 
-  public Course findById(Long courseId) {
+  public Course findEntityById(Long courseId) {
     return courseRepository.findById(courseId).orElseThrow();
   }
 
@@ -175,8 +180,11 @@ public class CourseService {
     return Result.success("edit chapters successfully!");
   }
 
-  public List<Chapter> findChaptersById(Long courseId) {
-    return chapterService.findAllByCourse(Course.builder().id(courseId).build());
+  public List<ChapterDto> findChaptersById(Long courseId) {
+    List<Chapter> chapters = chapterService.findAllByCourse(
+      Course.builder().id(courseId).build());
+
+    return chapterMapper.convertToChapterDtoList(chapters);
   }
 
   public List<StorageObj> findCoursewaresById(Long courseId) {
@@ -216,5 +224,10 @@ public class CourseService {
     }
 
     return courseMapper.convertToCourseDtoList(courses);
+  }
+
+  public CourseDto findById(Long id) {
+    Course course = findEntityById(id);
+    return courseMapper.convertToCourseDto(course);
   }
 }

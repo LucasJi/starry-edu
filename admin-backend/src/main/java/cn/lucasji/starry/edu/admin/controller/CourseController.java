@@ -1,5 +1,6 @@
 package cn.lucasji.starry.edu.admin.controller;
 
+import cn.lucasji.starry.edu.admin.dto.ChapterDto;
 import cn.lucasji.starry.edu.admin.dto.CourseDto;
 import cn.lucasji.starry.edu.admin.dto.req.AddCourseReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditChapterReq;
@@ -7,12 +8,10 @@ import cn.lucasji.starry.edu.admin.dto.req.EditCourseReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditCoursewareReq;
 import cn.lucasji.starry.edu.admin.dto.req.FindCoursePageReq;
 import cn.lucasji.starry.edu.admin.dto.resp.FindCoursePageResp;
-import cn.lucasji.starry.edu.admin.entity.Chapter;
 import cn.lucasji.starry.edu.admin.entity.StorageObj;
 import cn.lucasji.starry.edu.admin.service.CourseService;
 import cn.lucasji.starry.idp.infrastructure.modal.Result;
 import cn.lucasji.starry.idp.infrastructure.util.AuthUtil;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,6 +26,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author lucas
@@ -66,7 +67,7 @@ public class CourseController {
   }
 
   @GetMapping("/{courseId}/chapters")
-  public List<Chapter> findChaptersById(@PathVariable Long courseId) {
+  public List<ChapterDto> findChaptersById(@PathVariable Long courseId) {
     return courseService.findChaptersById(courseId);
   }
 
@@ -78,6 +79,11 @@ public class CourseController {
   @DeleteMapping("/{id}")
   public void delete(@PathVariable Long id) {
     courseService.delete(id);
+  }
+
+  @GetMapping("/{id}")
+  public CourseDto findById(@PathVariable Long id) {
+    return courseService.findById(id);
   }
 
   @GetMapping("/loginMember/category/{categoryId}")
