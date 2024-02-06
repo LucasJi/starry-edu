@@ -1,9 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 
-const VideoPlayer = ({ url }: { url: string }) => {
+const VideoPlayer: FC<{ url: string; onEnded?: () => void }> = ({
+  url,
+  onEnded = () => {},
+}) => {
   const [hasWindow, setHasWindow] = useState(false);
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -21,10 +24,7 @@ const VideoPlayer = ({ url }: { url: string }) => {
           style={{
             margin: 'auto',
           }}
-          onEnded={() => console.log('video ends')}
-          onProgress={props => {
-            console.log('on progress', props);
-          }}
+          onEnded={onEnded}
         />
       )}
     </div>

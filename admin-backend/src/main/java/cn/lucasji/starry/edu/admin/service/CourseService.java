@@ -1,12 +1,14 @@
 package cn.lucasji.starry.edu.admin.service;
 
 import cn.lucasji.starry.edu.admin.dto.ChapterDto;
+import cn.lucasji.starry.edu.admin.dto.ChapterVideoDto;
 import cn.lucasji.starry.edu.admin.dto.CourseDto;
 import cn.lucasji.starry.edu.admin.dto.req.AddCourseReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditChapterReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditCourseReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditCoursewareReq;
 import cn.lucasji.starry.edu.admin.dto.req.FindCoursePageReq;
+import cn.lucasji.starry.edu.admin.dto.req.UpdateStudyRecordReq;
 import cn.lucasji.starry.edu.admin.dto.resp.FindCoursePageResp;
 import cn.lucasji.starry.edu.admin.entity.Category;
 import cn.lucasji.starry.edu.admin.entity.Chapter;
@@ -16,6 +18,7 @@ import cn.lucasji.starry.edu.admin.entity.CourseCourseware;
 import cn.lucasji.starry.edu.admin.entity.CourseDepartment;
 import cn.lucasji.starry.edu.admin.entity.Department;
 import cn.lucasji.starry.edu.admin.entity.StorageObj;
+import cn.lucasji.starry.edu.admin.entity.StudyRecord;
 import cn.lucasji.starry.edu.admin.mapper.ChapterMapper;
 import cn.lucasji.starry.edu.admin.mapper.CourseMapper;
 import cn.lucasji.starry.edu.admin.repository.CourseRepository;
@@ -27,6 +30,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -59,6 +63,8 @@ public class CourseService {
   private final CourseCoursewareService courseCoursewareService;
 
   private final DepartmentUserService departmentUserService;
+
+  private final StudyRecordService studyRecordService;
 
   private final CourseMapper courseMapper;
 
@@ -180,11 +186,30 @@ public class CourseService {
     return Result.success("edit chapters successfully!");
   }
 
-  public List<ChapterDto> findChaptersById(Long courseId) {
+  public List<ChapterDto> findChaptersById(Long userId, Long courseId) {
     List<Chapter> chapters = chapterService.findAllByCourse(
       Course.builder().id(courseId).build());
+    List<Long> chapterIds = chapters.stream().map(Chapter::getId).toList();
 
-    return chapterMapper.convertToChapterDtoList(chapters);
+    List<StudyRecord> studyRecords = studyRecordService.findCompletedByUserIdAndChapterIdIn(
+      userId, chapterIds);
+    Map<Long, List<StudyRecord>> chapterIdRecordMap = studyRecords.stream()
+      .collect(Collectors.groupingBy(StudyRecord::getChapterId));
+
+    List<ChapterDto> result = chapterMapper.convertToChapterDtoList(chapters);
+    for (ChapterDto chapterDto : result) {
+      List<StudyRecord> chapterSrs = chapterIdRecordMap.get(chapterDto.getId());
+      if (Objects.isNull(chapterSrs)) {
+        chapterSrs = new ArrayList<>();
+      }
+      Set<Long> videoIds = chapterSrs.stream().map(StudyRecord::getVideoId)
+        .collect(Collectors.toSet());
+      for (ChapterVideoDto chapterVideo : chapterDto.getChapterVideos()) {
+        chapterVideo.setCompleted(videoIds.contains(chapterVideo.getVideo().getId()));
+      }
+    }
+
+    return result;
   }
 
   public List<StorageObj> findCoursewaresById(Long courseId) {
@@ -211,8 +236,8 @@ public class CourseService {
     courseCoursewareService.saveAll(courseCoursewares);
   }
 
-  public List<CourseDto> findCoursesByUserIdAndCategoryId(Long memberId, Long categoryId) {
-    Long departmentId = departmentUserService.findDepartmentIdByUserId(memberId);
+  public List<CourseDto> findCoursesByUserIdAndCategoryId(Long userId, Long categoryId) {
+    Long departmentId = departmentUserService.findDepartmentIdByUserId(userId);
     List<Long> courseIds = courseDepartmentService.findCourseIdsByDepartmentId(departmentId);
 
     List<Course> courses;
@@ -223,11 +248,41 @@ public class CourseService {
         Category.builder().id(categoryId).build());
     }
 
-    return courseMapper.convertToCourseDtoList(courses);
+    List<CourseDto> result = courseMapper.convertToCourseDtoList(courses);
+    result.forEach(courseDto -> applyCourseStudyDetails(userId, courseDto));
+
+    return result;
   }
 
-  public CourseDto findById(Long id) {
-    Course course = findEntityById(id);
-    return courseMapper.convertToCourseDto(course);
+  public CourseDto findById(Long userId, Long courseId) {
+    Course course = findEntityById(courseId);
+    CourseDto result = courseMapper.convertToCourseDto(course);
+    applyCourseStudyDetails(userId, result);
+    return result;
+  }
+
+  private void applyCourseStudyDetails(Long userId, CourseDto course) {
+    List<Chapter> chapters = chapterService.findAllByCourse(
+      Course.builder().id(course.getId()).build());
+    Long videoCount = chapters.stream()
+      .mapToLong(chapter -> chapter.getChapterVideos().size()).sum();
+
+    List<Long> chapterIds = chapters.stream().map(Chapter::getId).toList();
+    Long completedVideoCount = studyRecordService.countCompletedByUserIdAndChapterIdIn(userId,
+      chapterIds);
+    course.setVideoCount(videoCount);
+    course.setCompletedVideoCount(completedVideoCount);
+  }
+
+  public void updateStudyRecord(Long userId, UpdateStudyRecordReq body) {
+    Optional<StudyRecord> optionalStudyRecord = studyRecordService.findByChapterIdAndVideoIdAndUserId(
+      body.getChapterId(), body.getVideoId(), userId);
+    StudyRecord sr = optionalStudyRecord.orElseGet(
+      () -> StudyRecord.builder().userId(userId).videoId(body.getVideoId())
+        .chapterId(body.getChapterId()).build());
+
+    sr.setCompleted(body.getCompleted());
+
+    studyRecordService.save(sr);
   }
 }

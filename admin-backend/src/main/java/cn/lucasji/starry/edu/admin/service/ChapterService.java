@@ -3,9 +3,10 @@ package cn.lucasji.starry.edu.admin.service;
 import cn.lucasji.starry.edu.admin.entity.Chapter;
 import cn.lucasji.starry.edu.admin.entity.Course;
 import cn.lucasji.starry.edu.admin.repository.ChapterRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author jiwh

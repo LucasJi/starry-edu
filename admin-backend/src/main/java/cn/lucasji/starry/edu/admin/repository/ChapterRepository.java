@@ -2,8 +2,9 @@ package cn.lucasji.starry.edu.admin.repository;
 
 import cn.lucasji.starry.edu.admin.entity.Chapter;
 import cn.lucasji.starry.edu.admin.entity.Course;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  * @author lucas

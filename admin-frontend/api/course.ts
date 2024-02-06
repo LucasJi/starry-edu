@@ -11,6 +11,7 @@ import {
   Result,
   StorageObj,
   UpdateChapterReq,
+  UpdateStudyRecordReq,
 } from '@types';
 import createClient from './client.ts';
 
@@ -51,6 +52,8 @@ const findLoginMemberCoursesByCategoryId = (categoryId: number) =>
 
 const findById = (courseId: number) => api.get<Course>(`/${courseId}`);
 
+const study = (body: UpdateStudyRecordReq) => api.patch('/study', body);
+
 const fetcher = (url: string) => api.get(url).then(res => res.data);
 
 const courseApis = {
@@ -64,6 +67,7 @@ const courseApis = {
   deleteCourse,
   findLoginMemberCoursesByCategoryId,
   findById,
+  study,
   fetcher,
 };
 

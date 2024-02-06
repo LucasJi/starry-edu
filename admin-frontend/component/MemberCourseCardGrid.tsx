@@ -5,8 +5,6 @@ import { Card, Col, Progress, Row, Tag } from 'antd';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
-const percent: number = 100;
-
 const MemberCourseCardGrid: FC<{ courses: Course[]; loading?: boolean }> = ({
   courses,
   loading = false,
@@ -33,36 +31,43 @@ const MemberCourseCardGrid: FC<{ courses: Course[]; loading?: boolean }> = ({
         marginTop: '1.6rem',
       }}
     >
-      {courses.map((course, index) => (
-        <Col key={`col-${index}`} span={8}>
-          <Card
-            onClick={() => router.push(`/edu/member/course/${course.id}`)}
-            hoverable
-            title={course.name}
-            extra={
-              course.mandatory ? (
-                <Tag color="red">必修课</Tag>
+      {courses.map((course, index) => {
+        const percent =
+          course && course.videoCount && course.videoCount > 0
+            ? (course.completedVideoCount! * 100) / course.videoCount!
+            : 0;
+
+        return (
+          <Col key={`col-${index}`} span={8}>
+            <Card
+              onClick={() => router.push(`/edu/member/course/${course.id}`)}
+              hoverable
+              title={course.name}
+              extra={
+                course.mandatory ? (
+                  <Tag color="red">必修课</Tag>
+                ) : (
+                  <Tag color="orange">选修课</Tag>
+                )
+              }
+              style={{
+                width: '100%',
+              }}
+              bodyStyle={{
+                display: 'flex',
+                justifyContent: 'center',
+                height: '20rem',
+              }}
+            >
+              {percent >= 100 ? (
+                <CourseCompletedPrompt />
               ) : (
-                <Tag color="orange">选修课</Tag>
-              )
-            }
-            style={{
-              width: '100%',
-            }}
-            bodyStyle={{
-              display: 'flex',
-              justifyContent: 'center',
-              height: '20rem',
-            }}
-          >
-            {percent === 100 ? (
-              <CourseCompletedPrompt />
-            ) : (
-              <Progress className="mx-auto" type="circle" percent={percent} />
-            )}
-          </Card>
-        </Col>
-      ))}
+                <Progress className="mx-auto" type="circle" percent={percent} />
+              )}
+            </Card>
+          </Col>
+        );
+      })}
     </Row>
   );
 };

@@ -3,6 +3,7 @@ package cn.lucasji.starry.edu.admin.mapper;
 import cn.lucasji.starry.edu.admin.dto.ChapterVideoDto;
 import cn.lucasji.starry.edu.admin.entity.ChapterVideo;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
   uses = {StorageObjMapper.class})
 public interface ChapterVideoMapper {
 
+  @Mapping(target = "chapterId", source = "chapter.id")
   ChapterVideoDto convertToChapterVideoDto(ChapterVideo cv);
 
   List<ChapterVideo> convertToChapterVideoDtoList(List<ChapterVideo> cvs);

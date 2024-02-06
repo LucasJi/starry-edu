@@ -7,6 +7,7 @@ import cn.lucasji.starry.edu.admin.dto.req.EditChapterReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditCourseReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditCoursewareReq;
 import cn.lucasji.starry.edu.admin.dto.req.FindCoursePageReq;
+import cn.lucasji.starry.edu.admin.dto.req.UpdateStudyRecordReq;
 import cn.lucasji.starry.edu.admin.dto.resp.FindCoursePageResp;
 import cn.lucasji.starry.edu.admin.entity.StorageObj;
 import cn.lucasji.starry.edu.admin.service.CourseService;
@@ -67,8 +68,10 @@ public class CourseController {
   }
 
   @GetMapping("/{courseId}/chapters")
-  public List<ChapterDto> findChaptersById(@PathVariable Long courseId) {
-    return courseService.findChaptersById(courseId);
+  public List<ChapterDto> findChaptersById(@AuthenticationPrincipal Jwt jwt,
+    @PathVariable Long courseId) {
+    Long userId = AuthUtil.getUserIdFromJwt(jwt);
+    return courseService.findChaptersById(userId, courseId);
   }
 
   @GetMapping("/{courseId}/coursewares")
@@ -82,8 +85,9 @@ public class CourseController {
   }
 
   @GetMapping("/{id}")
-  public CourseDto findById(@PathVariable Long id) {
-    return courseService.findById(id);
+  public CourseDto findById(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
+    Long userId = AuthUtil.getUserIdFromJwt(jwt);
+    return courseService.findById(userId, id);
   }
 
   @GetMapping("/loginMember/category/{categoryId}")
@@ -92,5 +96,12 @@ public class CourseController {
     Long memberId = AuthUtil.getUserIdFromJwt(jwt);
     log.info("find login member(id: {}) courses(category id: {})", memberId, categoryId);
     return courseService.findCoursesByUserIdAndCategoryId(memberId, categoryId);
+  }
+
+  @PatchMapping("/study")
+  public void UpdateStudyRecord(@AuthenticationPrincipal Jwt jwt,
+    @RequestBody UpdateStudyRecordReq body) {
+    Long memberId = AuthUtil.getUserIdFromJwt(jwt);
+    courseService.updateStudyRecord(memberId, body);
   }
 }

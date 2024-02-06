@@ -70,6 +70,8 @@ interface Course extends BaseEntity {
   assignToAllDepartments?: boolean;
   description?: string;
   hasChapters?: boolean;
+  videoCount?: number;
+  completedVideoCount?: number;
 }
 
 interface EditChaptersCourse {
@@ -144,6 +146,7 @@ interface ChapterVideo {
   id?: number;
   video?: StorageObj;
   order?: number;
+  completed?: boolean;
 }
 
 interface AddCourseReq {
@@ -197,4 +200,10 @@ interface EditMemberReq {
   username: string;
   email: string;
   departmentId: number;
+}
+
+interface UpdateStudyRecordReq {
+  videoId: number;
+  chapterId: number;
+  completed: boolean;
 }

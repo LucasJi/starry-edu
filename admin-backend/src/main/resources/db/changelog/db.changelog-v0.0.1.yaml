@@ -952,3 +952,59 @@ databaseChangeLog:
             referencedTableName: course
             referencedTableSchemaName: public
             validate: true
+  - changeSet:
+      id: 45
+      author: lucas
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: study_record
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: chapter_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: video_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: completed
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+
+  - changeSet:
+      id: 46
+      author: lucas
+      changes:
+        - addColumn:
+            tableName: study_record
+            columns:
+              - column:
+                  name: creation_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false

@@ -20,4 +20,8 @@ public class ChapterVideoDto implements Serializable {
   private Integer order;
 
   private StorageObjDto video;
+
+  private Long chapterId;
+
+  private Boolean completed;
 }
