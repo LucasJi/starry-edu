@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/11/8 16:07
  */
 @RequestMapping("/member")

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/8/31 14:50
  */
 @EqualsAndHashCode(callSuper = true)

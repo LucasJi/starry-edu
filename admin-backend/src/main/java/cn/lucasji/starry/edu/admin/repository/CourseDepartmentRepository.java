@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2024/1/9 17:10
  */
 @Repository

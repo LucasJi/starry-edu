@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/12/21 14:50
  */
 @RestController

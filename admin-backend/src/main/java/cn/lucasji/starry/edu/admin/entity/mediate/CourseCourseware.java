@@ -16,7 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2024/1/19 10:58
  */
 @Entity

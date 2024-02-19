@@ -1,7 +1,7 @@
 package cn.lucasji.starry.edu.admin.modal;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/12/12 20:11
  */
 public enum StorageObjType {

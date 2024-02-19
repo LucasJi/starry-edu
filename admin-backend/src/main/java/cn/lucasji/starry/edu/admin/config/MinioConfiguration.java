@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/10/24 13:17
  */
 @Configuration

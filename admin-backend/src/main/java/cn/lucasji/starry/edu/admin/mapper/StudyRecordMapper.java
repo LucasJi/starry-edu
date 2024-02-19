@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 /**
- * @author jiwh
+ * @author Lucas Ji
  * @date 2024/2/6 13:54
  */
 @Mapper(

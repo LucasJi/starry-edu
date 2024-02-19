@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/12/16 12:52
  */
 @RestController

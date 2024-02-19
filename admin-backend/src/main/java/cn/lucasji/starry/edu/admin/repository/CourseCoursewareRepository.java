@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
- * @author jiwh
+ * @author Lucas Ji
  * @date 2024/1/22 14:20
  */
 public interface CourseCoursewareRepository extends JpaRepository<CourseCourseware, Long> {

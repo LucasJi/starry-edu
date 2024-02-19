@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/12/12 20:36
  */
 @Slf4j

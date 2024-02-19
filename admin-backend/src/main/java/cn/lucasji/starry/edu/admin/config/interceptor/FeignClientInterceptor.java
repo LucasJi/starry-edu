@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Component;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/10/31 13:16
  */
 @Component

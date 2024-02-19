@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/12/21 14:49
  */
 @Repository

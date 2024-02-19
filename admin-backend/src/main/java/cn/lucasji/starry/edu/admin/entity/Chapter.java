@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/12/21 13:41
  */
 @EqualsAndHashCode(callSuper = true)

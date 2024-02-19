@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/12/16 11:22
  */
 public interface StorageObjRepository extends JpaRepository<StorageObj, Long> {

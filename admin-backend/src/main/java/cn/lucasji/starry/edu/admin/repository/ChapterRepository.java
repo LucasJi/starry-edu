@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2024/1/7 20:45
  */
 public interface ChapterRepository extends JpaRepository<Chapter, Long> {

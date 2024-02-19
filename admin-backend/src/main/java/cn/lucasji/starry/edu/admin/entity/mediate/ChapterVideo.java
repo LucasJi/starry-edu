@@ -21,7 +21,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2024/1/15 21:34
  */
 @Entity

@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serial;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/12/21 10:52
  */
 @EqualsAndHashCode(callSuper = true)

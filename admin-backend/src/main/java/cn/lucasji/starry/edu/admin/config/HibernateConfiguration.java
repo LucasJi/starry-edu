@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import java.io.Serial;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2024/1/9 15:13
  */
 @Configuration

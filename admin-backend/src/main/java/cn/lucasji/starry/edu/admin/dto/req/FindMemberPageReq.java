@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @author jiwh
+ * @author Lucas Ji
  * @date 2024/1/31 16:29
  */
 @Data

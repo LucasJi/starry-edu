@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author jiwh
+ * @author Lucas Ji
  * @date 2024/2/6 9:56
  */
 public interface StudyRecordRepository extends JpaRepository<StudyRecord, Long> {

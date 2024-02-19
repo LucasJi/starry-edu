@@ -8,7 +8,7 @@ import org.mapstruct.ReportingPolicy;
 import java.util.List;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2024/2/3 21:14
  */
 @Mapper(

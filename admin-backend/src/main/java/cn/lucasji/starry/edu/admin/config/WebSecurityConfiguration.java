@@ -9,7 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.filter.CorsFilter;
 
 /**
- * @author lucas
+ * @author Lucas Ji
  * @date 2023/8/29 13:46
  */
 @Configuration
