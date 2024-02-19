@@ -1,9 +1,10 @@
 package cn.lucasji.starry.edu.admin.repository;
 
 import cn.lucasji.starry.edu.admin.entity.Course;
-import cn.lucasji.starry.edu.admin.entity.CourseCourseware;
-import java.util.List;
+import cn.lucasji.starry.edu.admin.entity.mediate.CourseCourseware;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  * @author jiwh

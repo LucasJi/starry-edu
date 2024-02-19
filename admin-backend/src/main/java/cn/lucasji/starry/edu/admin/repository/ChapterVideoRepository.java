@@ -1,6 +1,6 @@
 package cn.lucasji.starry.edu.admin.repository;
 
-import cn.lucasji.starry.edu.admin.entity.ChapterVideo;
+import cn.lucasji.starry.edu.admin.entity.mediate.ChapterVideo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

@@ -1,5 +1,6 @@
 package cn.lucasji.starry.edu.admin.entity;
 
+import cn.lucasji.starry.edu.admin.entity.mediate.ChapterVideo;
 import cn.lucasji.starry.idp.infrastructure.entity.BaseEntityAudit;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Access;

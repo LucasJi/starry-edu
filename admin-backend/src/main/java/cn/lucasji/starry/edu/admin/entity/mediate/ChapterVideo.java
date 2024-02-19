@@ -1,5 +1,7 @@
-package cn.lucasji.starry.edu.admin.entity;
+package cn.lucasji.starry.edu.admin.entity.mediate;
 
+import cn.lucasji.starry.edu.admin.entity.Chapter;
+import cn.lucasji.starry.edu.admin.entity.StorageObj;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,11 +13,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.io.Serial;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode.Exclude;
 import lombok.ToString;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * @author lucas

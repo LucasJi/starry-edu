@@ -1,7 +1,7 @@
 package cn.lucasji.starry.edu.admin.mapper;
 
 import cn.lucasji.starry.edu.admin.dto.ChapterVideoDto;
-import cn.lucasji.starry.edu.admin.entity.ChapterVideo;
+import cn.lucasji.starry.edu.admin.entity.mediate.ChapterVideo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;

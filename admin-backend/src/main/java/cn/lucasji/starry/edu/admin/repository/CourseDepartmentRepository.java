@@ -1,7 +1,7 @@
 package cn.lucasji.starry.edu.admin.repository;
 
 import cn.lucasji.starry.edu.admin.entity.Course;
-import cn.lucasji.starry.edu.admin.entity.CourseDepartment;
+import cn.lucasji.starry.edu.admin.entity.mediate.CourseDepartment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

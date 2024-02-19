@@ -1,11 +1,12 @@
 package cn.lucasji.starry.edu.admin.service;
 
 import cn.lucasji.starry.edu.admin.entity.Course;
-import cn.lucasji.starry.edu.admin.entity.CourseCourseware;
+import cn.lucasji.starry.edu.admin.entity.mediate.CourseCourseware;
 import cn.lucasji.starry.edu.admin.repository.CourseCoursewareRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author jiwh

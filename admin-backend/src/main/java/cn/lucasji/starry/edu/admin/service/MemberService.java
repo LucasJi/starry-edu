@@ -5,7 +5,7 @@ import cn.lucasji.starry.edu.admin.dto.req.AddMemberReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditMemberReq;
 import cn.lucasji.starry.edu.admin.dto.req.FindMemberPageReq;
 import cn.lucasji.starry.edu.admin.entity.Department;
-import cn.lucasji.starry.edu.admin.entity.DepartmentUser;
+import cn.lucasji.starry.edu.admin.entity.mediate.DepartmentUser;
 import cn.lucasji.starry.idp.infrastructure.api.UserClient;
 import cn.lucasji.starry.idp.infrastructure.dto.UserDto;
 import cn.lucasji.starry.idp.infrastructure.modal.Result;

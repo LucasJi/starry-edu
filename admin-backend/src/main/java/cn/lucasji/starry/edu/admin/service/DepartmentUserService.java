@@ -1,7 +1,7 @@
 package cn.lucasji.starry.edu.admin.service;
 
 import cn.lucasji.starry.edu.admin.entity.Department;
-import cn.lucasji.starry.edu.admin.entity.DepartmentUser;
+import cn.lucasji.starry.edu.admin.entity.mediate.DepartmentUser;
 import cn.lucasji.starry.edu.admin.repository.DepartmentUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

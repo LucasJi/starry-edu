@@ -1,5 +1,6 @@
-package cn.lucasji.starry.edu.admin.entity;
+package cn.lucasji.starry.edu.admin.entity.mediate;
 
+import cn.lucasji.starry.edu.admin.entity.Department;
 import cn.lucasji.starry.idp.infrastructure.entity.BaseEntityAudit;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

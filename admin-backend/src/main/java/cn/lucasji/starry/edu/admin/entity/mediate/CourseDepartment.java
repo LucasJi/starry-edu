@@ -1,5 +1,7 @@
-package cn.lucasji.starry.edu.admin.entity;
+package cn.lucasji.starry.edu.admin.entity.mediate;
 
+import cn.lucasji.starry.edu.admin.entity.Course;
+import cn.lucasji.starry.edu.admin.entity.Department;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

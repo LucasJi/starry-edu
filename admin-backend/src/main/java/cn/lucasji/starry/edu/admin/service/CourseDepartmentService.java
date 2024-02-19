@@ -1,7 +1,7 @@
 package cn.lucasji.starry.edu.admin.service;
 
 import cn.lucasji.starry.edu.admin.entity.Course;
-import cn.lucasji.starry.edu.admin.entity.CourseDepartment;
+import cn.lucasji.starry.edu.admin.entity.mediate.CourseDepartment;
 import cn.lucasji.starry.edu.admin.repository.CourseDepartmentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

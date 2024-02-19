@@ -1,9 +1,10 @@
 package cn.lucasji.starry.edu.admin.repository;
 
-import cn.lucasji.starry.edu.admin.entity.DepartmentUser;
-import java.util.List;
+import cn.lucasji.starry.edu.admin.entity.mediate.DepartmentUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @author lucas
