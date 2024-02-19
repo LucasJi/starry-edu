@@ -13,7 +13,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 
 const listItemClassNames = 'cursor-pointer px-[1.2rem] h-[8rem]';
 const itemElementWrapperClassNames =
-  'flex justify-between items-center text-2xl transition-shadow hover:shadow-md w-full h-full rounded-xl px-[2.4rem] hover:bg-orange-100 ease-in-out';
+  'flex justify-between items-center text-2xl transition-shadow hover:shadow-md w-full h-full rounded-xl px-[2.4rem] hover:bg-[#fff7e6] ease-in-out';
 
 const Chapters: FC<{
   chapters: Chapter[];
