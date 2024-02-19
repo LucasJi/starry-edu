@@ -41,10 +41,10 @@ const MemberLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
                 alt="logo"
                 priority
               />
-              <Link className="ml-8 text-black" href="/edu/member">
+              <Link className="ml-8 text-black text-2xl" href="/edu/member">
                 首页
               </Link>
-              <Link className="ml-8 text-black" href="/edu/member">
+              <Link className="ml-8 text-black text-2xl" href="/edu/member">
                 最近学习
               </Link>
             </div>
