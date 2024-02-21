@@ -2,6 +2,7 @@ import {
   AddCourseReq,
   Chapter,
   Course,
+  CourseOverview,
   EditCourseReq,
   EditCoursewareReq,
   FindCoursePageReq,
@@ -48,11 +49,13 @@ const findCoursewaresById = (courseId: number) =>
 const deleteCourse = (courseId: number) => api.delete(`/${courseId}`);
 
 const findLoginMemberCoursesByCategoryId = (categoryId: number) =>
-  api.get<Course[]>(`/loginMember/category/${categoryId}`);
+  api.get<Course[]>(`/category/${categoryId}/member/current`);
 
 const findById = (courseId: number) => api.get<Course>(`/${courseId}`);
 
 const study = (body: UpdateStudyRecordReq) => api.patch('/study', body);
+
+const getOverview = () => api.get<CourseOverview>('/overview');
 
 const fetcher = (url: string) => api.get(url).then(res => res.data);
 
@@ -68,6 +71,7 @@ const courseApis = {
   findLoginMemberCoursesByCategoryId,
   findById,
   study,
+  getOverview,
   fetcher,
 };
 

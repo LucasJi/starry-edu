@@ -20,4 +20,6 @@ public class UpdateStudyRecordReq implements Serializable {
   private Long videoId;
 
   private Boolean completed;
+
+  private Double duration;
 }

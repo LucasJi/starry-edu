@@ -34,4 +34,6 @@ public class StudyRecord extends BaseEntityAudit {
   private Long videoId;
 
   private Boolean completed;
+
+  private Double duration;
 }

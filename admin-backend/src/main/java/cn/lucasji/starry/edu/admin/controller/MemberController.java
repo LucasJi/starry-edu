@@ -53,8 +53,8 @@ public class MemberController {
     return Result.success();
   }
 
-  @GetMapping("/logged")
-  public Member logged(@AuthenticationPrincipal Jwt jwt) {
+  @GetMapping("/current")
+  public Member current(@AuthenticationPrincipal Jwt jwt) {
     Long memberId = AuthUtil.getUserIdFromJwt(jwt);
     return memberService.findById(memberId);
   }

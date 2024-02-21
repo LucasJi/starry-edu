@@ -2,6 +2,7 @@ package cn.lucasji.starry.edu.admin.controller;
 
 import cn.lucasji.starry.edu.admin.dto.ChapterDto;
 import cn.lucasji.starry.edu.admin.dto.CourseDto;
+import cn.lucasji.starry.edu.admin.dto.CourseOverview;
 import cn.lucasji.starry.edu.admin.dto.req.AddCourseReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditChapterReq;
 import cn.lucasji.starry.edu.admin.dto.req.EditCourseReq;
@@ -90,7 +91,7 @@ public class CourseController {
     return courseService.findById(userId, id);
   }
 
-  @GetMapping("/loginMember/category/{categoryId}")
+  @GetMapping("/category/{categoryId}/member/current")
   public List<CourseDto> findLoginMemberCourses(@AuthenticationPrincipal Jwt jwt,
     @PathVariable Long categoryId) {
     Long memberId = AuthUtil.getUserIdFromJwt(jwt);
@@ -99,9 +100,15 @@ public class CourseController {
   }
 
   @PatchMapping("/study")
-  public void UpdateStudyRecord(@AuthenticationPrincipal Jwt jwt,
+  public void updateStudyRecord(@AuthenticationPrincipal Jwt jwt,
     @RequestBody UpdateStudyRecordReq body) {
     Long memberId = AuthUtil.getUserIdFromJwt(jwt);
     courseService.updateStudyRecord(memberId, body);
+  }
+
+  @GetMapping("/overview")
+  public CourseOverview getOverView(@AuthenticationPrincipal Jwt jwt) {
+    Long memberId = AuthUtil.getUserIdFromJwt(jwt);
+    return courseService.getOverview(memberId);
   }
 }

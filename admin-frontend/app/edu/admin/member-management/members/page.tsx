@@ -56,6 +56,7 @@ const Members = () => {
   const [editedMember, setEditedMember] = useState<Member>();
   const [memberNameKeyWord, setMemberNameKeyWord] = useState('');
   const [memberEmailKeyWord, setMemberEmailKeyWord] = useState('');
+  const [membersLoading, setMembersLoading] = useState(true);
 
   const onSelect: TreeProps['onSelect'] = (_, { node }) => {
     setCurrentDepartment(node);
@@ -149,6 +150,8 @@ const Members = () => {
     } else {
       department = { id: currentDepartment.id };
     }
+
+    setMembersLoading(true);
     memberApis
       .findPage(
         {
@@ -160,7 +163,9 @@ const Members = () => {
       )
       .then(resp => {
         setMemberPage({ ...resp.data });
-      });
+      }).finally(() => {
+        setMembersLoading(false);
+    });
   }, [currentDepartment, pageRequest]);
 
   return (
@@ -323,6 +328,7 @@ const Members = () => {
                   });
                 },
               }}
+              loading={membersLoading}
             />
             <Modal
               onCancel={handleMemberModalCancel}

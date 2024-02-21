@@ -2,7 +2,7 @@
 import { CaretDownOutlined } from '@ant-design/icons';
 import { categoryApis, courseApis } from '@api';
 import { MemberCourseCardGrid } from '@component';
-import { Category, Course } from '@types';
+import { Category, Course, CourseOverview } from '@types';
 import { Button, Card, Popover, Tabs, Tree } from 'antd';
 import Image from 'next/image';
 import MyLessonIcon from 'public/icon-mylesoon.png';
@@ -11,8 +11,6 @@ import { FC, useEffect, useState } from 'react';
 
 const { Meta } = Card;
 const iconSize = 36;
-const allCourses = 10;
-const learnedCourses = 2;
 const ALL_CATEGORY: Category = {
   id: -1,
   name: '全部分类',
@@ -20,6 +18,15 @@ const ALL_CATEGORY: Category = {
 
 const getMandatoryCourses = (courses: Course[]) =>
   courses.filter(c => c.mandatory);
+
+const getOptionalCourses = (courses: Course[]) =>
+  courses.filter(c => !c.mandatory);
+
+const getCompletedCourse = (courses: Course[]) =>
+  courses.filter(c => c.completedVideoCount === c.videoCount);
+
+const getUnCompletedCourse = (courses: Course[]) =>
+  courses.filter(c => c.completedVideoCount !== c.videoCount);
 
 const Member: FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -29,6 +36,12 @@ const Member: FC = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
   const [open, setOpen] = useState(false);
+  const [courseOverview, setCourseOverview] = useState<CourseOverview>({
+    completedCourseCount: 0,
+    courseCount: 0,
+    dailyStudyDuration: 0,
+    studyDuration: 0,
+  });
 
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
@@ -39,6 +52,10 @@ const Member: FC = () => {
     categoryApis.tree().then(resp => {
       setCategories([...resp.data]);
       setCategoriesLoaded(true);
+    });
+
+    courseApis.getOverview().then(({ data }) => {
+      setCourseOverview(data);
     });
   }, []);
 
@@ -70,8 +87,10 @@ const Member: FC = () => {
           <div className="mt-10 text-gray-500 font-semibold">
             <span>必修课：已学完课程</span>
             <span className="ml-2">
-              <strong className="text-black text-3xl">{learnedCourses}</strong>{' '}
-              / {allCourses}
+              <strong className="text-black text-3xl">
+                {courseOverview.completedCourseCount}
+              </strong>{' '}
+              / {courseOverview.courseCount}
             </span>
           </div>
         </Card>
@@ -89,10 +108,23 @@ const Member: FC = () => {
           />
           <div className="mt-10 text-gray-500 font-semibold">
             <span>
-              今日： <strong className="text-black text-3xl">30</strong> 分钟{' '}
-              <strong className="text-black text-3xl">30</strong> 秒 累计：{' '}
-              <strong className="text-black text-3xl">100</strong> 分钟{' '}
-              <strong className="text-black text-3xl">20</strong> 秒
+              今日：
+              <strong className="text-black text-3xl">
+                {Math.floor(courseOverview.dailyStudyDuration / 60)}
+              </strong>{' '}
+              分钟{' '}
+              <strong className="text-black text-3xl">
+                {courseOverview.dailyStudyDuration % 60}
+              </strong>{' '}
+              秒 累计：{' '}
+              <strong className="text-black text-3xl">
+                {Math.floor(courseOverview.studyDuration / 60)}
+              </strong>{' '}
+              分钟{' '}
+              <strong className="text-black text-3xl">
+                {courseOverview.studyDuration % 60}
+              </strong>{' '}
+              秒
             </span>
           </div>
         </Card>
@@ -125,17 +157,23 @@ const Member: FC = () => {
           {
             key: '3',
             label: '选修课',
-            children: <MemberCourseCardGrid courses={courses} />,
+            children: (
+              <MemberCourseCardGrid courses={getOptionalCourses(courses)} />
+            ),
           },
           {
             key: '4',
             label: '已学完',
-            children: <MemberCourseCardGrid courses={courses} />,
+            children: (
+              <MemberCourseCardGrid courses={getCompletedCourse(courses)} />
+            ),
           },
           {
             key: '5',
             label: '未学完',
-            children: <MemberCourseCardGrid courses={courses} />,
+            children: (
+              <MemberCourseCardGrid courses={getUnCompletedCourse(courses)} />
+            ),
           },
         ]}
         tabBarExtraContent={

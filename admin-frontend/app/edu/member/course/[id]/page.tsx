@@ -91,12 +91,13 @@ const Chapters: FC<{
       >
         <VideoPlayer
           url={videoPreviewUrl}
-          onEnded={() => {
+          onEnded={state => {
             if (currentChapterVideo.current) {
               courseApis.study({
                 chapterId: currentChapterVideo.current.chapterId!,
                 videoId: currentChapterVideo.current.video!.id!,
                 completed: true,
+                duration: state.playedSeconds,
               });
             }
           }}

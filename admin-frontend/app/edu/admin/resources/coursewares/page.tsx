@@ -64,6 +64,7 @@ const Coursewares = () => {
   const [coursewareNameKeyWord, setCoursewareNameKeyWord] = useState('');
   const [uploadCoursewareModalOpen, setUploadCoursewareModalOpen] =
     useState(false);
+  const [coursewaresLoading, setCoursewaresLoading] = useState(true);
 
   useEffect(() => {
     let category: Category;
@@ -72,6 +73,8 @@ const Coursewares = () => {
     } else {
       category = { id: currentCategory.id };
     }
+
+    setCoursewaresLoading(true);
     storageApis
       .findPageByCategoryAndNameAndTypeIn(
         { category, name: coursewareNameKeyWord, types: coursewareType },
@@ -79,7 +82,7 @@ const Coursewares = () => {
       )
       .then(resp => {
         setCoursewarePage({ ...resp.data });
-      });
+      }).finally(() => setCoursewaresLoading(false));
   }, [currentCategory, pageRequest]);
 
   useEffect(() => {
@@ -352,6 +355,7 @@ const Coursewares = () => {
                   });
                 },
               }}
+              loading={coursewaresLoading}
             />
             <Modal
               onCancel={handleUploadCoursewareModalCancel}

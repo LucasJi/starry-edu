@@ -206,4 +206,12 @@ interface UpdateStudyRecordReq {
   videoId: number;
   chapterId: number;
   completed: boolean;
+  duration: number;
+}
+
+interface CourseOverview {
+  courseCount: number;
+  completedCourseCount: number;
+  dailyStudyDuration: number;
+  studyDuration: number;
 }

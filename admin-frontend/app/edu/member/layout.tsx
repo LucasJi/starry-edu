@@ -17,7 +17,7 @@ const MemberLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [member, setMember] = useState<Member>();
 
   useEffect(() => {
-    memberApis.logged().then(resp => setMember(resp.data));
+    memberApis.current().then(resp => setMember(resp.data));
   }, []);
 
   return (
