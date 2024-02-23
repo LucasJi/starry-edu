@@ -170,4 +170,8 @@ public class CategoryService {
     return categoryRepository.findById(id).orElseThrow(() -> new NoSuchElementException(
       STR."No category present with id:\{id}"));
   }
+
+  public long count() {
+    return categoryRepository.count();
+  }
 }

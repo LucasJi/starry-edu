@@ -167,6 +167,10 @@ public class StorageObjService {
     return result;
   }
 
+  public long countByTypeIn(List<StorageObjType> types) {
+    return storageObjRepository.countByTypeIn(types);
+  }
+
   public Result<String> deleteAllByIdInBatch(List<Long> ids) {
     try {
       storageObjRepository.deleteAllByIdInBatch(ids);

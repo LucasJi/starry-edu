@@ -162,4 +162,8 @@ public class DepartmentService {
 
     return Objects.nonNull(comparedDepartment);
   }
+
+  public long count() {
+    return departmentRepository.count();
+  }
 }

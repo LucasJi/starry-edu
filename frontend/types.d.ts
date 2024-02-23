@@ -209,7 +209,7 @@ interface UpdateStudyRecordReq {
   duration: number;
 }
 
-interface CourseOverview {
+interface MemberOverview {
   courseCount: number;
   completedCourseCount: number;
   dailyStudyDuration: number;

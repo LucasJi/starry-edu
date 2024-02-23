@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class CourseOverview implements Serializable {
+public class MemberOverview implements Serializable {
 
   @Serial
   private static final long serialVersionUID = 8878927402083412458L;

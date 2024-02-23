@@ -2,7 +2,6 @@ package cn.lucasji.starry.edu.controller;
 
 import cn.lucasji.starry.edu.dto.ChapterDto;
 import cn.lucasji.starry.edu.dto.CourseDto;
-import cn.lucasji.starry.edu.dto.CourseOverview;
 import cn.lucasji.starry.edu.dto.req.AddCourseReq;
 import cn.lucasji.starry.edu.dto.req.EditChapterReq;
 import cn.lucasji.starry.edu.dto.req.EditCourseReq;
@@ -104,11 +103,5 @@ public class CourseController {
     @RequestBody UpdateStudyRecordReq body) {
     Long memberId = AuthUtil.getUserIdFromJwt(jwt);
     courseService.updateStudyRecord(memberId, body);
-  }
-
-  @GetMapping("/overview")
-  public CourseOverview getOverView(@AuthenticationPrincipal Jwt jwt) {
-    Long memberId = AuthUtil.getUserIdFromJwt(jwt);
-    return courseService.getOverview(memberId);
   }
 }

@@ -3,7 +3,6 @@ package cn.lucasji.starry.edu.service;
 import cn.lucasji.starry.edu.dto.ChapterDto;
 import cn.lucasji.starry.edu.dto.ChapterVideoDto;
 import cn.lucasji.starry.edu.dto.CourseDto;
-import cn.lucasji.starry.edu.dto.CourseOverview;
 import cn.lucasji.starry.edu.dto.req.AddCourseReq;
 import cn.lucasji.starry.edu.dto.req.EditChapterReq;
 import cn.lucasji.starry.edu.dto.req.EditCourseReq;
@@ -31,11 +30,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -258,56 +254,6 @@ public class CourseService {
     return result;
   }
 
-  public CourseOverview getOverview(Long userId) {
-    Long departmentId = departmentUserService.findDepartmentIdByUserId(userId);
-    List<Long> courseIds = courseDepartmentService.findCourseIdsByDepartmentId(departmentId);
-    List<Course> courses = courseRepository.findAllById(courseIds);
-    CourseOverview courseOverview = new CourseOverview();
-    LocalDate today = LocalDate.now();
-
-    Integer courseCount = courses.size();
-    int completedCourseCount = 0;
-    double dailyStudyDuration = 0.0;
-    double studyDuration = 0.0;
-    for (Course course : courses) {
-      List<Chapter> chapters = chapterService.findAllByCourse(course);
-      long videoCountOfCourse = chapters.stream()
-        .mapToLong(chapter -> chapter.getChapterVideos().size()).sum();
-      long completedVideoCountOfCourse = 0L;
-      List<Long> chapterIds = chapters.stream().map(Chapter::getId).toList();
-      List<StudyRecord> studyRecords = studyRecordService.findCompletedByUserIdAndChapterIdIn(
-        userId, chapterIds);
-
-      for (StudyRecord studyRecord : studyRecords) {
-        if (Boolean.TRUE.equals(studyRecord.getCompleted())) {
-          completedVideoCountOfCourse++;
-        }
-
-        Double duration = studyRecord.getDuration();
-        if (Objects.nonNull(duration)) {
-          studyDuration += duration;
-
-          Date updateTimestamp = studyRecord.getUpdateTimestamp();
-          if (today.isEqual(
-            LocalDate.ofInstant(updateTimestamp.toInstant(), ZoneId.systemDefault()))) {
-            dailyStudyDuration += duration;
-          }
-        }
-      }
-
-      if (completedVideoCountOfCourse == videoCountOfCourse) {
-        completedCourseCount++;
-      }
-    }
-
-    courseOverview.setCompletedCourseCount(completedCourseCount);
-    courseOverview.setCourseCount(courseCount);
-    courseOverview.setDailyStudyDuration((int) dailyStudyDuration);
-    courseOverview.setStudyDuration((int) studyDuration);
-
-    return courseOverview;
-  }
-
   public CourseDto findById(Long userId, Long courseId) {
     Course course = findEntityById(courseId);
     CourseDto result = courseMapper.convertToCourseDto(course);
@@ -339,5 +285,13 @@ public class CourseService {
     sr.setDuration(body.getDuration());
 
     studyRecordService.save(sr);
+  }
+
+  public List<Course> findAllById(List<Long> ids) {
+    return courseRepository.findAllById(ids);
+  }
+
+  public long count() {
+    return courseRepository.count();
   }
 }
