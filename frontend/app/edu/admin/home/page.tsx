@@ -8,6 +8,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import IconAddDept from 'public/icon-adddept.svg';
 import IconAddUser from 'public/icon-adduser.svg';
+import IconN1 from 'public/icon-n1.png';
+import IconN2 from 'public/icon-n2.png';
+import IconN3 from 'public/icon-n3.png';
 import IconOnlineLesson from 'public/icon-onlinelesson.svg';
 import IconUploadVideo from 'public/icon-upvideo.svg';
 import { FC, useEffect, useState } from 'react';
@@ -180,12 +183,59 @@ const Home: FC = () => {
             </Card>
           </Col>
           <Col span={12}>
-            <Card bordered={false}>
+            <Card
+              bordered={false}
+              bodyStyle={{
+                height: '350px',
+              }}
+            >
               <Meta title="今日学习排行" />
+              <div className="flex">
+                <div className="flex flex-col w-1/2 justify-center items-start">
+                  <div className="mt-10">
+                    <Image
+                      src={IconN1}
+                      alt="starry-logo"
+                      height={20}
+                      width={20}
+                    />
+                  </div>
+                  <div className="mt-10">
+                    <Image
+                      src={IconN2}
+                      alt="starry-logo"
+                      height={20}
+                      width={20}
+                    />
+                  </div>
+                  <div className="mt-10">
+                    <Image
+                      src={IconN3}
+                      alt="starry-logo"
+                      height={20}
+                      width={20}
+                    />
+                  </div>
+                  <div className="mt-10 text-gray-500">4</div>
+                  <div className="mt-10 text-gray-500">5</div>
+                </div>
+                <div className="flex flex-col w-1/2 justify-center items-start">
+                  <div className="mt-10 text-gray-500">6</div>
+                  <div className="mt-10 text-gray-500">7</div>
+                  <div className="mt-10 text-gray-500">8</div>
+                  <div className="mt-10 text-gray-500">9</div>
+                  <div className="mt-10 text-gray-500">10</div>
+                </div>
+              </div>
             </Card>
           </Col>
           <Col span={12}>
-            <Card bordered={false}>
+            <Card
+              bordered={false}
+              bodyStyle={{
+                height: '350px',
+              }}
+            >
               <Meta title="资源统计" />
               <ReactEcharts
                 option={{
