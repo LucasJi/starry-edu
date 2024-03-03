@@ -7,9 +7,6 @@ import cn.lucasji.starry.edu.entity.Course;
 import cn.lucasji.starry.edu.entity.StudyRecord;
 import cn.lucasji.starry.edu.entity.mediate.DepartmentUser;
 import cn.lucasji.starry.edu.modal.StorageObjType;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
@@ -17,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * @author jiwh
@@ -98,7 +97,9 @@ public class OverviewService {
     LocalDate yesterday = today.minusDays(1);
 
     // TODO 今日学习学员
+    adminOverview.setTodayMemberCount(0);
     // TODO 今日学习学员较昨日增加
+    adminOverview.setTmcCompareToYesterday(0);
 
     List<DepartmentUser> members = departmentUserService.findAll();
     // 总学员数
@@ -133,7 +134,7 @@ public class OverviewService {
       (int) storageObjService.countByTypeIn(List.of(StorageObjType.VIDEO)));
 
     // 课件数量
-    adminOverview.setVideoCount(
+    adminOverview.setCoursewareCount(
       (int) storageObjService.countByTypeIn(Arrays.stream(StorageObjType.values())
         .filter(type -> !type.equals(StorageObjType.VIDEO)).collect(
           Collectors.toList())));

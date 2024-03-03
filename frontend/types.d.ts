@@ -215,3 +215,17 @@ interface MemberOverview {
   dailyStudyDuration: number;
   studyDuration: number;
 }
+
+interface AdminOverview {
+  todayMemberCount: number;
+  tmcCompareToYesterday: number;
+  memberCount: number;
+  mcCompareToYesterday: number;
+  courseCount: number;
+  departmentCount: number;
+  categoryCount: number;
+  adminCount: number;
+  videoCount: number;
+  coursewareCount: number;
+  rank: string[];
+}

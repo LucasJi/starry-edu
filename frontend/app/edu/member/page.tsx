@@ -1,6 +1,6 @@
 'use client';
 import { CaretDownOutlined } from '@ant-design/icons';
-import { categoryApis, courseApis } from '@api';
+import { categoryApis, courseApis, overviewApis } from '@api';
 import { MemberCourseCardGrid } from '@component';
 import { Category, Course, MemberOverview } from '@types';
 import { Button, Card, Popover, Tabs, Tree } from 'antd';
@@ -8,7 +8,6 @@ import Image from 'next/image';
 import MyLessonIcon from 'public/icon-mylesoon.png';
 import StudyTimeIcon from 'public/icon-studytime.png';
 import { FC, useEffect, useState } from 'react';
-import overviewApis from '../../../api/overview.ts';
 
 const { Meta } = Card;
 const iconSize = 36;
