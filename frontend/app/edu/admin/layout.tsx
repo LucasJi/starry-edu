@@ -3,7 +3,6 @@ import {
   DesktopOutlined,
   FolderOutlined,
   HomeOutlined,
-  SettingOutlined,
   TagsOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
@@ -44,10 +43,10 @@ const items: MenuProps['items'] = [
     getItem('学员', 'members'),
     getItem('部门', 'departments'),
   ]),
-  getItem('系统设置', 'settings', <SettingOutlined />, [
-    getItem('管理人员', 'administrator'),
-    getItem('管理日志', 'logs'),
-  ]),
+  // getItem('系统设置', 'settings', <SettingOutlined />, [
+  //   getItem('管理人员', 'administrator'),
+  //   getItem('管理日志', 'logs'),
+  // ]),
 ];
 
 const { Header, Content, Footer, Sider } = Layout;
