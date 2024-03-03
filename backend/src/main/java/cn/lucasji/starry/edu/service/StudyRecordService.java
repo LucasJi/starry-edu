@@ -2,12 +2,12 @@ package cn.lucasji.starry.edu.service;
 
 import cn.lucasji.starry.edu.entity.StudyRecord;
 import cn.lucasji.starry.edu.repository.StudyRecordRepository;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Lucas Ji
@@ -37,5 +37,9 @@ public class StudyRecordService {
     List<Long> chapterIds) {
     return studyRecordRepository.findAllByCompletedIsTrueAndUserIdAndChapterIdIn(userId,
       chapterIds);
+  }
+
+  public long countDistinctUserIdByCreationTimestampBetween(Date start, Date end) {
+    return studyRecordRepository.countDistinctUserIdByCreationTimestampBetween(start, end);
   }
 }

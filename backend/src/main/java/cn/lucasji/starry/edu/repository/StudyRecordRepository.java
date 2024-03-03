@@ -1,10 +1,10 @@
 package cn.lucasji.starry.edu.repository;
 
 import cn.lucasji.starry.edu.entity.StudyRecord;
-import org.springframework.data.jpa.repository.JpaRepository;
-
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * @author Lucas Ji
@@ -19,4 +19,6 @@ public interface StudyRecordRepository extends JpaRepository<StudyRecord, Long> 
 
   List<StudyRecord> findAllByCompletedIsTrueAndUserIdAndChapterIdIn(Long userId,
     List<Long> chapterIds);
+
+  long countDistinctUserIdByCreationTimestampBetween(Date start, Date end);
 }

@@ -7,6 +7,7 @@ import cn.lucasji.starry.edu.entity.Course;
 import cn.lucasji.starry.edu.entity.StudyRecord;
 import cn.lucasji.starry.edu.entity.mediate.DepartmentUser;
 import cn.lucasji.starry.edu.modal.StorageObjType;
+import cn.lucasji.starry.idp.infrastructure.api.UserClient;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OverviewService {
 
   private final DepartmentUserService departmentUserService;
@@ -40,6 +43,8 @@ public class OverviewService {
   private final CategoryService categoryService;
 
   private final StorageObjService storageObjService;
+
+  private final UserClient userClient;
 
   public MemberOverview getMemberOverview(Long userId) {
     Long departmentId = departmentUserService.findDepartmentIdByUserId(userId);
@@ -96,10 +101,25 @@ public class OverviewService {
     LocalDate today = LocalDate.now();
     LocalDate yesterday = today.minusDays(1);
 
-    // TODO 今日学习学员
-    adminOverview.setTodayMemberCount(0);
-    // TODO 今日学习学员较昨日增加
-    adminOverview.setTmcCompareToYesterday(0);
+    Date start = Date.from(today.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    Date end =
+      Date.from(today.plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    long todayLearnedMemberCount =
+      studyRecordService.countDistinctUserIdByCreationTimestampBetween(start, end);
+    log.info("获取今日学习学员数量:{}，开始时间:{}，结束时间:{}", todayLearnedMemberCount, start,
+      end);
+    adminOverview.setTodayMemberCount(Math.toIntExact(todayLearnedMemberCount));
+
+    Date yesterdayStart =
+      Date.from(today.minusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    Date yesterdayEnd = Date.from(today.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    long yesterdayLearnedMemberCount =
+      studyRecordService.countDistinctUserIdByCreationTimestampBetween(yesterdayStart,
+        yesterdayEnd);
+    log.info("获取昨日学习学员数量:{}，开始时间:{}，结束时间:{}", yesterdayLearnedMemberCount,
+      yesterdayStart, yesterdayEnd);
+    adminOverview.setTmcCompareToYesterday(
+      (int) Math.max(todayLearnedMemberCount - yesterdayLearnedMemberCount, 0));
 
     List<DepartmentUser> members = departmentUserService.findAll();
     // 总学员数
@@ -123,8 +143,7 @@ public class OverviewService {
     // 分类数
     adminOverview.setCategoryCount((int) categoryService.count());
 
-    // TODO 管理员数量统计
-    adminOverview.setAdminCount(1);
+    adminOverview.setAdminCount(Math.toIntExact(userClient.getAdminCount().getData()));
 
     // TODO rank
     adminOverview.setRank(Arrays.asList("Peter", "Sam", "Nick"));
