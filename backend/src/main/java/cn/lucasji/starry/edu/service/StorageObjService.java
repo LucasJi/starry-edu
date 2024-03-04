@@ -16,6 +16,7 @@ import io.minio.GetObjectResponse;
 import io.minio.ObjectWriteResponse;
 import io.minio.StatObjectResponse;
 import io.minio.messages.ListPartsResult;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -49,7 +50,8 @@ public class StorageObjService {
   private final StorageObjRepository storageObjRepository;
   private final UserClient idpUserClient;
   private final StorageObjProps storageObjProps;
-  private final RedisTemplate<String, Object> redisTemplate;
+  @Resource
+  private RedisTemplate<String, Object> redisTemplate;
 
   public CreateUploadResp createUpload(StorageObj storageObj) {
     StorageObj record;

@@ -13,4 +13,5 @@ ENTRYPOINT exec java $JAVA_OPTS \
  -Duser.timezone=Asia/Shanghai \
  -Dspring.datasource.password=$SPRING_DATASOURCE_PASSWORD \
  -Dspring.data.redis.password=$SPRING_DATA_REDIS_PASSWORD \
+ --enable-preview \
  -jar starry-edu.jar

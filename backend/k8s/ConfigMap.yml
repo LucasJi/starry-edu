@@ -9,7 +9,7 @@ data:
       oauth2:
         resourceserver:
           jwt:
-            jwk-set-uri: http://starry-idp-svc/oauth2/jwks
+            jwk-set-uri: http://starry-idp-svc:8000/oauth2/jwks
     redis:
       master:
         host: my-redis-master-0.my-redis-headless.default.svc.cluster.local
