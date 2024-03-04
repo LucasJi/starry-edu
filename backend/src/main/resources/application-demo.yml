@@ -1,9 +1,6 @@
 server:
   port: 8201
 spring:
-  redis:
-    redisson:
-      file: classpath:redisson-local.yml
   security:
     oauth2:
       resourceserver:

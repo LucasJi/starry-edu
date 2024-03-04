@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: starry-edu-config
+data:
+  application-prod.yml: |+
+    spring:
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            jwk-set-uri: http://idp.lucas.cn/oauth2/jwks
+    data:
+      redis:
+        host: my-redis-headless
+    redis:
+      master:
+        host: my-redis-master-0.my-redis-headless.default.svc.cluster.local
+        port: 6379
+      replicas:
+        - host: my-redis-replicas-0.my-redis-headless.default.svc.cluster.local
+          port: 6379
+        - host: my-redis-replicas-1.my-redis-headless.default.svc.cluster.local
+          port: 6379
+        - host: my-redis-replicas-2.my-redis-headless.default.svc.cluster.local
+          port: 6379
+    datasource:
+      password: postgres
+      username: postgres
+      url: jdbc:postgresql://postgres:5432/edu

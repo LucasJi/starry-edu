@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: starry-edu-deploy
+  labels:
+    app: starry-edu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: starry-edu
+  template:
+    metadata:
+      labels:
+        app: starry-edu
+    spec:
+      containers:
+        - name: starry-edu
+          image: registry.cn-shanghai.aliyuncs.com/lucasji/starry-edu:latest
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                # 创建postgres服务时生成
+                secretKeyRef:
+                  name: db-secret
+                  key: password
+            - name: SPRING_DATA_REDIS_PASSWORD
+              valueFrom:
+                # 创建redis集群时生成
+                secretKeyRef:
+                  name: my-redis-secret
+                  key: password
+          volumeMounts:
+            - mountPath: /config
+              name: starry-edu-config
+          ports:
+            - containerPort: 8080
+              name: server
+      volumes:
+        - name: starry-edu-config
+          configMap:
+            name: starry-edu-config

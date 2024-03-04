@@ -60,12 +60,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.redisson</groupId>
-      <artifactId>redisson-spring-boot-starter</artifactId>
-      <version>${redisson.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-hibernate6</artifactId>
     </dependency>
@@ -128,6 +122,38 @@
             </exclude>
           </excludes>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>docker-build</id>
+            <phase>install</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>docker</executable>
+              <workingDirectory>${project.basedir}</workingDirectory>
+              <arguments>
+                <argument>build</argument>
+                <argument>-f</argument>
+                <argument>Dockerfile</argument>
+                <argument>--platform</argument>
+                <argument>linux/amd64</argument>
+                <argument>--rm</argument>
+                <argument>-t</argument>
+                <argument>
+                  registry.cn-shanghai.aliyuncs.com/lucasji/starry-edu:latest
+                </argument>
+                <argument>.</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>

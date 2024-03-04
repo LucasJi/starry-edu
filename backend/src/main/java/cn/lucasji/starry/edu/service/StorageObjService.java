@@ -17,16 +17,6 @@ import io.minio.ObjectWriteResponse;
 import io.minio.StatObjectResponse;
 import io.minio.messages.ListPartsResult;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.redisson.api.RBucket;
-import org.redisson.api.RedissonClient;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -37,6 +27,14 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author Lucas Ji
@@ -48,10 +46,10 @@ import java.util.stream.Collectors;
 public class StorageObjService {
 
   private final StarryMinioClient minioClient;
-  private final RedissonClient redissonClient;
   private final StorageObjRepository storageObjRepository;
   private final UserClient idpUserClient;
   private final StorageObjProps storageObjProps;
+  private final RedisTemplate<String, Object> redisTemplate;
 
   public CreateUploadResp createUpload(StorageObj storageObj) {
     StorageObj record;
@@ -191,15 +189,13 @@ public class StorageObjService {
   public String getPreviewUrl(Long objId) {
     StorageObj object = findById(objId);
     String objectName = getObjectName(object);
-    RBucket<String> bucket = redissonClient.getBucket(STR."previewUrl:\{objectName}");
-    if (bucket.isExists()) {
+    if (Boolean.TRUE.equals(redisTemplate.hasKey(STR."previewUrl:\{objectName}"))) {
       log.info("Get preview url of object {} from cache", objectName);
-      return bucket.get();
+      return (String) redisTemplate.opsForValue().get(STR."previewUrl:\{objectName}");
     }
 
     String previewUrl = minioClient.getPreviewUrl(objectName);
-    bucket.set(previewUrl);
-    bucket.expire(Duration.ofDays(1));
+    redisTemplate.opsForValue().set(STR."previewUrl:\{objectName}", previewUrl, Duration.ofDays(1));
     return previewUrl;
   }
 
