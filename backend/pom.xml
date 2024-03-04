@@ -11,14 +11,14 @@
   </parent>
   <groupId>cn.lucasji.starry</groupId>
   <artifactId>edu</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.1.RELEASE</version>
   <name>backend</name>
   <description>Starry EDU backend</description>
   <properties>
     <java.version>21</java.version>
     <minio.version>8.5.4</minio.version>
     <redisson.version>3.23.1</redisson.version>
-    <starry.idp.infrastructure>0.0.1-SNAPSHOT</starry.idp.infrastructure>
+    <starry.idp.infrastructure>0.0.1.RELEASE</starry.idp.infrastructure>
   </properties>
 
   <dependencies>
