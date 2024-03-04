@@ -1,4 +1,4 @@
-import { Session } from 'next-auth';
+import { Profile, Session } from 'next-auth';
 
 type Chunk = {
   key: number;
@@ -93,6 +93,16 @@ interface DepartmentDeletable {
 
 interface CustomSession extends Session {
   accessToken?: string;
+  user?: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    role?: string | null;
+  };
+}
+
+interface CustomProfile extends Profile {
+  role: string;
 }
 
 interface Page<T> extends Pageable {

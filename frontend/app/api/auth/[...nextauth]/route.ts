@@ -1,4 +1,4 @@
-import { CustomSession } from '@types';
+import { CustomProfile, CustomSession } from '@types';
 import NextAuth from 'next-auth';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -19,7 +19,7 @@ const handler = NextAuth({
       },
       wellKnown:
         process.env.NEXT_PUBLIC_IDP_URL + '/.well-known/openid-configuration',
-      authorization: { params: { scope: 'openid userinfo' } },
+      authorization: { params: { scope: 'openid profile userinfo' } },
       idToken: true,
       checks: ['pkce'],
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -47,27 +47,37 @@ const handler = NextAuth({
   callbacks: {
     // Custom jwt to add access_token from idp
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, profile }) {
       // Initial sign in
-      if (account && user) {
+      if (account && user && profile) {
+        // console.log(
+        //   'sign in',
+        //   'account',
+        //   account,
+        //   'user',
+        //   user,
+        //   'token',
+        //   token,
+        //   'profile',
+        //   profile
+        // );
         return {
           accessToken: account.access_token,
           accessTokenExpires: account.expires_at,
           refreshToken: account.refresh_token,
-          user,
+          user: {
+            ...user,
+            role: (profile as CustomProfile).role,
+          },
         };
       }
+
+      // console.log('jwt token', token);
 
       const now = Date.now();
       const accessTokenExpires = token.accessTokenExpires as number;
 
       if (now < accessTokenExpires * 1000) {
-        console.log(
-          'not expires, now:',
-          now,
-          'accessTokenExpires:',
-          accessTokenExpires
-        );
         return token;
       }
 

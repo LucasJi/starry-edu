@@ -3,10 +3,14 @@ import {
   DesktopOutlined,
   FolderOutlined,
   HomeOutlined,
+  LogoutOutlined,
   TagsOutlined,
   TeamOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, MenuProps, theme } from 'antd';
+import { CustomSession } from '@types';
+import { Button, Dropdown, Layout, Menu, MenuProps, theme } from 'antd';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { Key, ReactNode, useState } from 'react';
@@ -56,7 +60,8 @@ const EduLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
+  const { data } = useSession();
+  const session = data as CustomSession;
   const router = useRouter();
 
   const onClick: MenuProps['onClick'] = e => {
@@ -91,7 +96,41 @@ const EduLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+        <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}
+        >
+          <UserOutlined />
+          <Dropdown
+            menu={{
+              items: [
+                {
+                  key: '1',
+                  label: (
+                    <Button
+                      icon={<LogoutOutlined />}
+                      type="text"
+                      size="small"
+                      onClick={() => signOut()}
+                    >
+                      退出登录
+                    </Button>
+                  ),
+                },
+              ],
+            }}
+            placement="bottomRight"
+          >
+            <Button type="text" className="mr-4">
+              {session?.user?.name}
+            </Button>
+          </Dropdown>
+        </Header>
         <Content style={{ margin: '24px 16px 0' }}>
           <div
             style={{
