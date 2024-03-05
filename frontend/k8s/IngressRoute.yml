@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: starry-edu-frontend-ingress-route
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: "Host(`edu.lucasji.cn`)"
+      services:
+        - kind: Service
+          name: starry-edu-frontend-svc
+          port: 3000

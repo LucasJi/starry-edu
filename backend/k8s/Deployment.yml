@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        app: starry-edu
+        app: starry-edu-backend
     spec:
       containers:
         - name: starry-edu-backend

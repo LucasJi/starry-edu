@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: starry-edu-frontend-deploy
+  labels:
+    app: starry-edu-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: starry-edu-frontend
+  template:
+    metadata:
+      labels:
+        app: starry-edu-frontend
+    spec:
+      containers:
+        - name: starry-edu-frontend
+          image: registry.cn-shanghai.aliyuncs.com/lucasji/starry-edu-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              name: server
