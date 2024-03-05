@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: starry-edu-frontend-config
+data:
+  .env.prod: |+
+    NEXT_PUBLIC_EDU_ADMIN_URL=http://localhost:8201
+    NEXT_PUBLIC_IDP_URL=http://localhost:8000
+    NEXT_PUBLIC_BASE_URL=http://localhost:3000
+    NEXTAUTH_SECRET=iLl18Ax7DIJ2lt2sQqyRDsjVQmtozqlokDH6snkq0q8=
+    STARRY_CLIENT_ID=starry-edu
+    STARRY_CLIENT_SECRET=starry

@@ -1,7 +1,7 @@
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: edu-ingress-middleware
+  name: starry-edu-backend-ingress-middleware
   namespace: default
 spec:
   stripPrefix:

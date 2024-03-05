@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: starry-edu-config
+  name: starry-edu-backend-config
 data:
   application-prod.yml: |+
     spring:

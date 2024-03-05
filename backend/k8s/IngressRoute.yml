@@ -1,15 +1,17 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: edu-ingress-route
+  name: edu-backend-ingress-route
   namespace: default
 spec:
   entryPoints:
     - web
   routes:
     - kind: Rule
-      match: "Host(`api.edu.lucasji.cn`)"
+      match: "Host(`api.edu.lucasji.cn`) && PathPrefix(`/edu`)"
       services:
         - kind: Service
           name: starry-edu-svc
           port: 8001
+      middlewares:
+        - name: edu-backend-ingress-middleware

@@ -147,7 +147,7 @@
                 <argument>--rm</argument>
                 <argument>-t</argument>
                 <argument>
-                  registry.cn-shanghai.aliyuncs.com/lucasji/starry-edu:latest
+                  registry.cn-shanghai.aliyuncs.com/lucasji/starry-edu-backend:latest
                 </argument>
                 <argument>.</argument>
               </arguments>

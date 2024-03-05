@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: starry-edu-deploy
+  name: starry-edu-backend-deploy
   labels:
-    app: starry-edu
+    app: starry-edu-backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: starry-edu
+      app: starry-edu-backend
   template:
     metadata:
       labels:
         app: starry-edu
     spec:
       containers:
-        - name: starry-edu
-          image: registry.cn-shanghai.aliyuncs.com/lucasji/starry-edu:latest
+        - name: starry-edu-backend
+          image: registry.cn-shanghai.aliyuncs.com/lucasji/starry-edu-backend:latest
           imagePullPolicy: Always
           env:
             - name: SPRING_PROFILES_ACTIVE
@@ -35,11 +35,11 @@ spec:
                   key: password
           volumeMounts:
             - mountPath: /config
-              name: starry-edu-config
+              name: starry-edu-backend-config
           ports:
             - containerPort: 8080
               name: server
       volumes:
-        - name: starry-edu-config
+        - name: starry-edu-backend-config
           configMap:
-            name: starry-edu-config
+            name: starry-edu-backend-config
