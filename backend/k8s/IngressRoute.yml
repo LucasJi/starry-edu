@@ -8,10 +8,8 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: "Host(`api.edu.lucasji.cn`) && PathPrefix(`/edu`)"
+      match: "Host(`api.edu.lucasji.cn`)"
       services:
         - kind: Service
           name: starry-edu-svc
           port: 8001
-      middlewares:
-        - name: edu-backend-ingress-middleware
