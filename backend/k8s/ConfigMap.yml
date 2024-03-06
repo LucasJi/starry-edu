@@ -4,12 +4,17 @@ metadata:
   name: starry-edu-backend-config
 data:
   application-prod.yml: |+
+    server:
+      port: 8201
     spring:
-    security:
-      oauth2:
-        resourceserver:
-          jwt:
-            jwk-set-uri: http://idp.lucasji.cn/oauth2/jwks
+      security:
+        oauth2:
+          resourceserver:
+            jwt:
+              jwk-set-uri: http://api.idp.lucasji.cn/oauth2/jwks
+      datasource:
+        username: postgres
+        url: jdbc:postgresql://postgres:5432/edu
     redis:
       master:
         host: my-redis-master-0.my-redis-headless.default.svc.cluster.local
@@ -21,6 +26,9 @@ data:
           port: 6379
         - host: my-redis-replicas-2.my-redis-headless.default.svc.cluster.local
           port: 6379
-    datasource:
-      username: postgres
-      url: jdbc:postgresql://postgres:5432/edu
+    minio:
+      accessKey: ssPdvjHHliFcN99CMf5z
+      secretKey: 7c5wnimpGFyq36EwLfWjTL03tE5PKh8NiWcAHw4J
+      endpoint: http://minio-svc:9202
+    idp:
+      url: http://starry-idp-backend-svc:8000

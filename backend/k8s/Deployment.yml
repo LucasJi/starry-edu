@@ -37,7 +37,7 @@ spec:
             - mountPath: /config
               name: starry-edu-backend-config
           ports:
-            - containerPort: 8080
+            - containerPort: 8201
               name: server
       volumes:
         - name: starry-edu-backend-config
