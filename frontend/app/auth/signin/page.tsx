@@ -71,14 +71,11 @@ const Login: FC = () => {
                 name="username"
                 rules={[{ required: true, message: '请输入用户名' }]}
               >
-                <Input
-                  placeholder="请输入管理员邮箱"
-                  prefix={<UserOutlined />}
-                />
+                <Input placeholder="请输入用户名" prefix={<UserOutlined />} />
               </Form.Item>
               <Form.Item<FieldType>
                 name="password"
-                rules={[{ required: true, message: '请输入密码！' }]}
+                rules={[{ required: true, message: '请输入密码' }]}
               >
                 <Input
                   placeholder="请输入密码"
