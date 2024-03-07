@@ -4,8 +4,6 @@ metadata:
   name: starry-edu-backend-config
 data:
   application-prod.yml: |+
-    server:
-      port: 8201
     spring:
       security:
         oauth2:
