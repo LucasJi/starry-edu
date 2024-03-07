@@ -21,7 +21,7 @@ const handler = NextAuth({
         process.env.NEXT_PUBLIC_IDP_URL + '/.well-known/openid-configuration',
       authorization: { params: { scope: 'openid profile userinfo' } },
       idToken: true,
-      checks: ['pkce'],
+      checks: ['none'],
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       profile(profile) {
         return {
@@ -45,10 +45,6 @@ const handler = NextAuth({
     },
   },
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      console.log('redirect url:', url, baseUrl);
-      return baseUrl;
-    },
     // Custom jwt to add access_token from idp
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     async jwt({ token, user, account, profile }) {
