@@ -1,12 +1,13 @@
 'use client';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Flex, Form, Input, Typography } from 'antd';
+import { Result } from '@types';
+import { Button, Flex, Form, Input, message, Typography } from 'antd';
 import axios from 'axios';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation.js';
+import { useSearchParams } from 'next/navigation.js';
 import StarrySvg from 'public/starry.svg';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 const { Title } = Typography;
 
@@ -19,13 +20,14 @@ type FieldType = {
 const Login: FC = () => {
   const [form] = Form.useForm();
   const searchParams = useSearchParams();
-  const router = useRouter();
   const nonceId = searchParams.get('nonceId');
+  const [signInButtonLoading, setSignInButtonLoading] =
+    useState<boolean>(false);
 
   const handleSignIn = () => {
     form.validateFields().then(values => {
       const { username, password } = values;
-
+      setSignInButtonLoading(true);
       axios({
         method: 'post',
         url: `${process.env.NEXT_PUBLIC_IDP_URL}/login`,
@@ -37,15 +39,21 @@ const Login: FC = () => {
           username,
           password,
         },
-      }).then(() => {
-        const target = searchParams.get('target');
-        if (target) {
-          window.location.href = target;
-        } else {
-          console.log('search params does not contain target');
-          // router.push('/edu/home');
-        }
-      });
+      })
+        .then(resp => {
+          const data = resp.data as Result<void>;
+
+          if (data.success) {
+            message.success('登入成功');
+            const target = searchParams.get('target');
+            if (target) {
+              window.location.href = target;
+            }
+          } else {
+            message.error(data.message);
+          }
+        })
+        .finally(() => setSignInButtonLoading(false));
     });
   };
 
@@ -95,6 +103,7 @@ const Login: FC = () => {
                     width: '100%',
                   }}
                   type="primary"
+                  loading={signInButtonLoading}
                 >
                   登入
                 </Button>
