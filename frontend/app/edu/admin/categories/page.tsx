@@ -283,10 +283,15 @@ export default function Categories() {
           <Form.Item<FieldType>
             label="所属上级"
             name="parentId"
+            required
             rules={[
               { required: true, message: '请选择所属上级' },
               {
                 validator: async (_, value) => {
+                  if (!value) {
+                    return Promise.resolve();
+                  }
+
                   if (editCategory?.id === value) {
                     return Promise.reject('无法选择自己作为上级');
                   }

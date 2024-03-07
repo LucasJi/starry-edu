@@ -15,11 +15,11 @@ import {
   Empty,
   Form,
   Input,
-  message,
   Modal,
   Space,
   Tree,
   TreeSelect,
+  message,
 } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
 import { Fragment, useCallback, useEffect, useState } from 'react';
@@ -292,6 +292,10 @@ export default function Departments() {
               { required: true, message: '请选择所属上级' },
               {
                 validator: async (_, value) => {
+                  if (!value) {
+                    return Promise.resolve();
+                  }
+
                   if (editDepartment?.id === value) {
                     return Promise.reject('无法选择自己作为上级');
                   }
