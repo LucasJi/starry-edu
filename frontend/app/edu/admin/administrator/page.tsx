@@ -7,7 +7,6 @@ import {
   Layout,
   Space,
   Table,
-  theme,
   Tree,
   TreeProps,
 } from 'antd';
@@ -122,9 +121,7 @@ export default function Administrator() {
 
   const onSearch = (value: string) => console.log(value);
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const colorBgContainer = 'white';
 
   return (
     <Layout

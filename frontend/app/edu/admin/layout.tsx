@@ -9,7 +9,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { CustomSession } from '@types';
-import { Button, Dropdown, Layout, Menu, MenuProps, theme } from 'antd';
+import { Button, Dropdown, Layout, Menu, MenuProps } from 'antd';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -57,9 +57,7 @@ const { Header, Content, Footer, Sider } = Layout;
 
 const EduLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const colorBgContainer = 'white';
   const { data } = useSession();
   const session = data as CustomSession;
   const router = useRouter();

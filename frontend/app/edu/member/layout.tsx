@@ -2,7 +2,7 @@
 import { memberApis } from '@api';
 import { LoadingOutlinedSpin } from '@component';
 import { Member } from '@types';
-import { Layout, Tag, theme } from 'antd';
+import { Layout, Tag } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import LogoIcon from 'public/logo.png';
@@ -11,9 +11,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 const { Header, Footer, Content } = Layout;
 
 const MemberLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const colorBgContainer = 'white';
   const [member, setMember] = useState<Member>();
 
   useEffect(() => {
