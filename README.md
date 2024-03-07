@@ -28,7 +28,8 @@ StarryEdu 基于 Java + PostgreSQL 开发，采用前后端分离模式。
 
 - 阿里云+腾讯云轻量服务器（趁着新人优惠搞了两台便宜服务器搭的 k3s 集群）
 - k3s
-- Docker
+
+**TODO**: 使用 Github Actions 实现自动化部署
 
 ## 系统功能
 
