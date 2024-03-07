@@ -10,12 +10,12 @@ import {
   Empty,
   Form,
   Input,
-  message,
   Modal,
   Space,
   Table,
   Tree,
   TreeSelect,
+  message,
 } from 'antd';
 import { Rule } from 'antd/es/form/index.js';
 import { TreeProps } from 'antd/es/tree';
@@ -76,8 +76,8 @@ const Members = () => {
   const getPasswordFieldRules = () => {
     const rules: Rule[] = [
       {
-        pattern: /^\d{1,6}$/,
-        message: '只能由数字组成, 1-6位',
+        pattern: /^(?=.*[a-zA-Z])(?=.*\d).{6,10}$/,
+        message: '至少包含字母、数字，6-10位',
       },
     ];
 
@@ -163,9 +163,10 @@ const Members = () => {
       )
       .then(resp => {
         setMemberPage({ ...resp.data });
-      }).finally(() => {
+      })
+      .finally(() => {
         setMembersLoading(false);
-    });
+      });
   }, [currentDepartment, pageRequest]);
 
   return (

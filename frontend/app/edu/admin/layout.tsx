@@ -143,8 +143,17 @@ const EduLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
             {children}
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Starry Edu ©2023 Created by Lucas Ji
+        <Footer
+          style={{
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <span>Starry Edu ©2023 Created by Lucas Ji</span>
+          <a href="https://beian.miit.gov.cn/" target="_blank">
+            苏ICP备2023055488号
+          </a>
         </Footer>
       </Layout>
     </Layout>

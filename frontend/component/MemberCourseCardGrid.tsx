@@ -1,7 +1,7 @@
 'use client';
 import { CourseCompletedPrompt, LoadingOutlinedSpin } from '@component';
 import { Course } from '@types';
-import { Card, Col, Progress, Row, Tag } from 'antd';
+import { Card, Col, Empty, Progress, Row, Tag } from 'antd';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
@@ -20,6 +20,20 @@ const MemberCourseCardGrid: FC<{ courses: Course[]; loading?: boolean }> = ({
         }}
       >
         <LoadingOutlinedSpin />
+      </div>
+    );
+  }
+
+  if (courses.length <= 0) {
+    return (
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          height: '24rem',
+        }}
+      >
+        <Empty />
       </div>
     );
   }

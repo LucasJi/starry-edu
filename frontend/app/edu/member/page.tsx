@@ -151,28 +151,40 @@ const Member: FC = () => {
             key: '2',
             label: '必修课',
             children: (
-              <MemberCourseCardGrid courses={getMandatoryCourses(courses)} />
+              <MemberCourseCardGrid
+                courses={getMandatoryCourses(courses)}
+                loading={coursesLoading}
+              />
             ),
           },
           {
             key: '3',
             label: '选修课',
             children: (
-              <MemberCourseCardGrid courses={getOptionalCourses(courses)} />
+              <MemberCourseCardGrid
+                courses={getOptionalCourses(courses)}
+                loading={coursesLoading}
+              />
             ),
           },
           {
             key: '4',
             label: '已学完',
             children: (
-              <MemberCourseCardGrid courses={getCompletedCourse(courses)} />
+              <MemberCourseCardGrid
+                courses={getCompletedCourse(courses)}
+                loading={coursesLoading}
+              />
             ),
           },
           {
             key: '5',
             label: '未学完',
             children: (
-              <MemberCourseCardGrid courses={getUnCompletedCourse(courses)} />
+              <MemberCourseCardGrid
+                courses={getUnCompletedCourse(courses)}
+                loading={coursesLoading}
+              />
             ),
           },
         ]}

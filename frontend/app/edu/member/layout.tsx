@@ -1,8 +1,10 @@
 'use client';
+import { LogoutOutlined } from '@ant-design/icons';
 import { memberApis } from '@api';
 import { LoadingOutlinedSpin } from '@component';
 import { Member } from '@types';
-import { Layout, Tag } from 'antd';
+import { Button, Dropdown, Layout, Tag } from 'antd';
+import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import LogoIcon from 'public/logo.png';
@@ -42,15 +44,38 @@ const MemberLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
               <Link className="ml-8 text-black text-2xl" href="/edu/member">
                 首页
               </Link>
-              <Link className="ml-8 text-black text-2xl" href="/edu/member">
-                最近学习
-              </Link>
+              {/*<Link className="ml-8 text-black text-2xl" href="/edu/member">*/}
+              {/*  最近学习*/}
+              {/*</Link>*/}
             </div>
             <div className="flex items-center">
               {member ? (
                 <>
                   <Tag>{member?.departmentName}</Tag>
-                  <span>{member?.user?.username}</span>
+                  <Dropdown
+                    menu={{
+                      items: [
+                        {
+                          key: '1',
+                          label: (
+                            <Button
+                              icon={<LogoutOutlined />}
+                              type="text"
+                              size="small"
+                              onClick={() => signOut()}
+                            >
+                              退出登录
+                            </Button>
+                          ),
+                        },
+                      ],
+                    }}
+                    placement="bottomRight"
+                  >
+                    <Button type="text" className="mr-4">
+                      {member?.user?.username}
+                    </Button>
+                  </Dropdown>
                 </>
               ) : (
                 <LoadingOutlinedSpin />
@@ -75,8 +100,17 @@ const MemberLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
             {children}
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Starry Edu ©2023 Created by Lucas Ji
+        <Footer
+          style={{
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <span>Starry Edu ©2023 Created by Lucas Ji</span>
+          <a href="https://beian.miit.gov.cn/" target="_blank">
+            苏ICP备2023055488号
+          </a>
         </Footer>
       </Layout>
     </Layout>
