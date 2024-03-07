@@ -45,6 +45,10 @@ const handler = NextAuth({
     },
   },
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      console.log('redirect url:', url, baseUrl);
+      return baseUrl;
+    },
     // Custom jwt to add access_token from idp
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     async jwt({ token, user, account, profile }) {
