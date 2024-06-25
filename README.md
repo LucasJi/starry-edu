@@ -50,13 +50,6 @@ StarryEdu 基于 Java + PostgreSQL 开发，采用前后端分离模式。
 
 ## 说明
 
-### 开发目的
-
-1. 刚参加工作的时候从事全栈开发（React + Java），换工作之后就只做后端。开发这个项目可以巩固下前端相关技能，不至于遗忘。
-2. 学习并实践下 Next.js 这个框架
-3. 尝试使用 k3s + SpringBoot3 而不是 SpringCloud 来开发分布式项目
-4. 求职项目展示
-
 ### 对比 PlayEdu
 
 - 搭建了一个独立的身份认证平台 [Starry Idp](https://github.com/LucasJi/starry-idp)
